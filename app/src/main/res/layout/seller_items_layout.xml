@@ -17,25 +17,28 @@
             android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
     <ImageView
         android:id="@+id/ItemImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/CD"
-        android:scaleType="centerCrop"
         android:src="@drawable/noimage"/>
         <ImageView
-            android:layout_margin="1dp"
+            android:layout_margin="5dp"
             android:id="@+id/TakePic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/ItemImage"
             android:src="@drawable/cam"/>
 
         <ImageButton
@@ -156,10 +159,6 @@
                 android:textSize="12sp" />
 
         </LinearLayout>
-
-    </LinearLayout>
-
-        </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -183,6 +182,11 @@
                 android:textSize="12sp" />
 
         </LinearLayout>
+
+    </LinearLayout>
+
+        </LinearLayout>
+
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

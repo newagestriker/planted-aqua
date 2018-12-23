@@ -3,6 +3,7 @@ package com.newage.plantedaqua;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -17,8 +18,10 @@ public class ConditionsActivity extends AppCompatActivity {
         Intent i=getIntent();
         String websiteUrl=i.getStringExtra("URL");
         webView =findViewById(R.id.webView);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient());
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(websiteUrl);
+
 
        /* WebSettings webSettings=webView.getSettings();
         webSettings.setJavaScriptEnabled(true);*/
