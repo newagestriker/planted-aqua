@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient1"
+    tools:context=".OptionsActivity"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:padding="12dp"
+        >
+
+        <ImageView
+            android:id="@+id/dosageimage"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/table" />
+
+        <Button
+            android:id="@+id/macrodosagebutton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="9"
+            android:padding="5dp"
+            android:background="@android:color/transparent"
+            android:gravity="start|center"
+            android:text="Macro Dosage Calculator                     "
+            android:textAllCaps="false"
+            android:textColor="#097026"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:padding="12dp"
+        >
+
+        <ImageView
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/table" />
+
+        <Button
+            android:id="@+id/microdosagebutton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="9"
+            android:padding="5dp"
+            android:background="@android:color/transparent"
+            android:gravity="start|center"
+            android:text="Micro Dosage Calculator                     "
+            android:textAllCaps="false"
+            android:textColor="#097026"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:padding="12dp"
+        >
+
+        <ImageView
+            android:id="@+id/algae"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/algae" />
+
+        <Button
+            android:id="@+id/algaeguide"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="9"
+            android:padding="5dp"
+            android:background="@android:color/transparent"
+            android:gravity="start|center"
+            android:text="Algae guide"
+            android:textAllCaps="false"
+            android:textColor="#097026"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="10"
+    android:padding="12dp"
+    >
+
+    <ImageView
+        android:id="@+id/tankProgressImage"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:src="@drawable/album" />
+
+    <Button
+        android:id="@+id/tankProgressButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="9"
+        android:padding="5dp"
+        android:background="@android:color/transparent"
+        android:gravity="start|center"
+        android:text="Tank Progress Album"
+        android:textAllCaps="false"
+        android:textColor="#097026"
+        android:textSize="20sp" />
+
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:padding="12dp"
+        >
+
+        <ImageView
+            android:id="@+id/TaskImage"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/tasks" />
+
+        <Button
+            android:id="@+id/TaskButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="9"
+            android:padding="5dp"
+            android:background="@android:color/transparent"
+            android:gravity="start|center"
+            android:text="My Tasks"
+            android:textAllCaps="false"
+            android:textColor="#097026"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:padding="12dp"
+        >
+
+    <ImageView
+        android:id="@+id/LogsImage"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:src="@drawable/log" />
+
+    <Button
+        android:id="@+id/LogsButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="9"
+        android:padding="5dp"
+        android:background="@android:color/transparent"
+        android:gravity="start|center"
+        android:text="My Logs"
+        android:textAllCaps="false"
+        android:textColor="#097026"
+        android:textSize="20sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:padding="12dp"
+        >
+
+        <ImageView
+            android:id="@+id/EqImage"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/equipment" />
+
+        <Button
+            android:id="@+id/EqButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="9"
+            android:padding="5dp"
+            android:background="@android:color/transparent"
+            android:gravity="start|center"
+            android:text="@string/Eq"
+            android:textAllCaps="false"
+            android:textColor="#097026"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10"
+                android:padding="12dp"
+                >
+
+                <ImageView
+                    android:id="@+id/FloraImage"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/flora" />
+
+                <Button
+                    android:id="@+id/FloraButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="9"
+                    android:padding="5dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="start|center"
+                    android:text="@string/Flora"
+                    android:textAllCaps="false"
+                    android:textColor="#097026"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10"
+                android:padding="12dp"
+                >
+
+                <ImageView
+                    android:id="@+id/FaunaImage"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/fish" />
+
+                <Button
+                    android:id="@+id/FaunaButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="9"
+                    android:padding="5dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="start|center"
+                    android:text="@string/Fauna"
+                    android:textAllCaps="false"
+                    android:textColor="#097026"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:weightSum="10">
+
+        <ImageView
+            android:id="@+id/ConvImage"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/converter" />
+
+        <Button
+            android:id="@+id/ConvButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="9"
+            android:background="@android:color/transparent"
+            android:gravity="start|center"
+            android:padding="5dp"
+            android:text="@string/Convert"
+            android:textAllCaps="false"
+            android:textColor="#097026"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

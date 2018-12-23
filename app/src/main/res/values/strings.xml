@@ -1,0 +1,204 @@
+<resources>
+    <string name="app_name">Planted Aqua</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="notify">Notify By</string>
+    <string-array name="VolumeType">
+        <item>Litre</item>
+        <item>US Gallon</item>
+        <item>UK Gallon</item>
+    </string-array>
+    <string-array name="NotifyType">
+        <item>Notification</item>
+        <item>Alarm</item>
+        <item>Both</item>
+    </string-array>
+    <string name="title_activity_algae">Algae Guide</string>
+
+    <string name="BBA">If you are plagued by black tufts of algae like the bristles of a paint brush, think no further;
+    You have got black beard algae. The main cause of this algae is low CO2 without doubt.It ia also possible that there is poor flow
+        in the tank and as such the CO2 is not well distributed. You will observe it more in regions of poor flow.</string>
+    <string name="BBAqf">Excel or Glutaraldehyde seems to kill this algae very effectively. Turn off filter and pour the recommended dose of excel on the
+    affected areas with a syringe. Very soon it will turn pink and die off.</string>
+    <string name="BBArf">As mentioned earlier, the primary cause of BBA is low CO2. So bump your bps and improve flow so that CO2 reaches all places
+    within the tank. Normal maintenance is obviously recommended</string>
+    <string name="GSA">As the name suggests this algae looks like green spots of varying colours from light green to dark green. It is mainly induced by low phosphates
+        but low CO2 is also a concern.</string>
+    <string name="GSAqf">Scrape it off using a credit card.This algae is quite hard and only Nerite snails are known to devour it.Make a concentrated solution of
+    1 tablespoon of KH2PO4 in 200mls of water and spray it on the infected areas during water change</string>
+    <string name="GSArf">Keep your phosphates high at 3\-5pm and increase CO2 and flow</string>
+    <string name="Stag">As the name suggests this branching algae looks like the antlers of a male deer. Colors vary from dark grey to light grey to even green.
+        Mainly caused by poor CO2 in the tank or poor flow resulting in dead zones of low CO2.</string>
+    <string name="Stagqf">Turn off filter and spot treat the infected area with glut or equivalent chemical using a pipette or syringe.
+        The algae will soon turn red or pink. </string>
+    <string name="Stagrf">Bump up your CO2 or reduce the lights. Clean clogged filters to improve flow.</string>
+    <string name="BDA">This algae looks like a layer of brown dust on plants, glass or substrate and occurs during the initial
+        setup period of the tank due to excess silicates and ammonia.</string>
+    <string name="BDAqf">It comes off easily. Scrub it off with a magnetic scrubber. Sucker mouths like otocinclus,
+        hillstream loaches will clean them off.</string>
+    <string name="BDArf">The only way to eradicate this algae is to not eradicate it. Just wait it out.
+        It will go on it\'s own when the tank matures.</string>
+    <string name="BGA"> Also known as Cyanobacteria, this is not an algae but a kind of photosynthetic bacteria which fixes nitrogen from the air. If you find green sheets of gelatinous film on your subtrate, plants or decor, you are out of luck. It is mainly caused by high amount of dissolved organics, poor flow and at times low nitrates.
+        You might always get it in small quantities in regions of poor flow. </string>
+    <string name="BGAqf">Erythromycin is known to kill it. Dose at 2.5 mg/litre everyday till cyanobacteria disappears completely. But this is not the recommended way as it may result in a more resistant strain of bacteria requiring more powerful antibiotic to kill which is why its important to complete the entire course of treatment.
+        Manually remove as much as possible.</string>
+    <string name="BGArf">The safest way to eradicate this algae is to manually clean it as much as possible. Then perform a massive water change (around 70%) and improve flow. Also check if your nitrates are low and increase it accordingly.</string>
+
+    <string name="Rhizo">Rhizoclonium algae looks like a clump of straight or curly thread but are actually fine strands which are green or brown in colour clumped together.They are soft and slimy to touch Mainly caused by poor CO2 in the tank. </string>
+    <string name="Rhizoqf"> Best way to deal with this algae is a combination of blackout, water change and glutaraldehyde or hydrogen peroxide treatment for three days. Amano shrimp is known to eat it.</string>
+    <string name="Rhizorf">Lower lights or increase CO2, though later is preferred. Improve flow if rhizoclonium occurs in only specific regions of the tank. </string>
+
+
+    <string name="GDA">You will find this algae as very short green strands on the glass walls. It might resemble green spot algae but are actually lighter in colour and dusty in appearance. This is generally caused by imbalance in nutrients in the tank.</string>
+    <string name="GDAqf">They come off very easily and can be scrapped off from the glass. Sucker mouth species like otocinclus eat this algae.</string>
+    <string name="GDArf">It is advised to let this algae complete its full cycle. Eventually it will form a brownish green sheet. Then you can scrape it off and perform a water change. </string>
+
+
+    <string name="GW">It is a unicellular free floating algae that turns the tank water green and on worst case the tank water may look like a pea-soup. It is not toxic to the aquarium livestock but no amount of water change can eradicate it. It is caused mainly by ammonia spike or an overdose of nutrients in the tank.</string>
+    <string name="GWqf">Using a UV sterilizer will kill this algae. Perform water change every 2 days if you are using UV to remove the dead algae. Diatom filters can remove it. Also aquarium flocculants will clump them and can be easily removed by normal filter. Be careful with flocculant as they tend to clog fish gills.</string>
+    <string name="GWrf">Restore the balance in the tank after doing a quick fix. Add beneficial bacteria to tank to reduce ammonia. Reduce dosing.</string>
+
+    <string name="Hair">Hair Algae or Thread algae looks like fine green hair gently swaying with the flow. It is generally caused by temporary imbalance in tank like low CO2 or ammonia spike but once its there it will stay forever unless addressed</string>
+    <string name="Hairqf">Generally a combination of H2O2/glutaraldehyde followed by 3 day backout concluded by a water change seems to eradicate this algae. Amano Shrimps, Florida Flag Fish, Siamese Flag Fish and Black Molly are known to eat this algae </string>
+    <string name="Hairrf">Perform a quick fish maintain good CO2 and flow and prevent any waste build up or ammonia spike </string>
+
+    <string name="Clado">This is a form of branched algae which is coarse to touch. It is believed to have hitchhiked into the tank through plants or equipments. Unfortunately it strives under the same conditions required for growing plants and hence is hard to eradicate. </string>
+    <string name="Cladoqf">Kill them with glutaraldehyde or H2O2.</string>
+    <string name="Cladorf">The only root fix for this algae is to ensure that pores of this algae is not hitchhiked in the tank which is not 100 percent achievable.  </string>
+
+
+    <string name="title_activity_main3">Main3Activity</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_tasks">Tasks</string>
+    <string name="page_text_1">Feeding</string>
+    <string name="page_text_2">Dosing</string>
+    <string name="page_text_3">Water Change</string>
+    <string name="page_text_4">Maintenance</string>
+    <string name="page_text_5">Medicine</string>
+    <string name="page_text_6">Others</string>
+    <string name="StartTitle">My Tanks</string>
+    <string name="Options">Manage Tank</string>
+    <string name="Alert"> Alert for</string>
+    <string name="MoreInfo">Pull down for more information</string>
+    <string name="NoInfo"> No Info!!</string>
+    <string name="ItemExist">Oops! Added item already exists</string>
+    <string name="TankNameMust">You must provide an Aquarium Name</string>
+    <string name="Status">Status : </string>
+    <string name="Completed">Completed</string>
+    <string name="Skipped">Skipped</string>
+    <string name="Complete">Complete</string>
+    <string name="Skip">Skip</string>
+    <string name="StartDate">Start Date</string>
+    <string name="Name">Name</string>
+    <string name="Cat">Category</string>
+    <string name="AcDate">Acquisition Date</string>
+    <string name="ExpiryDate">Expiry Date</string>
+    <string name="Gender">Gender</string>
+    <string name="Male">Male</string>
+    <string name="Fmale">Female</string>
+    <string name="Un">Unknown</string>
+    <string name="Food">Food</string>
+    <string name="Care">Special Care</string>
+    <string name="Info">Notes</string>
+    <string name="Quan">Quantity</string>
+    <string name="Price">Price per quantity</string>
+    <string name="Eq">Tank Equipments</string>
+    <string name="From">From</string>
+    <string name="To">To</string>
+    <string name="Vol">Water Volume</string>
+    <string name="EnterInp">Enter value</string>
+    <string name="title_activity_test">test</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_conversion">conversion</string>
+    <string name="ok">OK</string>
+    <string name="Novalue">No Input Provided!!</string>
+    <string name="Convert">Unit Converter</string>
+    <string name="NameMust">You must provide a Name</string>
+    <string name="Sciname">Scientific Name</string>
+    <string name="TankData">Tank Data</string>
+    <string name="Flora">Flora</string>
+    <string name="Fauna">Fauna</string>
+    <string name="TaskName">Enter task name..eg: Weekly, Macro, etc</string>
+    <string name="QuickNote">Enter a quick note for this item</string>
+    <string name="QN">Quick Note</string>
+    <string name="Cancel">Cancel</string>
+    <string name="title_activity_a1">A1Activity</string>
+    <string name="SignIn">Sign In</string>
+    <string name="UserName">UserName</string>
+    <string name="Logout">Logout</string>
+    <string name="PleaseWait">Please wait</string>
+    <string name="Loggedout">User Logged out</string>
+    <string name="NoUserMsg">You must first login to access this feature</string>
+    <string name="Nearby">Who\'s Nearby\ \  BETA</string>
+    <string name="Error">Error!!!</string>
+    <string name="ppm">\nppm per dose</string>
+    <string name="Add">ADD</string>
+    <string name="Gram">\nGrams</string>
+    <string name="PermRationale">Permissions for Storage and Camera needs to be granted to access this feature</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="MapsPermRationale">Permissions for Location needed to access this feature</string>
+    <string name="CloudDBError">Cloud Database Error</string>
+    <string name="Attention">Attention!!</string>
+    <string name="NotLoggedInMsg">Sorry!! You must be logged in to use this feature</string>
+    <string name="OK">OK</string>
+    <string name="Hobbyist">Hobbyist</string>
+    <string name="Seller">Seller</string>
+    <string name="HorS">I am a</string>
+    <string name="SETPERMANENT">FIX LOCATION</string>
+    <string name="LOCATIONFIXED">UNFIX LOCATION</string>
+    <string name="CurrentLoc">You are here</string>
+    <string name="Disclaimer">Disclaimer</string>
+    <string name="OSL">Open Source Licenses</string>
+    <string name="PP">Privacy Policy</string>
+    <string name="Algae">Algae Guide</string>
+    <string name="Legal">Legal</string>
+    <string name="Consent">By using this app you agree to our</string>
+    <string name="Agree">I Agree</string>
+    <string name="Decline">Decline</string>
+    <string name="PPlinktoSite">
+    <a href="https://plantedaquaapp.blogspot.com/p/privacy-policy.html">Privacy Policy</a>
+    </string>
+    <string name="ClearLog">Clear Logs</string>
+    <string name="LearningHint">"Enter learning (if any) "</string>
+    <string name="NotesHint">"Enter additional Notes (if any)"</string>
+    <string name="TankProgressAlbum">"Tank Progress Album"</string>
+    <string name="Task">Task</string>
+    <string name="Logs">Logs"</string>
+    <string name="Connect">Connect</string>
+    <string name="AskUser">"Would you like to connect?"</string>
+    <string name="PhoneNumber">Phone Number</string>
+    <string name="ConnectDialog">Send a message such that your contact understands that you are genuine.</string>
+    <string name="YourMessage">Your Message Here</string>
+    <string name="Send">Send</string>
+    <string name="MsgSent">Message Sent</string>
+    <string name="ResponseDeclined">Response Decline</string>
+    <string name="DoNothing">Do Nothing</string>
+    <string name="UserDeclined">User declined your request!!!</string>
+    <string name="ViewRefreshed">View Refreshed</string>
+    <string name="AppUpdated">We noticed some changes in your app. As a result you should reboot your device for the app to function properly</string>
+    <string name="Version">Version 2.0.0</string>
+    <string name="Help">Help</string>
+    <string name="Notifications">Notifications</string>
+    <string name="CD">Image</string>
+    <string name="AddItems">Add Your Items</string>
+    <string name="Description">Description</string>
+    <string name="Availability">Availability</string>
+    <string name="Uploading">Uploading Data\.\.\.Please Wait\.\.\.</string>
+    <string name="Owner">Owner</string>
+    <string name="Shop">Shop</string>
+    <string name="Deleting">Deleting Data\.\.\.Please Wait\.\.\.</string>
+    <string name="RememberMe">Remember My Choice</string>
+    <string name="SellerShopMsg">Please visit the "Shop" section to add items to your shop</string>
+    <string name="FixLoc">FIX LOCATION</string>
+    <string name="Specialization">Freshwater Plants and Fishes..etc..</string>
+    <string name="DealsIn">DEALS IN</string>
+    <string name="Settings">Settings</string>
+    <string name="User">User Type</string>
+    <string name="NoFert">You must specify a Fertilizer Dosing Regimen in Task section!!</string>
+
+
+</resources>

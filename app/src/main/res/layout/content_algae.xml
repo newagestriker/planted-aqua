@@ -1,0 +1,1083 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".AlgaeActivity"
+    tools:showIn="@layout/activity_algae"
+    android:background="@drawable/gradient4">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="4dp"
+
+
+        >
+
+        <TextView
+            android:id="@+id/textViewBBA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#dce9d4"
+            android:background="#296602"
+            android:text="Black Brush Algae"
+            />
+
+        <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/card1"
+
+                >
+
+               <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+
+                    >
+                    <LinearLayout
+                        android:id="@+id/BBALinear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:id="@+id/bbacause"
+                            android:layout_height="match_parent"
+                            android:textSize="10sp"
+                            android:text="Cause"
+                            android:gravity="center"
+                            android:textStyle="bold|italic"
+                            android:background="#b0edfa"
+                            android:textColor="#25ac03" />
+
+                        <TextView
+                            android:layout_margin="5dp"
+                            android:layout_width="match_parent"
+                            android:id="@+id/bba"
+                            android:layout_height="match_parent"
+                            android:textSize="10sp"
+                            android:text="@string/BBA"
+                            android:textColor="#25ac03" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:id="@+id/bbaquickfix"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textSize="10sp"
+                            android:textStyle="bold|italic"
+                            android:background="#b0edfa"
+                            android:text="Quick Fix"
+                            android:textColor="#25ac03" />
+
+                        <TextView
+                            android:layout_margin="5dp"
+                            android:layout_width="match_parent"
+                            android:id="@+id/bbaqf"
+                            android:layout_height="match_parent"
+                            android:textSize="10sp"
+                            android:text="@string/BBAqf"
+                            android:textColor="#25ac03" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:id="@+id/bbarootfix"
+                            android:layout_height="match_parent"
+                            android:textSize="10sp"
+                            android:textStyle="bold|italic"
+                            android:background="#b0edfa"
+                            android:gravity="center"
+                            android:text="Root Fix"
+                            android:textColor="#25ac03" />
+
+                        <TextView
+                            android:layout_margin="5dp"
+                            android:layout_width="match_parent"
+                            android:id="@+id/bbarf"
+                            android:layout_height="match_parent"
+                            android:textSize="10sp"
+                            android:text="@string/BBArf"
+                            android:textColor="#25ac03" />
+                    </LinearLayout>
+
+
+                   <ImageView
+                       android:id="@+id/imageViewbba"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:layout_weight="2"
+                       android:adjustViewBounds="true"
+                       android:clickable="true"
+                       android:focusable="true"
+                        />
+
+                </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="4dp"
+
+
+        >
+
+        <TextView
+            android:id="@+id/textViewGSA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#dce9d4"
+            android:background="#296602"
+            android:text="Green Spot Algae"
+            />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/cardGSA"
+
+            >
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3"
+
+                >
+                <LinearLayout
+                    android:id="@+id/GSALinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/gsacause"
+                        android:gravity="center"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:text="Cause"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/gsa"
+                        android:layout_margin="5dp"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:text="@string/GSA"
+                        android:textColor="#25ac03" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/gsaquickfix"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:gravity="center"
+                        android:text="Quick Fix"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/gsaqf"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:layout_margin="5dp"
+                        android:text="@string/GSAqf"
+                        android:textColor="#25ac03" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/gsarootfix"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:gravity="center"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:text="Root Fix"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/gsarf"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:layout_margin="5dp"
+                        android:text="@string/GSArf"
+                        android:textColor="#25ac03" />
+                </LinearLayout>
+
+
+                <ImageView
+                    android:id="@+id/imageViewgsa"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="4dp"
+
+
+        >
+
+        <TextView
+            android:id="@+id/textViewStag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#dce9d4"
+            android:background="#296602"
+            android:text="Staghorn"
+            />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/cardStag"
+
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3"
+
+                >
+                <LinearLayout
+                    android:id="@+id/StagLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/Stagcause"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textSize="10sp"
+                        android:text="Cause"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/stag"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:layout_margin="5dp"
+                        android:text="@string/Stag"
+                        android:textColor="#25ac03" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/stagquickfix"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textSize="10sp"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:text="Quick Fix"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/stagqf"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:layout_margin="5dp"
+                        android:text="@string/Stagqf"
+                        android:textColor="#25ac03" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/stagrootfix"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:gravity="center"
+                        android:text="Root Fix"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/Stagrf"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:layout_margin="5dp"
+                        android:text="@string/Stagrf"
+                        android:textColor="#25ac03" />
+                </LinearLayout>
+
+
+                <ImageView
+                    android:id="@+id/imageViewstag"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                     />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="4dp"
+
+
+        >
+
+        <TextView
+            android:id="@+id/textViewRhizo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#dce9d4"
+            android:background="#296602"
+            android:text="Rhizoclonium"
+            />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/cardRhizo"
+
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3"
+
+                >
+                <LinearLayout
+                    android:id="@+id/RhizoLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/Rhizocause"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textSize="10sp"
+                        android:text="Cause"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/Rhizo"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:layout_margin="5dp"
+                        android:text="@string/Rhizo"
+                        android:textColor="#25ac03" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/Rhizoquickfix"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textSize="10sp"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:text="Quick Fix"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/Rhizoqf"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:layout_margin="5dp"
+                        android:text="@string/Rhizoqf"
+                        android:textColor="#25ac03" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/Rhizorootfix"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:gravity="center"
+                        android:text="Root Fix"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/Rhizorf"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:layout_margin="5dp"
+                        android:text="@string/Rhizorf"
+                        android:textColor="#25ac03" />
+                </LinearLayout>
+
+
+                <ImageView
+                    android:id="@+id/imageViewRhizo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                   />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="4dp"
+
+
+        >
+
+        <TextView
+            android:id="@+id/textViewBGA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#dce9d4"
+            android:background="#296602"
+            android:text="Blue Green Algae"
+            />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/cardBGA"
+
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3"
+
+                >
+                <LinearLayout
+                    android:id="@+id/BGALinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/BGAcause"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textSize="10sp"
+                        android:text="Cause"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/BGA"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:layout_margin="5dp"
+                        android:text="@string/BGA"
+                        android:textColor="#25ac03" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/BGAquickfix"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textSize="10sp"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:text="Quick Fix"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/BGAqf"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:layout_margin="5dp"
+                        android:text="@string/BGAqf"
+                        android:textColor="#25ac03" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/BGArootfix"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:gravity="center"
+                        android:text="Root Fix"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/BGArf"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:layout_margin="5dp"
+                        android:text="@string/BGArf"
+                        android:textColor="#25ac03" />
+                </LinearLayout>
+
+
+                <ImageView
+                    android:id="@+id/imageViewBGA"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                 />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="4dp"
+
+
+        >
+
+        <TextView
+            android:id="@+id/textViewGW"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#dce9d4"
+            android:background="#296602"
+            android:text="Green Water"
+            />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/cardGW"
+
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3"
+
+                >
+                <LinearLayout
+                    android:id="@+id/GWLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/gwause"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:text="Cause"
+                        android:gravity="center"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:id="@+id/gw"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:text="@string/GW"
+                        android:textColor="#25ac03" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/gwquickfix"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textSize="10sp"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:text="Quick Fix"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:id="@+id/gwqf"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:text="@string/GWqf"
+                        android:textColor="#25ac03" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/gwrootfix"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:gravity="center"
+                        android:text="Root Fix"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:id="@+id/gwrf"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:text="@string/GWrf"
+                        android:textColor="#25ac03" />
+                </LinearLayout>
+
+
+                <ImageView
+                    android:id="@+id/imageViewGW"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:focusable="true"
+             />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="4dp"
+
+
+        >
+
+        <TextView
+            android:id="@+id/textViewClado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#dce9d4"
+            android:background="#296602"
+            android:text="Cladophora"
+            />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/cardClado"
+
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3"
+
+                >
+                <LinearLayout
+                    android:id="@+id/CladoLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/Cladocause"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:text="Cause"
+                        android:gravity="center"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:id="@+id/Clado"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:text="@string/Clado"
+                        android:textColor="#25ac03" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/cladoquickfix"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textSize="10sp"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:text="Quick Fix"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:id="@+id/cladoqf"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:text="@string/Cladoqf"
+                        android:textColor="#25ac03" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/Cladorootfix"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:gravity="center"
+                        android:text="Root Fix"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:id="@+id/Cladorf"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:text="@string/Cladorf"
+                        android:textColor="#25ac03" />
+                </LinearLayout>
+
+
+                <ImageView
+                    android:id="@+id/imageViewClado"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="4dp"
+
+
+    >
+
+    <TextView
+        android:id="@+id/textViewBDA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#dce9d4"
+        android:background="#296602"
+        android:text="Brown Dust Algae"
+        />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/cardBDA"
+
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+
+            >
+            <LinearLayout
+                android:id="@+id/BDALinear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:id="@+id/BDAcause"
+                    android:layout_height="match_parent"
+                    android:textSize="10sp"
+                    android:text="Cause"
+                    android:gravity="center"
+                    android:textStyle="bold|italic"
+                    android:background="#b0edfa"
+                    android:textColor="#25ac03" />
+
+                <TextView
+                    android:layout_margin="5dp"
+                    android:layout_width="match_parent"
+                    android:id="@+id/BDA"
+                    android:layout_height="match_parent"
+                    android:textSize="10sp"
+                    android:text="@string/BDA"
+                    android:textColor="#25ac03" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:id="@+id/BDAquickfix"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:textStyle="bold|italic"
+                    android:background="#b0edfa"
+                    android:text="Quick Fix"
+                    android:textColor="#25ac03" />
+
+                <TextView
+                    android:layout_margin="5dp"
+                    android:layout_width="match_parent"
+                    android:id="@+id/BDAqf"
+                    android:layout_height="match_parent"
+                    android:textSize="10sp"
+                    android:text="@string/BDAqf"
+                    android:textColor="#25ac03" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:id="@+id/BDArootfix"
+                    android:layout_height="match_parent"
+                    android:textSize="10sp"
+                    android:textStyle="bold|italic"
+                    android:background="#b0edfa"
+                    android:gravity="center"
+                    android:text="Root Fix"
+                    android:textColor="#25ac03" />
+
+                <TextView
+                    android:layout_margin="5dp"
+                    android:layout_width="match_parent"
+                    android:id="@+id/BDArf"
+                    android:layout_height="match_parent"
+                    android:textSize="10sp"
+                    android:text="@string/BDArf"
+                    android:textColor="#25ac03" />
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/imageViewBDA"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:adjustViewBounds="true"
+                android:clickable="true"
+                android:focusable="true"
+                />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="4dp"
+
+
+        >
+
+        <TextView
+            android:id="@+id/textViewThread"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#dce9d4"
+            android:background="#296602"
+            android:text="Thread Algae"
+            />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/cardThread"
+
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3"
+
+                >
+                <LinearLayout
+                    android:id="@+id/ThreadLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/Threadcause"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:text="Cause"
+                        android:gravity="center"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:id="@+id/Thread"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:text="@string/Hair"
+                        android:textColor="#25ac03" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/Threadquickfix"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textSize="10sp"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:text="Quick Fix"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:id="@+id/Threadqf"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:text="@string/Hairqf"
+                        android:textColor="#25ac03" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/Threadrootfix"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:textStyle="bold|italic"
+                        android:background="#b0edfa"
+                        android:gravity="center"
+                        android:text="Root Fix"
+                        android:textColor="#25ac03" />
+
+                    <TextView
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:id="@+id/Threadrf"
+                        android:layout_height="match_parent"
+                        android:textSize="10sp"
+                        android:text="@string/Hairrf"
+                        android:textColor="#25ac03" />
+                </LinearLayout>
+
+
+                <ImageView
+                    android:id="@+id/imageViewThread"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+
+
+</LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

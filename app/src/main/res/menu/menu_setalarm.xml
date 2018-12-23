@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.personal.skram.plantedaqua.Tasks">
+    <item
+        android:id="@+id/settingsText"
+        android:orderInCategory="1"
+        android:title="@string/notify"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/actionSpinner"
+        android:orderInCategory="1"
+        app:actionViewClass="android.widget.Spinner"
+        android:title="@string/action_settings"
+        app:showAsAction="always" />
+</menu>
