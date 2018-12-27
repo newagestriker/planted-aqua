@@ -81,7 +81,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Frequency"
+                android:textSize="12sp"
+                android:text="Frequency of dose per week"
                 android:textStyle="bold" />
 
             <EditText
@@ -139,7 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:weightSum="7"
+            android:weightSum="6"
             android:orientation="horizontal">
 
             <TextView
@@ -212,16 +213,7 @@
                 android:textStyle="bold"
                 />
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/default_button"
-                android:textColor="@color/colorPrimaryDark"
-                android:text="Reset to Default PPM"
-                android:textSize="9sp"
-                android:textStyle="bold"
-                />
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -233,12 +225,41 @@
                 android:layout_height="wrap_content"
                 android:padding="2dp"
                 android:text="Presets"
+                android:textSize="18sp"
                 android:textStyle="bold"/>
+            <FrameLayout
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:padding="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/fillbox">
             <Spinner
+
+                android:id="@+id/PresetSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 
             </Spinner>
+            </FrameLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/save"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="saveSet"/>
+
+            <ImageView
+                android:id="@+id/DeleteSetButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/delete"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="deleteSet"/>
+
 
         </LinearLayout>
     </LinearLayout>
@@ -346,7 +367,7 @@
                 android:gravity="center"
                 android:text="Select Salt"
                 android:enabled="false"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorAccent"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -440,8 +461,8 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Add per dose"
-                android:textColor="@color/colorPrimaryDark"
+                android:text="Each dose"
+                android:textColor="@color/colorAccent"
                 android:textSize="10sp"
                 android:textStyle="bold" />
 
@@ -454,7 +475,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="in grams"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/colorAccent"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -552,6 +573,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:hint="30 ppm"
+                android:textColor="@color/colorPrimaryDark"
                 android:inputType="numberDecimal"
                 android:layout_margin="1dp"
                 android:background="@drawable/fillbox"

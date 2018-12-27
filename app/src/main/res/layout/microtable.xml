@@ -81,7 +81,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Frequency"
+                android:textSize="12sp"
+                android:text="Frequency of dose per week"
                 android:textStyle="bold" />
 
             <EditText
@@ -139,7 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:weightSum="7"
+            android:weightSum="6"
             android:orientation="horizontal">
 
             <TextView
@@ -210,17 +211,54 @@
                 android:text="Reset"
                 android:textSize="10sp"
                 android:textStyle="bold"/>
-            <Button
-                android:id="@+id/Defaultpercent"
-                android:layout_width="0dp"
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="Presets"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+            <FrameLayout
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:padding="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/fillbox">
+                <Spinner
+
+                    android:id="@+id/PresetMicroSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </Spinner>
+            </FrameLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/save"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="saveMicroSet"/>
+
+            <ImageView
+                android:id="@+id/DeleteMicroSetButton"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Set to Default %"
-                android:gravity="center"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="10sp"
-                android:textStyle="bold" />
-                />
+                android:src="@drawable/delete"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="deleteMicroSet"/>
+
 
         </LinearLayout>
     </LinearLayout>
@@ -262,9 +300,9 @@
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="@string/Add"
+                android:text="Each\nDose"
                 android:textColor="@color/colorAccent"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
 
@@ -389,7 +427,7 @@
                 android:text="Mn (%)"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp"
-                android:textStyle="italic" />
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/Mnpercent"

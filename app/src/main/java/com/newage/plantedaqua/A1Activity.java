@@ -5,18 +5,14 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,13 +25,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
-
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.codemybrainsout.ratingdialog.RatingDialog;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -50,9 +43,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
 
 public class A1Activity extends AppCompatActivity
@@ -72,7 +63,7 @@ public class A1Activity extends AppCompatActivity
     SQLiteDatabase DB;
     Snackbar snackbar;
     View headerview;
-    private static final int RC_SIGN_IN =47 ;
+    private static final int RC_SIGN_IN = 47 ;
     GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth mAuth;
     FirebaseUser user;

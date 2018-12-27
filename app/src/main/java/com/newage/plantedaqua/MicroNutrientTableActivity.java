@@ -9,9 +9,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -24,19 +26,44 @@ import java.util.Arrays;
 
 public class MicroNutrientTableActivity extends AppCompatActivity {
 
-    double liqDoseRatio=1d;
-    String aquariumid="";
-    boolean liqdosestatus=false;
-    String alarmDetails="";
-    String nutrient="";
-    double weights[]=new double[4];
-    MyDbHelper mydbhelper;
-    ArrayList<Double> percentAll= new ArrayList <>(Arrays.asList(6.53,1.87, 1.4, 0.37, 0.09, 0.05, 1.18));
+    private double liqDoseRatio=1d;
+    private String aquariumid="";
+    private boolean liqdosestatus=false;
+    private String alarmDetails="";
+    private String nutrient="";
+    private Spinner presetSpinner;
+    private double weights[]=new double[4];
+    private ArrayList<ArrayList<Double>> percentAll = new ArrayList<>();
+    private MyDbHelper mydbhelper;
+    private ArrayList<String> defaultSets=new ArrayList <>(Arrays.asList("CSM + 1.18% B", "Fe EDTA 10%","Fe EDTA 12%"));
+    private ArrayList<String> allSets;
+    private ArrayAdapter<String> presetAdapter;
+    private ImageView deleteSetButton;
+
+    private void addInitialPPMValuesToDB() {
+
+
+        TinyDB ppmDB = new TinyDB(this);
+        ppmDB.putListDouble("CSM + 1.18% B",new ArrayList <>(Arrays.asList(6.53d, 1.87d, 1.4d, 0.37d, 0.09d, 0.05d, 1.18d)));
+        ppmDB.putListDouble("Fe EDTA 10%",new ArrayList <>(Arrays.asList(10d, 0d, 0d, 0d, 0d, 0d, 0d)));
+        ppmDB.putListDouble("Fe EDTA 12%",new ArrayList <>(Arrays.asList(12d, 0d, 0d, 0d, 0d, 0d, 0d)));
+
+        // TODO : Increase minimum position to make delete button visible as new values are added here
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.microtable);
+        addInitialPPMValuesToDB();
+        allSets = readSets();
+
+        TinyDB percentSets = new TinyDB(this);
+
+        for(String percentSetName:allSets){
+            percentAll.add(percentSets.getListDouble(percentSetName));
+        }
 
         Button reset=findViewById(R.id.resetbuttom);
         reset.setOnClickListener(new View.OnClickListener() {
@@ -50,20 +77,35 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
         Intent intent=getIntent();
         aquariumid=intent.getStringExtra("AquariumID");
 
+        deleteSetButton = findViewById(R.id.DeleteMicroSetButton);
 
-        TinyDB def=new TinyDB(this);
-        def.getBoolean("microNotDef");
+        presetSpinner = findViewById(R.id.PresetMicroSpinner);
+        presetAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,allSets);
+        presetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        presetSpinner.setAdapter(presetAdapter);
 
-        TinyDB tinydb = new TinyDB(this);
-
-        if(!def.getBoolean("microNotDef")) {
-            tinydb.putListDouble("microPercent", percentAll);
-        }
-
-        setpercentBox(this);
-
+        presetSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
 
+                if(position<3)
+                    deleteSetButton.setVisibility(View.GONE);
+                else
+                    deleteSetButton.setVisibility(View.VISIBLE);
+
+                setpercentBox(percentAll.get(position));
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        setpercentBox(percentAll.get(0));
 
         RadioGroup DoseButton =findViewById(R.id.DoseType);
         DoseButton.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -101,18 +143,7 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
             }
         });
 
-        Button defaultpercent=findViewById(R.id.Defaultpercent);
-        defaultpercent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                percentAll= new ArrayList <>(Arrays.asList(6.53,1.87, 1.4, 0.37, 0.09, 0.05, 1.18));
-                TinyDB tinydb = new TinyDB(MicroNutrientTableActivity.this);
-                tinydb.putListDouble("microPercent", percentAll);
-                setpercentBox(MicroNutrientTableActivity.this);
 
-
-            }
-        });
 
         Button calculate = findViewById(R.id.Calculate);
         calculate.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +189,29 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
         }
 
         else mainCalculate();
+
+    }
+
+    private void addSets() {
+
+        TinyDB setDB = new TinyDB(this);
+        setDB.putListString("AllSet",allSets);
+
+    }
+    private void removeSets(String setToRemove) {
+
+        TinyDB setDB = new TinyDB(this);
+        setDB.remove(setToRemove);
+
+    }
+    private ArrayList<String> readSets() {
+
+        TinyDB setDB = new TinyDB(this);
+
+        if ((setDB.getListString("AllSet")).isEmpty())
+            return defaultSets;
+
+        return(setDB.getListString("AllSet"));
 
     }
 
@@ -214,41 +268,10 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
         double rootchemical = 100d;
 
         //USER INPUT PPM TO ARRAY
-        EditText pInput = findViewById(R.id.Fepercent);
-        if (!(pInput.getText().toString().isEmpty())) {
-            percentAll.set(0, Double.parseDouble(pInput.getText().toString()));
-        }
-        pInput = findViewById(R.id.Mnpercent);
-        if (!(pInput.getText().toString().isEmpty())) {
-            percentAll.set(1, Double.parseDouble(pInput.getText().toString()));
-        }
-        pInput = findViewById(R.id.Mgpercent);
-        if (!(pInput.getText().toString().isEmpty())) {
-            percentAll.set(2, Double.parseDouble(pInput.getText().toString()));
-        }
-        pInput = findViewById(R.id.Znpercent);
-        if (!(pInput.getText().toString().isEmpty())) {
-            percentAll.set(3, Double.parseDouble(pInput.getText().toString()));
-        }
-        pInput = findViewById(R.id.Cupercent);
-        if (!(pInput.getText().toString().isEmpty())) {
-            percentAll.set(4, Double.parseDouble(pInput.getText().toString()));
-        }
-        pInput = findViewById(R.id.Mopercent);
-        if (!(pInput.getText().toString().isEmpty())) {
-            percentAll.set(5, Double.parseDouble(pInput.getText().toString()));
-        }
-        pInput = findViewById(R.id.Bpercent);
-        if (!(pInput.getText().toString().isEmpty())) {
-            percentAll.set(6, Double.parseDouble(pInput.getText().toString()));
-        }
 
-        TinyDB tinydb = new TinyDB(this);
-        tinydb.putListDouble("microPercent",percentAll);
+        ArrayList<Double> tempPPM = new ArrayList<>(Arrays.asList(6.53d, 1.87d, 1.4d, 0.37d, 0.09d, 0.05d, 1.18d));
 
-        setpercentBox(this);
-
-
+        addUserInputPPMToArray("Custom Values",tempPPM);
 
        //Fe
         Double Feppm;
@@ -259,7 +282,7 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
         else{
             Feppm=1d;
         }
-        microDetails Fe = new microDetails(rootchemical, percentAll.get(0), Feppm / frequency);
+        microDetails Fe = new microDetails(rootchemical, tempPPM.get(0), Feppm / frequency);
         double dosageingrames = Fe.calcDosage();
         TextView Feppmtext = findViewById(R.id.Feppm);
         Feppmtext.setText(Double.toString(Fe.calcPPM(dosageingrames))+getResources().getString(R.string.ppm));
@@ -268,32 +291,32 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
         weights[0]=Math.round(dosageingrames * liqDoseRatio * 1000d) / 1000d;
 
         //Mn
-        microDetails Mn=new microDetails(rootchemical,percentAll.get(1),0);
+        microDetails Mn=new microDetails(rootchemical,tempPPM.get(1),0);
         TextView Mnppm=findViewById(R.id.Mnppm);
         Mnppm.setText(Double.toString(Mn.calcPPM(dosageingrames))+getResources().getString(R.string.ppm));
 
         //Mg
-        microDetails Mg=new microDetails(rootchemical,percentAll.get(2),0);
+        microDetails Mg=new microDetails(rootchemical,tempPPM.get(2),0);
         TextView Mgppm=findViewById(R.id.Mgppm);
         Mgppm.setText(Double.toString(Mg.calcPPM(dosageingrames))+getResources().getString(R.string.ppm));
 
         //Zn
-        microDetails Zn=new microDetails(rootchemical,percentAll.get(3),0);
+        microDetails Zn=new microDetails(rootchemical,tempPPM.get(3),0);
         TextView Znppm=findViewById(R.id.Znppm);
         Znppm.setText(Double.toString(Zn.calcPPM(dosageingrames))+getResources().getString(R.string.ppm));
 
         //Cu
-        microDetails Cu=new microDetails(rootchemical,percentAll.get(4),0);
+        microDetails Cu=new microDetails(rootchemical,tempPPM.get(4),0);
         TextView Cuppm=findViewById(R.id.Cuppm);
         Cuppm.setText(Double.toString(Cu.calcPPM(dosageingrames))+getResources().getString(R.string.ppm));
 
         //Mo
-        microDetails Mo=new microDetails(rootchemical,percentAll.get(5),0);
+        microDetails Mo=new microDetails(rootchemical,tempPPM.get(5),0);
         TextView Moppm=findViewById(R.id.Moppm);
         Moppm.setText(Double.toString(Mo.calcPPM(dosageingrames))+getResources().getString(R.string.ppm));
 
         //B
-        microDetails B=new microDetails(rootchemical,percentAll.get(6),0);
+        microDetails B=new microDetails(rootchemical,tempPPM.get(6),0);
         TextView Bppm=findViewById(R.id.Bppm);
         Bppm.setText(Double.toString(B.calcPPM(dosageingrames))+getResources().getString(R.string.ppm));
 
@@ -317,11 +340,77 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void setpercentBox(ArrayList<Double> tempPPM){
 
 
+        TinyDB notDef= new TinyDB(this);
 
+
+        EditText percentInput = findViewById(R.id.Fepercent);
+        percentInput.setText(tempPPM.get(0).toString());
+
+        percentInput = findViewById(R.id.Mnpercent);
+        percentInput.setText(tempPPM.get(1).toString());
+
+        percentInput = findViewById(R.id.Mgpercent);
+        percentInput.setText(tempPPM.get(2).toString());
+
+        percentInput = findViewById(R.id.Znpercent);
+        percentInput.setText(tempPPM.get(3).toString());
+
+        percentInput = findViewById(R.id.Cupercent);
+        percentInput.setText(tempPPM.get(4).toString());
+
+        percentInput = findViewById(R.id.Mopercent);
+        percentInput.setText(tempPPM.get(5).toString());
+
+        percentInput = findViewById(R.id.Bpercent);
+        percentInput.setText(tempPPM.get(6).toString());
+        
+
+        notDef.putBoolean("macroNotDef",true);
 
     }
+
+    private void addUserInputPPMToArray(String ppmSetName,ArrayList<Double> tempPPM) {
+
+
+
+
+        EditText percentInput = findViewById(R.id.Fepercent);
+        if (!(percentInput.getText().toString().isEmpty())) {
+            tempPPM.set(0, Double.parseDouble(percentInput.getText().toString()));
+        }
+        percentInput = findViewById(R.id.Mnpercent);
+        if (!(percentInput.getText().toString().isEmpty())) {
+            tempPPM.set(1, Double.parseDouble(percentInput.getText().toString()));
+        }
+        percentInput = findViewById(R.id.Mgpercent);
+        if (!(percentInput.getText().toString().isEmpty())) {
+            tempPPM.set(2, Double.parseDouble(percentInput.getText().toString()));
+        }
+        percentInput = findViewById(R.id.Znpercent);
+        if (!(percentInput.getText().toString().isEmpty())) {
+            tempPPM.set(3, Double.parseDouble(percentInput.getText().toString()));
+        }
+        percentInput = findViewById(R.id.Cupercent);
+        if (!(percentInput.getText().toString().isEmpty())) {
+            tempPPM.set(4, Double.parseDouble(percentInput.getText().toString()));
+        }
+        percentInput = findViewById(R.id.Mopercent);
+        if (!(percentInput.getText().toString().isEmpty())) {
+            tempPPM.set(5, Double.parseDouble(percentInput.getText().toString()));
+        }
+        percentInput = findViewById(R.id.Bpercent);
+        if (!(percentInput.getText().toString().isEmpty())) {
+            tempPPM.set(6, Double.parseDouble(percentInput.getText().toString()));
+        }
+        TinyDB ppmlist= new TinyDB(this);
+        ppmlist.putListDouble(ppmSetName,tempPPM);
+    }
+    
     void setNutalarmText(){
 
 
@@ -401,29 +490,49 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
         Toast.makeText(this, "You will be notified about this dosage", Toast.LENGTH_SHORT).show();
     }
 
-    void setpercentBox(Context context){
 
-        TinyDB tinydb=new TinyDB(context);
-        TinyDB notDef= new TinyDB(context);
-        percentAll=tinydb.getListDouble("microPercent");
 
-        EditText pInput;
+    private String percentSetName = "";
 
-        pInput = findViewById(R.id.Fepercent);
-        pInput.setText(percentAll.get(0).toString());
-        pInput = findViewById(R.id.Mnpercent);
-        pInput.setText(percentAll.get(1).toString());
-        pInput = findViewById(R.id.Mgpercent);
-        pInput.setText(percentAll.get(2).toString());
-        pInput = findViewById(R.id.Znpercent);
-        pInput.setText(percentAll.get(3).toString());
-        pInput = findViewById(R.id.Cupercent);
-        pInput.setText(percentAll.get(4).toString());
-        pInput = findViewById(R.id.Mopercent);
-        pInput.setText(percentAll.get(5).toString());
-        pInput = findViewById(R.id.Bpercent);
-        pInput.setText(percentAll.get(6).toString());
-        notDef.putBoolean("microNotDef",true);
+    public void saveMicroSet(View view) {
+
+        final EditText enterSetName = new EditText(this);
+        AlertDialog.Builder setNameInputDialog = new AlertDialog.Builder(this);
+        setNameInputDialog.setView(enterSetName)
+                .setMessage("Enter a name for the Custom PPM profile")
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        ArrayList<Double> tempPPM = new ArrayList<>(Arrays.asList(6.53d, 1.87d, 1.4d, 0.37d, 0.09d, 0.05d, 1.18d));
+                        percentSetName = enterSetName.getText().toString();
+                        addUserInputPPMToArray(percentSetName,tempPPM);
+                        percentAll.add(tempPPM);
+                        allSets.add(percentSetName);
+                        presetAdapter.notifyDataSetChanged();
+                        presetSpinner.setSelection(percentAll.size()-1);
+                        addSets();
+                    }
+                })
+                .create().show();
+    }
+
+    public void deleteMicroSet(View view) {
+
+        int position = presetSpinner.getSelectedItemPosition();
+        String removePPMsetName = presetSpinner.getSelectedItem().toString();
+        percentAll.remove(position);
+        allSets.remove(removePPMsetName);
+        presetAdapter.notifyDataSetChanged();
+        removeSets(removePPMsetName);
+        addSets();
+
 
     }
 }

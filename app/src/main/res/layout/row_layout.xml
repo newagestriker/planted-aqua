@@ -37,13 +37,14 @@
             android:src="@drawable/tasks" />
 
         <Button
+            android:layout_margin="5dp"
             android:id="@+id/TaskButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="8"
-            android:background="@android:color/transparent"
-            android:gravity="left|center"
+
+            android:gravity="center"
             android:paddingLeft="@dimen/fab_margin"
             android:text="Set alert"
             android:textAllCaps="false"

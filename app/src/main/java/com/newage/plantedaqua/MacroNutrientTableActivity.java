@@ -1,18 +1,21 @@
 package com.newage.plantedaqua;
 
 import android.app.AlertDialog;
-import android.content.Context;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -32,16 +35,62 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
     String aquariumid;
     double weights[]=new double[5];
     String nutrient;
-    ArrayList<Double> ppmAll=new ArrayList <>(Arrays.asList(20d, 3d, 30d, 10d, 30d));
+    ArrayList<ArrayList<Double>> ppmAll = new ArrayList<>();
     MyDbHelper mydbhelper;
+    Spinner presetSpinner;
+    ImageView deleteSetButton;
+    ArrayList<String> defaultSets=new ArrayList <>(Arrays.asList("Default values", "EI with Green Spot Algae Issue","EI Low Tech"));
+    ArrayList<String> allSets;
+
+    private void addInitialPPMValuesToDB() {
 
 
+        TinyDB ppmDB = new TinyDB(this);
+        ppmDB.putListDouble("Default values",new ArrayList <>(Arrays.asList(20d, 3d, 30d, 10d, 30d)));
+        ppmDB.putListDouble("EI with Green Spot Algae Issue",new ArrayList <>(Arrays.asList(25d, 6d, 35d, 15d, 35d)));
+        ppmDB.putListDouble("EI Low Tech",new ArrayList <>(Arrays.asList(7d, 2d, 10d, 3d, 10d)));
 
+    }
+
+    ArrayAdapter<String> presetAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nutrient_table);
+        addInitialPPMValuesToDB();
+        allSets = readSets();
 
+        TinyDB ppmSets = new TinyDB(this);
+
+        for(String ppmSetName:allSets){
+            ppmAll.add(ppmSets.getListDouble(ppmSetName));
+        }
+
+        deleteSetButton = findViewById(R.id.DeleteSetButton);
+
+        presetSpinner = findViewById(R.id.PresetSpinner);
+        presetAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,allSets);
+        presetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        presetSpinner.setAdapter(presetAdapter);
+        presetSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+                if(position<3)
+                    deleteSetButton.setVisibility(View.GONE);
+                else
+                    deleteSetButton.setVisibility(View.VISIBLE);
+                setppmBox(ppmAll.get(position));
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         Button reset=findViewById(R.id.resetbuttom);
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,27 +103,9 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
         Intent intent=getIntent();
         aquariumid=intent.getStringExtra("AquariumID");
 
-        TinyDB def=new TinyDB(this);
-        def.getBoolean("macroNotDef");
+        setppmBox(ppmAll.get(0));
 
-        TinyDB tinydb = new TinyDB(this);
 
-        if(!def.getBoolean("macroNotDef")) {
-            tinydb.putListDouble("ppmMacro", ppmAll);
-        }
-
-        setppmBox(this);
-
-        Button defButton=findViewById(R.id.default_button);
-        defButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ppmAll= new ArrayList <>(Arrays.asList(20d, 3d, 30d, 10d, 30d));
-                TinyDB tinydb = new TinyDB(MacroNutrientTableActivity.this);
-                tinydb.putListDouble("ppmMacro", ppmAll);
-                setppmBox(MacroNutrientTableActivity.this);
-            }
-        });
 
         ArrayList<String> NO3list=new ArrayList <>();
         NO3list.add("KNO3");
@@ -172,6 +203,31 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void addSets() {
+
+        TinyDB setDB = new TinyDB(this);
+        setDB.putListString("AllSet",allSets);
+
+    }
+    private void removeSets(String setToRemove) {
+
+        TinyDB setDB = new TinyDB(this);
+        setDB.remove(setToRemove);
+
+    }
+    private ArrayList<String> readSets() {
+
+        TinyDB setDB = new TinyDB(this);
+
+        if ((setDB.getListString("AllSet")).isEmpty())
+            return defaultSets;
+
+        return(setDB.getListString("AllSet"));
+
+    }
+
+
 
     public void Calculate() {
 
@@ -280,42 +336,15 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
             Chemical.volumeinltrs = volume;
         }
 
-
-
-
-
         //USER INPUT PPM TO ARRAY
 
-        EditText ppmInput = findViewById(R.id.NO3ppm);
-        if (!(ppmInput.getText().toString().isEmpty())) {
-            ppmAll.set(0, Double.parseDouble(ppmInput.getText().toString()));
-        }
-        ppmInput = findViewById(R.id.PO4ppm);
-        if (!(ppmInput.getText().toString().isEmpty())) {
-            ppmAll.set(1, Double.parseDouble(ppmInput.getText().toString()));
-        }
-        ppmInput = findViewById(R.id.Kppm);
-        if (!(ppmInput.getText().toString().isEmpty())) {
-            ppmAll.set(2, Double.parseDouble(ppmInput.getText().toString()));
-        }
-        ppmInput = findViewById(R.id.Mgppm);
-        if (!(ppmInput.getText().toString().isEmpty())) {
-            ppmAll.set(3, Double.parseDouble(ppmInput.getText().toString()));
-        }
-        ppmInput = findViewById(R.id.Cappm);
-        if (!(ppmInput.getText().toString().isEmpty())) {
-            ppmAll.set(4, Double.parseDouble(ppmInput.getText().toString()));
-        }
-        TinyDB ppmlist= new TinyDB(this);
-        ppmlist.putListDouble("ppmMacro",ppmAll);
+        ArrayList<Double> tempPPM = new ArrayList<>(Arrays.asList(20d, 3d, 30d, 10d, 30d));
 
-        setppmBox(this);
-
-
+        addUserInputPPMToArray("Custom Values",tempPPM);
 
         //NO3
         Spinner spinner=findViewById(R.id.NO3Spinner);
-        Chemical NO3 = new Chemical(rootchemical.get(spinner.getSelectedItem().toString()), 62.0049, ppmAll.get(0)/ frequency);
+        Chemical NO3 = new Chemical(rootchemical.get(spinner.getSelectedItem().toString()), 62.0049, tempPPM.get(0)/ frequency);
         double dosageingrames = NO3.calcDosage();
         TextView dosage = findViewById(R.id.GKNO3);
         dosage.setText(Double.toString(Math.round(dosageingrames * liqDoseRatio * 100d) / 100d));
@@ -337,7 +366,7 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
 
         //PO4
         spinner=findViewById(R.id.PO4Spinner);
-        Chemical PO4 = new Chemical(rootchemical.get(spinner.getSelectedItem().toString()), 94.9714, ppmAll.get(1) / frequency);
+        Chemical PO4 = new Chemical(rootchemical.get(spinner.getSelectedItem().toString()), 94.9714, tempPPM.get(1) / frequency);
         dosageingrames = PO4.calcDosage();
         dosage = findViewById(R.id.GKH2PO4);
         dosage.setText(Double.toString(Math.round(dosageingrames * liqDoseRatio * 100d) / 100d));
@@ -359,7 +388,7 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
         //K
         spinner=findViewById(R.id.K2Spinner);
 
-        double Kppm = (ppmAll.get(2) / frequency) - KinKH2PO4ppm - KinKNO3ppm;
+        double Kppm = (tempPPM.get(2) / frequency) - KinKH2PO4ppm - KinKNO3ppm;
         Chemical K = new Chemical(rootchemical.get(spinner.getSelectedItem().toString()), 78.1966, Kppm);
         dosageingrames = K.calcDosage();
         dosage = findViewById(R.id.GK2SO4);
@@ -372,7 +401,7 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
 
         //Mg
         spinner=findViewById(R.id.MgSpinner);
-        Chemical Mg = new Chemical(rootchemical.get(spinner.getSelectedItem().toString()), 24.305, ppmAll.get(3) / frequency);
+        Chemical Mg = new Chemical(rootchemical.get(spinner.getSelectedItem().toString()), 24.305, tempPPM.get(3) / frequency);
         dosageingrames = Mg.calcDosage();
         dosage = findViewById(R.id.GMgSO4);
         dosage.setText(Double.toString(Math.round(dosageingrames * liqDoseRatio * 100d) / 100d));
@@ -385,7 +414,7 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
         //Ca
 
         spinner=findViewById(R.id.CaSpinner);
-        Chemical Ca = new Chemical(rootchemical.get(spinner.getSelectedItem().toString()), 40.08, ppmAll.get(4) / frequency);
+        Chemical Ca = new Chemical(rootchemical.get(spinner.getSelectedItem().toString()), 40.08, tempPPM.get(4) / frequency);
         dosageingrames = Ca.calcDosage();
         dosage = findViewById(R.id.GCaCl2);
         dosage.setText(Double.toString(Math.round(dosageingrames * liqDoseRatio * 100d) / 100d));
@@ -399,6 +428,35 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
 
         setNutAlarmButton();
 
+    }
+
+    private void addUserInputPPMToArray(String ppmSetName,ArrayList<Double> tempPPM) {
+
+
+
+
+        EditText ppmInput = findViewById(R.id.NO3ppm);
+        if (!(ppmInput.getText().toString().isEmpty())) {
+            tempPPM.set(0, Double.parseDouble(ppmInput.getText().toString()));
+        }
+        ppmInput = findViewById(R.id.PO4ppm);
+        if (!(ppmInput.getText().toString().isEmpty())) {
+            tempPPM.set(1, Double.parseDouble(ppmInput.getText().toString()));
+        }
+        ppmInput = findViewById(R.id.Kppm);
+        if (!(ppmInput.getText().toString().isEmpty())) {
+            tempPPM.set(2, Double.parseDouble(ppmInput.getText().toString()));
+        }
+        ppmInput = findViewById(R.id.Mgppm);
+        if (!(ppmInput.getText().toString().isEmpty())) {
+            tempPPM.set(3, Double.parseDouble(ppmInput.getText().toString()));
+        }
+        ppmInput = findViewById(R.id.Cappm);
+        if (!(ppmInput.getText().toString().isEmpty())) {
+            tempPPM.set(4, Double.parseDouble(ppmInput.getText().toString()));
+        }
+        TinyDB ppmlist= new TinyDB(this);
+        ppmlist.putListDouble(ppmSetName,tempPPM);
     }
 
     void setNutAlarmButton(){
@@ -558,28 +616,72 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
 
 
     }
-    public void setppmBox(Context ctx){
+    public void setppmBox(ArrayList<Double> tempPPM){
 
-        TinyDB ppmList =new TinyDB(ctx);
-        TinyDB notDef= new TinyDB(ctx);
-        ppmAll=ppmList.getListDouble("ppmMacro");
+
+        TinyDB notDef= new TinyDB(this);
+
 
         EditText ppmInput = findViewById(R.id.NO3ppm);
-        ppmInput.setText(ppmAll.get(0).toString());
+        ppmInput.setText(tempPPM.get(0).toString());
 
         ppmInput = findViewById(R.id.PO4ppm);
-        ppmInput.setText(ppmAll.get(1).toString());
+        ppmInput.setText(tempPPM.get(1).toString());
 
         ppmInput = findViewById(R.id.Kppm);
-        ppmInput.setText(ppmAll.get(2).toString());
+        ppmInput.setText(tempPPM.get(2).toString());
 
         ppmInput = findViewById(R.id.Mgppm);
-        ppmInput.setText(ppmAll.get(3).toString());
+        ppmInput.setText(tempPPM.get(3).toString());
 
         ppmInput = findViewById(R.id.Cappm);
-        ppmInput.setText(ppmAll.get(4).toString());
+        ppmInput.setText(tempPPM.get(4).toString());
 
         notDef.putBoolean("macroNotDef",true);
+
+    }
+
+    private String ppmSetName = "";
+
+    public void saveSet(View view) {
+
+        final EditText enterSetName = new EditText(this);
+        AlertDialog.Builder setNameInputDialog = new AlertDialog.Builder(this);
+        setNameInputDialog.setView(enterSetName)
+                .setMessage("Enter a name for the Custom PPM profile")
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        ArrayList<Double> tempPPM = new ArrayList<>(Arrays.asList(20d, 3d, 30d, 10d, 30d));
+                        ppmSetName = enterSetName.getText().toString();
+                        addUserInputPPMToArray(ppmSetName,tempPPM);
+                        ppmAll.add(tempPPM);
+                        allSets.add(ppmSetName);
+                        presetAdapter.notifyDataSetChanged();
+                        presetSpinner.setSelection(ppmAll.size()-1);
+                        addSets();
+                    }
+                })
+                .create().show();
+    }
+
+    public void deleteSet(View view) {
+
+        int position = presetSpinner.getSelectedItemPosition();
+        String removePPMsetName = presetSpinner.getSelectedItem().toString();
+        ppmAll.remove(position);
+        allSets.remove(removePPMsetName);
+        presetAdapter.notifyDataSetChanged();
+        removeSets(removePPMsetName);
+        addSets();
+
 
     }
 
