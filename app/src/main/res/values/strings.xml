@@ -116,7 +116,7 @@
     <string name="title_activity_conversion">conversion</string>
     <string name="ok">OK</string>
     <string name="Novalue">No Input Provided!!</string>
-    <string name="Convert">Unit Converter</string>
+    <string name="Convert">Converter Tools</string>
     <string name="NameMust">You must provide a Name</string>
     <string name="Sciname">Scientific Name</string>
     <string name="TankData">Tank Data</string>

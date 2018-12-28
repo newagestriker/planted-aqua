@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,18 +36,25 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
     private double weights[]=new double[4];
     private ArrayList<ArrayList<Double>> percentAll = new ArrayList<>();
     private MyDbHelper mydbhelper;
-    private ArrayList<String> defaultSets=new ArrayList <>(Arrays.asList("CSM + 1.18% B", "Fe EDTA 10%","Fe EDTA 12%"));
+    private ArrayList<String> defaultSets=new ArrayList <>(Arrays.asList("Custom values","CSM + B (1.18%)", "Fe DTPA (10%)","Fe DTPA (11%)","Fe DTPA (7%)","Fe EDDHA (6%)","Fe EDTA (13%)", "Fe Gluconate (12.46%)"));
     private ArrayList<String> allSets;
     private ArrayAdapter<String> presetAdapter;
     private ImageView deleteSetButton;
+    private ImageView saveSetButton;
 
     private void addInitialPPMValuesToDB() {
 
 
         TinyDB ppmDB = new TinyDB(this);
-        ppmDB.putListDouble("CSM + 1.18% B",new ArrayList <>(Arrays.asList(6.53d, 1.87d, 1.4d, 0.37d, 0.09d, 0.05d, 1.18d)));
-        ppmDB.putListDouble("Fe EDTA 10%",new ArrayList <>(Arrays.asList(10d, 0d, 0d, 0d, 0d, 0d, 0d)));
-        ppmDB.putListDouble("Fe EDTA 12%",new ArrayList <>(Arrays.asList(12d, 0d, 0d, 0d, 0d, 0d, 0d)));
+        ppmDB.putListDouble("Custom values",new ArrayList <>(Arrays.asList(0d, 0d, 0d, 0d, 0d, 0d, 0d)));
+        ppmDB.putListDouble("CSM + B (1.18%)",new ArrayList <>(Arrays.asList(6.53d, 1.87d, 1.4d, 0.37d, 0.09d, 0.05d, 1.18d)));
+        ppmDB.putListDouble("Fe DTPA (10%)",new ArrayList <>(Arrays.asList(10d, 0d, 0d, 0d, 0d, 0d, 0d)));
+        ppmDB.putListDouble("Fe DTPA (11%)",new ArrayList <>(Arrays.asList(11d, 0d, 0d, 0d, 0d, 0d, 0d)));
+        ppmDB.putListDouble("Fe DTPA (7%)",new ArrayList <>(Arrays.asList(7d, 0d, 0d, 0d, 0d, 0d, 0d)));
+        ppmDB.putListDouble("Fe EDDHA (6%)",new ArrayList <>(Arrays.asList(6d, 0d, 0d, 0d, 0d, 0d, 0d)));
+        ppmDB.putListDouble("Fe EDTA (13%)",new ArrayList <>(Arrays.asList(13d, 0d, 0d, 0d, 0d, 0d, 0d)));
+        ppmDB.putListDouble("Fe Gluconate (12.46%)",new ArrayList <>(Arrays.asList(12.46d, 0d, 0d, 0d, 0d, 0d, 0d)));
+
 
         // TODO : Increase minimum position to make delete button visible as new values are added here
 
@@ -78,7 +86,7 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
         aquariumid=intent.getStringExtra("AquariumID");
 
         deleteSetButton = findViewById(R.id.DeleteMicroSetButton);
-
+        saveSetButton = findViewById(R.id.SaveSetButton);
         presetSpinner = findViewById(R.id.PresetMicroSpinner);
         presetAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,allSets);
         presetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -89,10 +97,17 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
 
-                if(position<3)
+                if(position<8)
                     deleteSetButton.setVisibility(View.GONE);
                 else
                     deleteSetButton.setVisibility(View.VISIBLE);
+
+
+                if(position==0)
+                    saveSetButton.setVisibility(View.VISIBLE);
+                else
+                    saveSetButton.setVisibility(View.GONE);
+
 
                 setpercentBox(percentAll.get(position));
 
@@ -117,7 +132,7 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
                 if (dosetype.getText().toString().equals("Liquid Dose")){
 
                     LinearLayout layout =findViewById(R.id.LiquidDose);
-                    for (int i = 0; i < layout.getChildCount(); i++) {
+                    for (int i = 0; i < layout.getChildCount()-2; i++) {
                         View child = layout.getChildAt(i);
                         child.setEnabled(true);
                     }
@@ -129,7 +144,7 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
                 else{
 
                     LinearLayout layout =findViewById(R.id.LiquidDose);
-                    for (int i = 0; i < layout.getChildCount()-3; i++) {
+                    for (int i = 0; i < layout.getChildCount()-2; i++) {
                         View child = layout.getChildAt(i);
                         child.setEnabled(false);
                         liqDoseRatio=1d;
@@ -156,7 +171,13 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
 
     public void Calculate() {
 
+        EditText fePercentInput = findViewById(R.id.Fepercent);
+        if(TextUtils.isEmpty(fePercentInput.getText().toString()) || Double.parseDouble(fePercentInput.getText().toString()) == 0d ){
 
+            Toast.makeText(this,"Fe Percentage should not be 0 or empty",Toast.LENGTH_SHORT).show();
+            return;
+
+        }
 
         EditText tankvolume = findViewById(R.id.TankVolumeBox);
         RadioButton selectedradiobutton;
@@ -167,6 +188,7 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
 
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         NodayDialog dialog = new NodayDialog();
+
 
         if (tankvolume.getText().toString().isEmpty()) {
             dialog.show(fragmentManager, "Please enter Tank volume");
@@ -195,7 +217,7 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
     private void addSets() {
 
         TinyDB setDB = new TinyDB(this);
-        setDB.putListString("AllSet",allSets);
+        setDB.putListString("AllSetMicro",allSets);
 
     }
     private void removeSets(String setToRemove) {
@@ -208,10 +230,10 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
 
         TinyDB setDB = new TinyDB(this);
 
-        if ((setDB.getListString("AllSet")).isEmpty())
+        if ((setDB.getListString("AllSetMicro")).isEmpty())
             return defaultSets;
 
-        return(setDB.getListString("AllSet"));
+        return(setDB.getListString("AllSetMicro"));
 
     }
 

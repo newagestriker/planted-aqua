@@ -29,30 +29,32 @@ import java.util.HashMap;
 
 public class MacroNutrientTableActivity extends AppCompatActivity {
 
-    double liqDoseRatio=1d;
-    boolean liqdosestatus=false;
-    String alarmDetails="";
-    String aquariumid;
-    double weights[]=new double[5];
-    String nutrient;
-    ArrayList<ArrayList<Double>> ppmAll = new ArrayList<>();
-    MyDbHelper mydbhelper;
-    Spinner presetSpinner;
-    ImageView deleteSetButton;
-    ArrayList<String> defaultSets=new ArrayList <>(Arrays.asList("Default values", "EI with Green Spot Algae Issue","EI Low Tech"));
-    ArrayList<String> allSets;
+    private double liqDoseRatio=1d;
+    private boolean liqdosestatus=false;
+    private String alarmDetails="";
+    private String aquariumid;
+    private double weights[]=new double[5];
+    private String nutrient;
+    private ArrayList<ArrayList<Double>> ppmAll = new ArrayList<>();
+    private MyDbHelper mydbhelper;
+    private Spinner presetSpinner;
+    private ImageView deleteSetButton;
+    private ArrayList<String> defaultSets=new ArrayList <>(Arrays.asList("Custom values","Default values", "EI with Green Spot Algae Issue","EI Low Tech"));
+    private ArrayList<String> allSets;
+    private ImageView saveSetButton;
 
     private void addInitialPPMValuesToDB() {
 
 
         TinyDB ppmDB = new TinyDB(this);
+        ppmDB.putListDouble("Custom values",new ArrayList <>(Arrays.asList(0d, 0d, 0d, 0d, 0d)));
         ppmDB.putListDouble("Default values",new ArrayList <>(Arrays.asList(20d, 3d, 30d, 10d, 30d)));
         ppmDB.putListDouble("EI with Green Spot Algae Issue",new ArrayList <>(Arrays.asList(25d, 6d, 35d, 15d, 35d)));
         ppmDB.putListDouble("EI Low Tech",new ArrayList <>(Arrays.asList(7d, 2d, 10d, 3d, 10d)));
 
     }
 
-    ArrayAdapter<String> presetAdapter;
+    private ArrayAdapter<String> presetAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +69,7 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
         }
 
         deleteSetButton = findViewById(R.id.DeleteSetButton);
-
+        saveSetButton = findViewById(R.id.SaveSetButton);
         presetSpinner = findViewById(R.id.PresetSpinner);
         presetAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,allSets);
         presetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -77,13 +79,18 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
 
-                if(position<3)
+                if(position<4)
                     deleteSetButton.setVisibility(View.GONE);
                 else
                     deleteSetButton.setVisibility(View.VISIBLE);
+
+
+                if(position==0)
+                    saveSetButton.setVisibility(View.VISIBLE);
+                else
+                    saveSetButton.setVisibility(View.GONE);
+
                 setppmBox(ppmAll.get(position));
-
-
             }
 
             @Override
@@ -164,7 +171,7 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
                 if (dosetype.getText().toString().equals("Liquid Dose")){
 
                     LinearLayout layout =findViewById(R.id.LiquidDose);
-                    for (int i = 0; i < layout.getChildCount()-3; i++) {
+                    for (int i = 0; i < layout.getChildCount()-2; i++) {
                         View child = layout.getChildAt(i);
                         child.setEnabled(true);
                         TextView quantity=findViewById(R.id.target);
@@ -179,7 +186,7 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
                 else{
 
                     LinearLayout layout =findViewById(R.id.LiquidDose);
-                    for (int i = 0; i < layout.getChildCount()-3; i++) {
+                    for (int i = 0; i < layout.getChildCount()-2; i++) {
                         View child = layout.getChildAt(i);
                         child.setEnabled(false);
                         liqDoseRatio=1d;
@@ -207,7 +214,7 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
     private void addSets() {
 
         TinyDB setDB = new TinyDB(this);
-        setDB.putListString("AllSet",allSets);
+        setDB.putListString("AllSetMacro",allSets);
 
     }
     private void removeSets(String setToRemove) {
@@ -220,10 +227,10 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
 
         TinyDB setDB = new TinyDB(this);
 
-        if ((setDB.getListString("AllSet")).isEmpty())
+        if ((setDB.getListString("AllSetMacro")).isEmpty())
             return defaultSets;
 
-        return(setDB.getListString("AllSet"));
+        return(setDB.getListString("AllSetMacro"));
 
     }
 

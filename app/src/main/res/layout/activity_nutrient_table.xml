@@ -244,18 +244,24 @@
             </FrameLayout>
 
             <ImageView
+                android:id="@+id/SaveSetButton"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/save"
+                android:layout_height="match_parent"
+                android:src="@drawable/save_values"
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="saveSet"/>
 
             <ImageView
+
                 android:id="@+id/DeleteSetButton"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/delete"
+                android:src="@drawable/delete_values"
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="deleteSet"/>
