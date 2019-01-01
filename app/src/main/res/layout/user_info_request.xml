@@ -17,14 +17,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="5dp"
-        android:text="hi"/>
-
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:text="hi"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,6 +30,8 @@
             android:text="@string/Connect"/>
 
     </LinearLayout>
+
+
 
 
 

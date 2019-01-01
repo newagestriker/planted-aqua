@@ -129,7 +129,7 @@ public class ConverterActivity extends AppCompatActivity {
 
     }
 
-    void convert(View view) {
+    public void convert(View view) {
 
         Double firstValue, secondValue, inputValue, resultValue, resultValue2, finalResultValue;
 

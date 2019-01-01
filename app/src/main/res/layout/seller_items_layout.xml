@@ -27,7 +27,7 @@
         android:id="@+id/ItemImage"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:adjustViewBounds="true"
@@ -63,9 +63,10 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_margin="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -78,7 +79,7 @@
 
             <EditText
                 android:id="@+id/SellerItemName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/NoInfo"
                 android:textColor="@color/colorPrimary"
@@ -89,9 +90,10 @@
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_margin="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -104,7 +106,7 @@
 
             <EditText
                 android:id="@+id/SellerItemQuan"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/NoInfo"
                 android:textColor="@color/colorPrimary"
@@ -113,14 +115,14 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_margin="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="2sp"
                 android:text="@string/Price"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="15sp"
@@ -128,7 +130,7 @@
 
             <EditText
                 android:id="@+id/SellerItemPrice"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/NoInfo"
                 android:textColor="@color/colorPrimary"
@@ -137,14 +139,14 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_margin="5dp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="2sp"
                 android:text="@string/Availability"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="15sp"
@@ -152,7 +154,7 @@
 
             <EditText
                 android:id="@+id/SellerItemAvail"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/NoInfo"
                 android:textColor="@color/colorPrimary"
@@ -160,14 +162,14 @@
 
         </LinearLayout>
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_margin="5dp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="2sp"
                 android:text="@string/Description"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="15sp"
@@ -175,7 +177,7 @@
 
             <EditText
                 android:id="@+id/SellerItemDes"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/NoInfo"
                 android:textColor="@color/colorPrimary"

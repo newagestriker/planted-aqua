@@ -16,10 +16,9 @@ import java.util.ArrayList;
 
 public class RecyclerAdapterLogs extends RecyclerView.Adapter<RecyclerAdapterLogs.RecyclerViewHolder>{
 
-    ArrayList<LogData>arrayList;
-    View v;
-    OnItemClickListener onItemClickListener;
-    RecyclerViewHolder recyclerViewHolder;
+    private ArrayList<LogData>arrayList;
+    private OnItemClickListener onItemClickListener;
+    private RecyclerViewHolder recyclerViewHolder;
 
 
 
@@ -83,7 +82,7 @@ public class RecyclerAdapterLogs extends RecyclerView.Adapter<RecyclerAdapterLog
 
         RecyclerViewHolder(View view) {
             super(view);
-            v=view;
+
             Day=view.findViewById(R.id.Log_day);
             Date=view.findViewById(R.id.Log_time);
             Task=view.findViewById(R.id.Log_TaskName);

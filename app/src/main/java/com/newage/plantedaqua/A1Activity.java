@@ -49,35 +49,38 @@ import java.util.ArrayList;
 public class A1Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    ArrayList<TankProgressDetails> tanklabels=new ArrayList <>();
-    TankProgressDetails tpd,temp;
-    RecyclerView startScreenRecyclerView;
-    RecyclerView.Adapter adapter;
-    RecyclerView.LayoutManager layoutManager;
-    int TANK_DETAILS_CREATION=1;
-    int TANK_DETAILS_MODIFICATION=2;
-    boolean clicked=false;
-    ArrayList<String> TagList=new ArrayList <>();
-    LinearLayout linearLayout;
-    TankDBHelper tankDBHelper;
-    SQLiteDatabase DB;
-    Snackbar snackbar;
-    View headerview;
+    private ArrayList<TankProgressDetails> tanklabels=new ArrayList <>();
+    private TankProgressDetails tpd,temp;
+    private RecyclerView startScreenRecyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private int TANK_DETAILS_CREATION=1;
+    private int TANK_DETAILS_MODIFICATION=2;
+    private boolean clicked=false;
+    private ArrayList<String> TagList=new ArrayList <>();
+    private LinearLayout linearLayout;
+    private TankDBHelper tankDBHelper;
+    private SQLiteDatabase DB;
+    private Snackbar snackbar;
+    private View headerview;
     private static final int RC_SIGN_IN = 47 ;
-    GoogleSignInClient mGoogleSignInClient;
-    FirebaseAuth mAuth;
-    FirebaseUser user;
-    ProgressDialog progressDialog;
-    View userGSignIn;
-    TextView logout;
-    DrawerLayout drawer;
-    TinyDB rebootRequired;
-    int currentVersionCode;
-    int storedVersionCode;
+    private GoogleSignInClient mGoogleSignInClient;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private ProgressDialog progressDialog;
+    private View userGSignIn;
+    private TextView logout;
+    private DrawerLayout drawer;
+    private TinyDB rebootRequired;
+    private int currentVersionCode;
+    private int storedVersionCode;
+    private TextView instructionText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         rebootRequired = new TinyDB(this);
 
@@ -86,20 +89,21 @@ public class A1Activity extends AppCompatActivity
         storedVersionCode = rebootRequired.getInt("STORED_VERSION_CODE");
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        if (storedVersionCode < currentVersionCode) {
+        if (storedVersionCode > 0 && storedVersionCode!=currentVersionCode ) {
             builder.setTitle(getResources().getString(R.string.Attention))
                     .setMessage(getResources().getString(R.string.AppUpdated))
                     .setNeutralButton(getResources().getString(R.string.OK), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            rebootRequired.putInt("STORED_VERSION_CODE", currentVersionCode);
                             dialog.dismiss();
                         }
                     }).create().show();
 
         }
+        rebootRequired.putInt("STORED_VERSION_CODE", currentVersionCode);
 
         setContentView(R.layout.activity_a1);
+        instructionText = findViewById(R.id.InstructionText);
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -342,6 +346,17 @@ public class A1Activity extends AppCompatActivity
             startActivity(iSettings);
         }
 
+        else if (id == R.id.nav_users_gallery) {
+
+            if (mAuth.getCurrentUser() != null) {
+
+                Intent iUsersGallery = new Intent(this, UsersGalleryActivity.class);
+                iUsersGallery.putExtra("UserID", mAuth.getCurrentUser().getUid());
+                startActivity(iUsersGallery);
+            }
+
+        }
+
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -511,11 +526,21 @@ public class A1Activity extends AppCompatActivity
                 });
     }
 
-    public void insertTankRow(){
+    private void setInstructionVisibility() {
+
+        if (tanklabels.isEmpty()){
+            instructionText.setVisibility(View.VISIBLE);
+        }
+        else
+            instructionText.setVisibility(View.GONE);
+    }
+
+    private void insertTankRow(){
 
         tankDBHelper =TankDBHelper.newInstance(this);
         DB = tankDBHelper.getWritableDatabase();
         Cursor c=tankDBHelper.getData(DB);
+
 
         while(c.moveToNext()){
 
@@ -529,6 +554,8 @@ public class A1Activity extends AppCompatActivity
 
         }
         c.close();
+
+        setInstructionVisibility();
 
         linearLayout=findViewById(R.id.mainLayout);
 
@@ -575,6 +602,7 @@ public class A1Activity extends AppCompatActivity
                     TagList.add(temp.getTag());
                     tanklabels.remove(position);
                     adapter.notifyItemRemoved(position);
+                    setInstructionVisibility();
                     snackbar = Snackbar
                             .make(linearLayout, "Record deleted", Snackbar.LENGTH_LONG)
                             .setAction("UNDO", new View.OnClickListener() {
@@ -585,6 +613,7 @@ public class A1Activity extends AppCompatActivity
                                     clicked=true;
                                     TagList.remove(TagList.size()-1);
                                     adapter.notifyItemInserted(position);
+                                    setInstructionVisibility();
                                     snackbar.dismiss();
                                 }
                             }).addCallback(new Snackbar.Callback() {
@@ -646,6 +675,7 @@ public class A1Activity extends AppCompatActivity
 
 
                 adapter.notifyItemInserted(tanklabels.size() - 1);
+                setInstructionVisibility();
             }
             if(requestCode==TANK_DETAILS_MODIFICATION){
 
@@ -657,6 +687,7 @@ public class A1Activity extends AppCompatActivity
                 tanklabels.get(position).setText2(data.getStringExtra("Aquatype"));
                 tanklabels.get(position).setTag(data.getStringExtra("Tag"));
                 adapter.notifyItemChanged(position);
+                setInstructionVisibility();
 
             }
         }

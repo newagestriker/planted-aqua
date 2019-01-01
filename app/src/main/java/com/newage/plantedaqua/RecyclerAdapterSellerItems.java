@@ -2,7 +2,6 @@ package com.newage.plantedaqua;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -13,7 +12,6 @@ import android.support.annotation.NonNull;
 
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,10 +154,10 @@ public class RecyclerAdapterSellerItems extends RecyclerView.Adapter<RecyclerAda
                             .into(imageView);
                 } else {
                     Toast.makeText(context, err, Toast.LENGTH_SHORT).show();
-                    Log.i("Download error", err);
+                    //Log.i("Download error", err);
                 }
-            }else
-                Log.i("BitmapError","null");
+            }//else
+                //Log.i("BitmapError","null");
             progressBar.setVisibility(View.GONE);
             super.onPostExecute(bitmap);
         }
@@ -217,14 +215,14 @@ public class RecyclerAdapterSellerItems extends RecyclerView.Adapter<RecyclerAda
                 deleteItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.i("Delete", "Delete");
+                        //Log.i("Delete", "Delete");
                         deleteTheItem(getAdapterPosition());
                     }
                 });
             }else
                 deleteItem.setVisibility(View.GONE);
 
-            Log.i("AdaptorPosition", Integer.toString(getAdapterPosition()));
+            //Log.i("AdaptorPosition", Integer.toString(getAdapterPosition()));
 
         }
 
@@ -292,7 +290,7 @@ public class RecyclerAdapterSellerItems extends RecyclerView.Adapter<RecyclerAda
             }
             else
                 uri=Uri.fromFile(tempJSON);
-            Log.i("URI",uri.toString());
+            //Log.i("URI",uri.toString());
             progressDialog.show();
             JSONStorageRef.putFile(uri)
                     .addOnSuccessListener(new OnSuccessListener <UploadTask.TaskSnapshot>() {
@@ -309,7 +307,7 @@ public class RecyclerAdapterSellerItems extends RecyclerView.Adapter<RecyclerAda
                         public void onFailure(@NonNull Exception e) {
 
                             Toast.makeText(context,"UPLOAD ERROR!!",Toast.LENGTH_SHORT).show();
-                            Log.i("JSON upload error",e.getMessage());
+                            //Log.i("JSON upload error",e.getMessage());
                             tempJSON.delete();
                             progressDialog.dismiss();
 
@@ -318,7 +316,7 @@ public class RecyclerAdapterSellerItems extends RecyclerView.Adapter<RecyclerAda
 
         }catch (Exception e){
             Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-            Log.i("TEMP FILE ERROR",e.getMessage());
+            //Log.i("TEMP FILE ERROR",e.getMessage());
 
         }
 

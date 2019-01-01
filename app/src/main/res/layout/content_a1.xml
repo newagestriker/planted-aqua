@@ -8,7 +8,16 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".A1Activity"
+    android:orientation="vertical"
     tools:showIn="@layout/app_bar_a1">
+
+    <TextView
+        android:id="@+id/InstructionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:gravity="center"
+        android:text="Click on the '+' sign on Top Right to add a new tank. Click on the Tank Objects thus created to access more options and Long Click to edit the Tanks details"/>
 
 
     <android.support.v7.widget.RecyclerView

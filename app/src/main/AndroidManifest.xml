@@ -146,9 +146,7 @@
             android:name=".MapsActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_maps"
-            android:theme="@style/AppTheme">
-
-        </activity>
+            android:theme="@style/AppTheme" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -161,32 +159,31 @@
         <activity
             android:name=".HandleConnectRequestActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-
-        </activity>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".SellerActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-
-        </activity>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".SettingsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-
-        </activity>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".ConverterActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme">
-
-        </activity>
-        <activity android:name=".GHActivity"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".GHActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".GalleryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".UsersGalleryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
 
-        </activity>
     </application>
 
 </manifest>

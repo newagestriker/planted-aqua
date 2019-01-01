@@ -64,7 +64,7 @@
 
     <string name="Hair">Hair Algae or Thread algae looks like fine green hair gently swaying with the flow. It is generally caused by temporary imbalance in tank like low CO2 or ammonia spike but once its there it will stay forever unless addressed</string>
     <string name="Hairqf">Generally a combination of H2O2/glutaraldehyde followed by 3 day backout concluded by a water change seems to eradicate this algae. Amano Shrimps, Florida Flag Fish, Siamese Flag Fish and Black Molly are known to eat this algae </string>
-    <string name="Hairrf">Perform a quick fish maintain good CO2 and flow and prevent any waste build up or ammonia spike </string>
+    <string name="Hairrf">Perform a quick fix maintain good CO2 and flow and prevent any waste build up or ammonia spike </string>
 
     <string name="Clado">This is a form of branched algae which is coarse to touch. It is believed to have hitchhiked into the tank through plants or equipments. Unfortunately it strives under the same conditions required for growing plants and hence is hard to eradicate. </string>
     <string name="Cladoqf">Kill them with glutaraldehyde or H2O2.</string>
@@ -179,8 +179,8 @@
     <string name="DoNothing">Do Nothing</string>
     <string name="UserDeclined">User declined your request!!!</string>
     <string name="ViewRefreshed">View Refreshed</string>
-    <string name="AppUpdated">We noticed some changes in your app. As a result you should reboot your device for the app to function properly</string>
-    <string name="Version">Version 2.0.0</string>
+    <string name="AppUpdated">We noticed some configurational changes in your app. It is recommended that you reboot your device for the app to function properly</string>
+    <string name="Version">Version 3.0.0</string>
     <string name="Help">Help</string>
     <string name="Notifications">Notifications</string>
     <string name="CD">Image</string>

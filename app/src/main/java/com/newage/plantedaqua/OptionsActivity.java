@@ -170,7 +170,16 @@ String tankName;
                startActivity(i12);
            }
        });
+        Button testButton=findViewById(R.id.TestButton);
+        convertButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i13 = new Intent(view.getContext(), GalleryActivity.class);
+                i13.putExtra("AquariumID",aquaID);
 
+                startActivity(i13);
+            }
+        });
 
     }
 
