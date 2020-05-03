@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MicroNutrientTableActivity"
+    tools:context=".activities.MicroNutrientTableActivity"
     android:weightSum="30"
     android:orientation="vertical">
     <LinearLayout
@@ -68,7 +68,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="Gallon"
+                        android:text="US Gallon"
                         android:textSize="6sp"
                         android:textStyle="bold" />
                 </RadioGroup>
@@ -263,6 +263,21 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="deleteMicroSet"/>
+            <TextView
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:padding="5dp"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorAccent"
+                android:id="@+id/SetRecommendedMicro"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                android:background="@drawable/accent_border"
+                android:text="Set as recommended dosage"/>
 
 
         </LinearLayout>
@@ -337,7 +352,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/grey_500"
                 android:text="1"
                 android:inputType="numberDecimal"
                 android:layout_margin="1dp"
@@ -389,7 +404,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:hint="6.53"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/grey_500"
                 android:inputType="numberDecimal"
                 android:layout_margin="1dp"
                 android:background="@drawable/fillbox"
@@ -445,7 +460,7 @@
                 android:inputType="numberDecimal"
                 android:layout_margin="1dp"
                 android:background="@drawable/fillbox"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/grey_500"
                 android:textSize="12sp"
                 android:textStyle="italic" />
 
@@ -494,7 +509,7 @@
                 android:textColorHint="#aba8a8"
                 android:layout_margin="1dp"
                 android:background="@drawable/fillbox"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/grey_500"
                 android:textSize="12sp"
                 android:textStyle="italic" />
 
@@ -542,7 +557,7 @@
                 android:textColorHint="#aba8a8"
                 android:layout_margin="1dp"
                 android:background="@drawable/fillbox"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/grey_500"
                 android:textSize="12sp"
                 android:textStyle="italic" />
 
@@ -590,7 +605,7 @@
                 android:textColorHint="#aba8a8"
                 android:layout_margin="1dp"
                 android:background="@drawable/fillbox"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/grey_500"
                 android:textSize="12sp"
                 android:textStyle="italic" />
 
@@ -638,7 +653,7 @@
                 android:textColorHint="#aba8a8"
                 android:layout_margin="1dp"
                 android:background="@drawable/fillbox"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/grey_500"
                 android:textSize="12sp"
                 android:textStyle="italic" />
 
@@ -686,7 +701,7 @@
                 android:textColorHint="#aba8a8"
                 android:layout_margin="1dp"
                 android:background="@drawable/fillbox"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/grey_500"
                 android:textSize="12sp"
                 android:textStyle="italic" />
 

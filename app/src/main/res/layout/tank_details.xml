@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/gradient2"
-    tools:context=".CreateTankActivity">
+    tools:context=".activities.CreateTankActivity">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="20dp">
@@ -16,6 +16,7 @@
 
 
         <ImageView
+
             android:id="@+id/TankImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,6 +25,7 @@
             android:focusable="true"
             android:adjustViewBounds="true"/>
         <ImageView
+            android:padding="7dp"
             android:id="@+id/loadImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,9 +39,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="gone"/>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -138,12 +140,12 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:text="Price" />
 
-                <EditText
+                <TextView
                     android:id="@+id/AquariumCurrencyInput"
-                    android:layout_width="60dp"
+                    android:layout_width="30dp"
                     android:padding="10dp"
-                    android:hint="₹,$,£"
-                    android:layout_gravity="bottom"
+                    android:gravity="center"
+                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
                     />
 
@@ -257,10 +259,12 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Startup Date"
+                    android:gravity="center"
+                    android:text="Acquisition \n Date"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -275,6 +279,10 @@
                     android:layout_gravity="center"/>
 
                 <EditText
+
+                    android:hint="Tap icon for date input"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:id="@+id/StartupDateInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -307,6 +315,10 @@
                     android:layout_gravity="center"/>
 
                 <EditText
+
+                    android:hint="Tap icon for date input"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:id="@+id/DismantleDateInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -392,11 +404,13 @@
 
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -435,6 +449,7 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:inputType="numberDecimal"
                         android:id="@+id/AquariumWattageInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -457,6 +472,7 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:inputType="numberDecimal"
                         android:id="@+id/LumensPerWatt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -467,7 +483,7 @@
             </LinearLayout>
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </ScrollView>
 
 
 

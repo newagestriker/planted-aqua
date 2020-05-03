@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/gradient1"
+    tools:context=".activities.DosingGraphsActivity">
+
+    <LinearLayout
+        android:id="@+id/DosingGraphsMainLayout"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:padding="10dp"
+                android:layout_weight="1"
+                android:text="Water Change %"/>
+            <Button
+                android:id="@+id/WaterChangePercentButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:padding="10dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="50.00 %"
+
+                />
+        </LinearLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_margin="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:padding="10dp"
+                android:layout_weight="1"
+                android:text="Fertilizer Addition per dose in PPM" />
+                <ImageView
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/SaveDoseImage"
+                    android:padding="3dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/save"
+                    />
+            </LinearLayout>
+
+
+
+
+
+            <TableLayout
+                android:background="@color/grey_400"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="5">
+
+                <TableRow>
+                    <TextView
+                        android:textSize="15sp"
+                        android:padding="2dp"
+                        android:textColor="@color/white"
+                        android:layout_margin="1dp"
+                        android:background="@color/colorPrimary"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:text="N"
+                        />
+                    <TextView
+                        android:textSize="15sp"
+                        android:padding="2dp"
+                        android:textColor="@color/white"
+                        android:layout_margin="1dp"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:text="P"
+                        />
+                    <TextView
+                        android:textSize="15sp"
+                        android:padding="2dp"
+                        android:textColor="@color/white"
+                        android:layout_margin="1dp"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:text="K"
+                        />
+                    <TextView
+                        android:textSize="15sp"
+                        android:padding="2dp"
+                        android:textColor="@color/white"
+                        android:layout_margin="1dp"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:text="Ca"
+                        />
+                    <TextView
+                        android:textSize="15sp"
+                        android:padding="2dp"
+                        android:textColor="@color/white"
+                        android:layout_margin="1dp"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:text="Mg"
+                        />
+                </TableRow>
+                <TableRow>
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:id="@+id/NDoseEditText"
+                        android:textSize="15sp"
+                        android:padding="2dp"
+                        android:background="@color/white"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_margin="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:text="0"
+                        />
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:id="@+id/PDoseEditText"
+                        android:textSize="15sp"
+                        android:padding="2dp"
+                        android:background="@color/white"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_margin="1dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:text="0"
+                        />
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:id="@+id/KDoseEditText"
+                        android:textSize="15sp"
+                        android:padding="2dp"
+                        android:background="@color/white"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_margin="1dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:text="0"
+                        />
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:id="@+id/CDoseEditText"
+                        android:textSize="15sp"
+                        android:padding="2dp"
+                        android:background="@color/white"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_margin="1dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:text="0"
+                        />
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:id="@+id/MDoseEditText"
+                        android:textSize="15sp"
+                        android:padding="2dp"
+                        android:background="@color/white"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_margin="1dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:text="0"
+                        />
+                </TableRow>
+
+
+            </TableLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+            android:layout_margin="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:padding="10dp"
+                android:layout_weight="1"
+                android:text="Fertilizer Uptake per dose in PPM" />
+            <ImageView
+                android:clickable="true"
+                android:focusable="true"
+                android:id="@+id/SaveUptakeImage"
+                android:padding="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/save"
+                />
+        </LinearLayout>
+
+
+
+
+
+    <TableLayout
+        android:background="@color/grey_400"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="5">
+
+        <TableRow>
+            <TextView
+                android:textSize="15sp"
+                android:padding="2dp"
+                android:textColor="@color/white"
+                android:layout_margin="1dp"
+                android:background="@color/colorPrimary"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="N"
+                />
+            <TextView
+                android:textSize="15sp"
+                android:padding="2dp"
+                android:textColor="@color/white"
+                android:layout_margin="1dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="P"
+                />
+            <TextView
+                android:textSize="15sp"
+                android:padding="2dp"
+                android:textColor="@color/white"
+                android:layout_margin="1dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="K"
+                />
+            <TextView
+                android:textSize="15sp"
+                android:padding="2dp"
+                android:textColor="@color/white"
+                android:layout_margin="1dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="Ca"
+                />
+            <TextView
+                android:textSize="15sp"
+                android:padding="2dp"
+                android:textColor="@color/white"
+                android:layout_margin="1dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="Mg"
+                />
+        </TableRow>
+        <TableRow>
+            <EditText
+                android:inputType="numberDecimal"
+                android:id="@+id/NUptakeEditText"
+                android:textSize="15sp"
+                android:padding="2dp"
+                android:background="@color/white"
+                android:textColor="@color/colorPrimary"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="0"
+                />
+            <EditText
+                android:inputType="numberDecimal"
+                android:id="@+id/PUptakeEditText"
+                android:textSize="15sp"
+                android:padding="2dp"
+                android:background="@color/white"
+                android:textColor="@color/colorPrimary"
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="0"
+                />
+            <EditText
+                android:inputType="numberDecimal"
+                android:id="@+id/KUptakeEditText"
+                android:textSize="15sp"
+                android:padding="2dp"
+                android:background="@color/white"
+                android:textColor="@color/colorPrimary"
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="0"
+                />
+            <EditText
+                android:inputType="numberDecimal"
+                android:id="@+id/CUptakeEditText"
+                android:textSize="15sp"
+                android:padding="2dp"
+                android:background="@color/white"
+                android:textColor="@color/colorPrimary"
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="0"
+                />
+            <EditText
+                android:inputType="numberDecimal"
+                android:id="@+id/MUptakeEditText"
+                android:textSize="15sp"
+                android:padding="2dp"
+                android:background="@color/white"
+                android:textColor="@color/colorPrimary"
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="0"
+                />
+        </TableRow>
+
+
+    </TableLayout>
+        </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_margin="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/DosingChart1"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+
+    </com.github.mikephil.charting.charts.LineChart>
+    </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_margin="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/DosingChart2"
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="250dp">
+
+            </com.github.mikephil.charting.charts.LineChart>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</ScrollView>

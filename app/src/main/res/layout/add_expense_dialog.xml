@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+<TableLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <TableRow
+
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="5">
+
+        <LinearLayout
+
+            android:layout_marginEnd="1dp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+
+            >
+
+
+
+        <TextView
+
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:padding="2dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="Date"/>
+
+            <ImageView
+                android:clickable="true"
+                android:focusable="true"
+                android:id="@+id/PickDateExpenseDialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/calendar">
+
+            </ImageView>
+
+        </LinearLayout>
+        <TextView
+            android:layout_marginEnd="1dp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_marginRight="1dp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:padding="3dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Tank Name"/>
+        <TextView
+            android:layout_marginEnd="1dp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_marginRight="1dp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:padding="3dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Item Name"/>
+        <TextView
+            android:layout_marginEnd="1dp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_marginRight="1dp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:padding="3dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Quantity"/>
+        <TextView
+
+            android:background="@color/colorPrimaryDark"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:padding="3dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Price per unit"/>
+
+
+
+
+
+
+    </TableRow>
+
+
+    <TableRow
+        android:background="@color/grey_200"
+
+        android:weightSum="5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+
+        >
+
+
+
+        <TextView
+
+            android:hint="@string/press_above_icon"
+            android:layout_marginBottom="1dp"
+
+
+            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
+            android:background="@color/white"
+            android:id="@+id/ExpenseDateInput"
+            android:textStyle="italic"
+            android:padding="2dp"
+            android:textSize="12sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+
+            android:layout_height="match_parent" />
+        <EditText
+            android:layout_marginBottom="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
+            android:background="@color/white"
+            android:id="@+id/ExpenseTankNameInput"
+            android:padding="2dp"
+            android:textSize="12sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            />
+        <EditText
+            android:layout_marginBottom="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
+            android:background="@color/white"
+            android:id="@+id/ExpenseItemNameInput"
+            android:padding="2dp"
+            android:textSize="12sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            />
+        <EditText
+            android:inputType="numberDecimal"
+            android:hint="@string/_1"
+            android:layout_marginBottom="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
+            android:background="@color/white"
+            android:id="@+id/ExpenseQuantityInput"
+            android:padding="2dp"
+            android:textSize="12sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            />
+
+        <EditText
+            android:inputType="numberDecimal"
+            android:hint="@string/_0"
+            android:layout_marginBottom="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
+            android:background="@color/white"
+            android:id="@+id/ExpensePricePerUnitInput"
+            android:padding="2dp"
+            android:textSize="12sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+
+    </TableRow>
+
+</TableLayout>
+
+
+
+</LinearLayout>

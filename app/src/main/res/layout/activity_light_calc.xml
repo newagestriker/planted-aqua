@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/gradient1"
+    tools:context=".activities.LightCalcActivity"
+
+
+    >
+
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+   >
+
+    <androidx.cardview.widget.CardView
+        android:layout_margin="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:gravity="center"
+            android:weightSum="6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <TextView
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/light_zone"
+            android:layout_weight="2"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            />
+            <TextView
+                android:id="@+id/LightZone"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/light_zone"
+                android:layout_weight="2"
+                android:textColor="@color/colorPrimaryDark"
+
+                android:textSize="20sp"
+                />
+
+            <Button
+
+                android:gravity="center"
+                android:id="@+id/calculateLSI"
+                android:layout_weight="2"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:text="@string/calculate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:padding="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:text="@string/disclaimer_the_information_provided_above_is_suggestive_only_planted_aqua_owners_are_not_responsible_for_any_loss_incurred_while_following_this_information"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="3dp">
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:padding="2dp"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/metric"
+                android:textSize="15sp">
+
+            </TextView>
+
+            <Spinner
+                android:id="@+id/MetricSpinner"
+                style="@android:style/Widget.Holo.Light.Spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </Spinner>
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="2dp"
+                        android:text="LSI on substrate"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="15sp"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/lsi_output"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="2dp"
+                        android:text="@string/not_calculated"
+                        android:textSize="15sp">
+
+                    </TextView>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+        </LinearLayout>
+        <TableLayout
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TableRow
+                android:background="@color/grey_400"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/grey_200"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/length"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="15sp"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/grey_200"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/width"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="15sp"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/grey_200"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/height"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="15sp"
+                    android:textStyle="bold">
+
+                </TextView>
+
+            </TableRow>
+
+            <TableRow
+                android:weightSum="3"
+                android:background="@color/grey_400"
+                >
+                <EditText
+                    android:hint="@string/_1"
+                    android:id="@+id/TankLength"
+                    android:layout_margin="1dp"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:inputType="numberDecimal"
+                    android:padding="5dp">
+
+                </EditText>
+                <EditText
+                    android:hint="@string/_1"
+                    android:id="@+id/TankWidth"
+                    android:background="@color/white"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:inputType="numberDecimal"
+                    android:padding="5dp">
+
+                </EditText>
+                <EditText
+                    android:hint="@string/_1"
+                    android:id="@+id/TankHeight"
+                    android:background="@color/white"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:inputType="numberDecimal"
+                    android:padding="5dp">
+
+                </EditText>
+
+            </TableRow>
+
+        </TableLayout>
+
+
+        <TableLayout
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TableRow
+                android:weightSum="2"
+                android:background="@color/grey_400"
+                >
+                <TextView
+                    android:layout_margin="1dp"
+                    android:background="@color/grey_200"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:text="@string/light_distance_from_water_surface"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:padding="5dp">
+
+                </TextView>
+                <TextView
+                    android:layout_margin="1dp"
+                    android:background="@color/grey_200"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:text="@string/substrate_depth"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:padding="5dp">
+
+                </TextView>
+
+            </TableRow>
+
+            <TableRow
+                android:weightSum="2"
+                android:background="@color/grey_400"
+                >
+                <EditText
+                    android:hint="@string/_1"
+                    android:id="@+id/SurfaceDistance"
+                    android:layout_margin="1dp"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:inputType="numberDecimal"
+                    android:padding="5dp">
+
+                </EditText>
+                <EditText
+                    android:hint="@string/_1"
+                    android:id="@+id/SubstrateDepth"
+                    android:background="@color/white"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:inputType="numberDecimal"
+                    android:padding="5dp">
+
+                </EditText>
+
+            </TableRow>
+
+        </TableLayout>
+
+        <TableLayout
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TableRow
+                android:weightSum="3"
+                android:background="@color/grey_400"
+                >
+                <TextView
+                    android:layout_margin="1dp"
+                    android:background="@color/grey_200"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="@string/reflector"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:padding="5dp">
+
+                </TextView>
+                <TextView
+                    android:layout_margin="1dp"
+                    android:background="@color/grey_200"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="@string/efficiency"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:padding="5dp">
+
+                </TextView>
+
+
+            </TableRow>
+
+            <TableRow
+                android:weightSum="3"
+                android:background="@color/white"
+                >
+                <Spinner
+                    style="@android:style/Widget.Holo.Light.Spinner"
+                    android:id="@+id/Reflector"
+                    android:layout_margin="1dp"
+
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:padding="5dp">
+
+                </Spinner>
+                <EditText
+                    android:id="@+id/Efficiency"
+                    android:hint="@string/_1"
+                    android:background="@drawable/ok_button_background"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:inputType="numberDecimal"
+                    android:padding="5dp">
+
+                </EditText>
+
+
+            </TableRow>
+
+
+
+
+        </TableLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/OtherReflectorCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+            <LinearLayout
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="match_parent">
+            <TextView
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textColor="@color/colorAccent"
+                android:textSize="15sp"
+                android:layout_margin="2dp"
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_reflector_name"/>
+                <Button
+                    android:id="@+id/Recalculate"
+                    android:layout_weight="1"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:text="@string/recalculate"
+                    android:textSize="15sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <EditText
+                android:textSize="12sp"
+                android:layout_margin="2dp"
+                android:padding="10dp"
+                android:id="@+id/ReflectorName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Others"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:weightSum="11"
+                    android:background="@color/grey_200"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <TextView
+                    android:padding="3dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_weight="10"
+                    android:text="@string/installed_lights"
+                    android:gravity="center"/>
+
+
+                <ImageView
+                    android:id="@+id/AddLights"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/add"/>
+                </LinearLayout>
+
+                <TableLayout
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <TableRow
+                    android:weightSum="6.25"
+                    android:background="@color/grey_400"
+                    >
+                    <TextView
+                        android:layout_margin="1dp"
+                        android:background="@color/grey_200"
+                        android:gravity="center"
+                        android:layout_weight="2"
+                        android:layout_height="match_parent"
+                        android:layout_width="0dp"
+                        android:text="@string/light_type"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:padding="3dp">
+
+                    </TextView>
+                    <TextView
+                        android:layout_margin="1dp"
+                        android:background="@color/grey_200"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:layout_width="0dp"
+                        android:text="@string/lumens_per_watt"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:padding="3dp">
+
+                    </TextView>
+                    <TextView
+                        android:layout_margin="1dp"
+                        android:background="@color/grey_200"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:layout_width="0dp"
+                        android:text="@string/count"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:padding="3dp">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_margin="1dp"
+                        android:background="@color/grey_200"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:layout_width="0dp"
+                        android:text="@string/watt_per_count"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:padding="3dp">
+
+                    </TextView>
+                    <TextView
+                        android:layout_margin="1dp"
+                        android:background="@color/grey_200"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:layout_width="0dp"
+                        android:text="@string/effective_lumens"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:padding="3dp">
+
+                    </TextView>
+                    <LinearLayout
+                        android:layout_margin="1dp"
+                        android:layout_weight=".25"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:background="@color/grey_200"
+                        >
+                    <ImageView
+
+
+                        android:id="@+id/DeleteAllLightData"
+
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/delete_values"
+                        />
+                    </LinearLayout>
+
+                </TableRow>
+                </TableLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/LightRecylerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+</LinearLayout>
+</ScrollView>

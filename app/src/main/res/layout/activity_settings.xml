@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsActivity"
+    tools:context=".activities.SettingsActivity"
     android:background="@drawable/gradient2">
 
     <ScrollView
@@ -13,6 +13,57 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/accent"
+                android:text="Defaults"
+                android:layout_margin="10dp"
+                android:textSize="25sp"/>
+            <View
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorPrimary">
+
+
+            </View>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/LinearCurrencyType"
+                android:clickable="true"
+                android:focusable="true">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Currency Symbol"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:id="@+id/CurrencySymbolTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="$, £, ₹, etc"
+                    android:textStyle="italic"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_margin="10dp"
+                android:background="@color/colorPrimary">
+            </View>
+
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,8 +99,8 @@
                 android:id="@+id/UserTypeTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Test"
-                android:textStyle="bold|italic"
+                android:hint="Hobbyist or Seller"
+                android:textStyle="italic"
                 android:textColor="@color/colorPrimary"
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_margin="10dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        android:padding="5dp"
+        android:text="Help"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="8">
+
+        <ImageView
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/addpic"
+            />
+
+        <TextView
+            android:layout_weight="7"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Press this icon on Menu Bar to ADD a new TANK and unlock several utilities."/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:weightSum="8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/options_menu"
+            />
+
+        <TextView
+            android:layout_weight="7"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Press this icon on any created TANK model to ACCESS additional options."/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:weightSum="8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/edit_tanks"
+            />
+        <TextView
+            android:layout_weight="7"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Press this icon on any created TANK model to EDIT the TANK details."/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:weightSum="8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/info_tanks"
+            />
+        <TextView
+            android:layout_weight="7"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Press this icon on any created TANK model for information on the TANKS."/>
+    </LinearLayout>
+
+
+    <TextView
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="SWIPE right or left any TANK model to remove it."/>
+    <Button
+        android:id="@+id/help_ok_button2"
+        android:layout_margin="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ok_button_background"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        android:text="OK"/>
+
+</LinearLayout>

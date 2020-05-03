@@ -6,4 +6,9 @@
         android:title="AddDetails"
         android:icon="@drawable/addpic"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/Help"
+        android:title="AddDetails"
+        android:icon="@drawable/help"
+        app:showAsAction="ifRoom"/>
 </menu>

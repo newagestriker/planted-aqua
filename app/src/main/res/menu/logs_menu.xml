@@ -2,7 +2,7 @@
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Logs">
+    tools:context=".activities.LogsActivity">
     <item
         android:id="@+id/ClearLog"
         android:title="@string/ClearLog"

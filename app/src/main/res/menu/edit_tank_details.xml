@@ -3,7 +3,7 @@
     <menu xmlns:tools="http://schemas.android.com/tools"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".CreateTankActivity">
+        tools:context=".activities.CreateTankActivity">
         <item
             android:id="@+id/Save"
             android:title="save"

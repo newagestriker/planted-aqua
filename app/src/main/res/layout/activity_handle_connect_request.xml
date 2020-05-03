@@ -1,37 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_gravity="center"
+
     android:background="@drawable/gradient4"
-    tools:context=".HandleConnectRequestActivity">
+    tools:context=".activities.HandleConnectRequestActivity">
 
-    <LinearLayout
 
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+   >
+
+        <androidx.cardview.widget.CardView
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:translationZ="1dp"
+            android:id="@+id/DPCardView"
+            app:cardCornerRadius="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:adjustViewBounds="true"
+                android:id="@+id/DisplayPic"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:src="@drawable/noimage"
+                />
+        </androidx.cardview.widget.CardView>
+
+
+
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="10dp"
+        android:layout_marginTop="-20dp"
+        android:backgroundTint="@color/colorAccent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_margin="5dp"
-            android:id="@+id/DisplayPic"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:scaleType="centerCrop" />
+        android:layout_height="wrap_content">
 
         <TextView
+            android:layout_margin="5dp"
+            android:background="@color/white"
+            android:padding="10dp"
             android:id="@+id/DisplayName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:textSize="15sp" />
+            android:textSize="18sp" />
+    </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
 
     <TextView
         android:id="@+id/ConnectBanner"
@@ -42,9 +70,11 @@
         android:text="@string/AskUser"
         android:gravity="center"/>
     <EditText
+        android:padding="10dp"
+        android:background="@drawable/ok_button_background"
         android:id="@+id/UserResponse"
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/YourMessage"
         android:layout_margin="5dp"/>
@@ -82,3 +112,5 @@
     </LinearLayout>
 
 </LinearLayout>
+
+</ScrollView>

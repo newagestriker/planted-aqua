@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearTankDetails"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/gradient2"
+   >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="20dp">
+
+
+
+        <ImageView
+            android:id="@+id/TankImageInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/aquarium2"
+            android:clickable="true"
+            android:focusable="true"
+            android:adjustViewBounds="true"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:padding="5dp"
+                    android:textSize="15sp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="Aquarium Name"
+                    />
+
+                <TextView
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="italic"
+                    android:textSize="12sp"
+                    android:id="@+id/AquariumNameText"
+                    android:layout_width="match_parent"
+                    android:padding="5dp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Test"
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:padding="5dp"
+                    android:textSize="15sp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="Aquarium Type"
+                    />
+                <TextView
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="italic"
+                    android:textSize="12sp"
+                    android:id="@+id/AquariumTypeText"
+                    android:layout_width="match_parent"
+                    android:padding="5dp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Test"
+                    />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:padding="5dp"
+                    android:textSize="15sp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="Price" />
+
+                <TextView
+                    android:id="@+id/AquariumCurrencyText"
+                    android:layout_width="30dp"
+                    android:padding="5dp"
+                    android:textSize="12sp"
+                    android:text="$"
+                    android:textColor="@color/colorAccent"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    />
+
+                <TextView
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="italic"
+                    android:textSize="12sp"
+                    android:id="@+id/AquariumPriceText"
+                    android:layout_width="match_parent"
+                    android:padding="5dp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Test"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:padding="5sp"
+                    android:textSize="15sp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="Volume" />
+
+                <TextView
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="italic"
+                    android:textSize="12sp"
+                    android:id="@+id/AquariumVolumeText"
+                    android:layout_width="wrap_content"
+                    android:padding="5dp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Test"
+                    />
+
+                <TextView
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="italic"
+                    android:textSize="12sp"
+                    android:id="@+id/AquariumMetricText"
+                    android:layout_width="match_parent"
+                    android:padding="5dp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Test"
+                    />
+
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:padding="5dp"
+                    android:textSize="15sp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="Current Status"
+                    />
+
+
+                <TextView
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="italic"
+                    android:textSize="12sp"
+                    android:id="@+id/AquariumStatusText"
+                    android:layout_width="match_parent"
+                    android:padding="5dp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Test"
+                    />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:gravity="center"
+                    android:text="Acquisition Date"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+
+
+                <TextView
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="italic"
+                    android:textSize="12sp"
+                    android:id="@+id/AquariumAcDateText"
+                    android:layout_width="match_parent"
+                    android:padding="5dp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Test"
+                    />
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Dismantle Date"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="italic"
+                    android:textSize="12sp"
+                    android:id="@+id/AquariumDisDateText"
+                    android:layout_width="match_parent"
+                    android:padding="5dp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Test"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:padding="5dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="15sp"
+                    android:text="Carbon Dioxide Supply"
+                    />
+                <TextView
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="italic"
+                    android:textSize="12sp"
+                    android:id="@+id/AquariumCo2Text"
+                    android:layout_width="match_parent"
+                    android:padding="5dp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Test"
+                    />
+
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:padding="5dp"
+                        android:textSize="15sp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="Light Type" />
+
+                    <TextView
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="italic"
+                        android:textSize="12sp"
+                        android:id="@+id/AquariumLightTypeText"
+                        android:layout_width="match_parent"
+                        android:padding="5dp"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:text="Test"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Wattage"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="italic"
+                        android:textSize="12sp"
+                        android:id="@+id/AquariumWattageText"
+                        android:layout_width="match_parent"
+                        android:padding="5sp"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:text="Test"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Lumens per watt"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="italic"
+                        android:textSize="12sp"
+                        android:id="@+id/AquariumLumensText"
+                        android:layout_width="match_parent"
+                        android:padding="5dp"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:text="Test"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</LinearLayout>

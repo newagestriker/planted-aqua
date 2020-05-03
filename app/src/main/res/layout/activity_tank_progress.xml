@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/gradient2"
-    tools:context=".CreateTankActivity">
+    tools:context=".activities.CreateTankActivity">
     <ProgressBar
         android:id="@+id/progressTank"
         android:layout_width="wrap_content"
@@ -16,13 +16,13 @@
         android:visibility="gone"
         />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/albumRecyclerView"
         android:layout_margin="5dp">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 

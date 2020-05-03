@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TableLayout
+        android:layout_marginBottom="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TableRow
+            android:weightSum="6.25"
+            android:background="@color/white"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            >
+            <TextView
+                android:id="@+id/LightText"
+                android:background="@color/grey_200"
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:textSize="12sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:padding="5dp">
+
+            </TextView>
+
+            <TextView
+                android:background="@color/grey_200"
+                android:id="@+id/LumensWattText"
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:textSize="12sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:padding="5dp">
+
+            </TextView>
+            <TextView
+                android:id="@+id/LightCountText"
+                android:layout_margin="1dp"
+                android:background="@color/grey_200"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:textSize="12sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:padding="5dp">
+
+            </TextView>
+            <TextView
+                android:id="@+id/WattPerCountText"
+                android:background="@color/grey_200"
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:textSize="12sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:padding="5dp">
+
+            </TextView>
+            <TextView
+                android:id="@+id/EffectiveLumensText"
+                android:background="@color/grey_200"
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:textSize="12sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:padding="5dp">
+
+            </TextView>
+
+            <LinearLayout
+                android:layout_weight=".25"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@color/grey_200"
+                >
+                <ImageView
+                    android:layout_margin="1dp"
+
+                    android:id="@+id/DeleteLight"
+
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/delete_values"
+                    />
+            </LinearLayout>
+
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GHActivity"
+    tools:context=".activities.GHActivity"
     android:background="@drawable/gradient1"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="3dp">
@@ -40,6 +40,7 @@
             android:inputType="numberDecimal"
             android:layout_height="wrap_content" />
         <Spinner
+            style="@android:style/Widget.Holo.Light.Spinner"
             android:id="@+id/VolumeUnitSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -120,17 +121,18 @@
 
     </LinearLayout>
     <Button
+        style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/GHOKButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="OK"
         android:onClick="calculateMix"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/white"
         android:textStyle="bold"/>
 </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
@@ -165,6 +167,6 @@
            />
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

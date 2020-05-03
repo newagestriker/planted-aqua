@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient1"
-    tools:context=".OptionsActivity"
+    tools:context=".activities.OptionsActivity"
     android:orientation="vertical">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -15,6 +15,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:weightSum="10">
+
+                <ImageView
+                    android:id="@+id/InsightImage"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/insight" />
+
+                <Button
+                    android:id="@+id/InsightButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="9"
+                    android:background="@android:color/transparent"
+                    android:gravity="start|center"
+                    android:padding="5dp"
+                    android:text="Tank Insights"
+                    android:textAllCaps="false"
+                    android:textColor="#097026"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +72,7 @@
             android:padding="5dp"
             android:background="@android:color/transparent"
             android:gravity="start|center"
-            android:text="Macro Dosage Calculator                     "
+            android:text="Macro Dosage Calculator"
             android:textAllCaps="false"
             android:textColor="#097026"
             android:textSize="20sp" />
@@ -70,7 +102,7 @@
             android:padding="5dp"
             android:background="@android:color/transparent"
             android:gravity="start|center"
-            android:text="Micro Dosage Calculator                     "
+            android:text="Micro Dosage Calculator"
             android:textAllCaps="false"
             android:textColor="#097026"
             android:textSize="20sp" />
@@ -90,10 +122,10 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="@drawable/algae" />
+            android:src="@drawable/light" />
 
         <Button
-            android:id="@+id/algaeguide"
+            android:id="@+id/LightCalculatorButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -101,7 +133,7 @@
             android:padding="5dp"
             android:background="@android:color/transparent"
             android:gravity="start|center"
-            android:text="Algae guide"
+            android:text="Light Calculator"
             android:textAllCaps="false"
             android:textColor="#097026"
             android:textSize="20sp" />
@@ -329,15 +361,15 @@
                 android:weightSum="10">
 
                 <ImageView
-                    android:id="@+id/TestImage"
+                    android:id="@+id/DosingImage"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/converter" />
+                    android:src="@drawable/chart" />
 
                 <Button
-                    android:id="@+id/TestButton"
+                    android:id="@+id/DosingButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -345,7 +377,7 @@
                     android:background="@android:color/transparent"
                     android:gravity="start|center"
                     android:padding="5dp"
-                    android:text="Test"
+                    android:text="Nutrient Accumulation  BETA"
                     android:textAllCaps="false"
                     android:textColor="#097026"
                     android:textSize="20sp" />
@@ -354,8 +386,10 @@
 
 
 
+
+
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 </LinearLayout>

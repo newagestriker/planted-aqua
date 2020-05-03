@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".TasksActivity$PlaceholderFragment">
+    tools:context=".activities.TasksActivity$PlaceholderFragment">
 
 
 
@@ -28,11 +28,12 @@
                 android:gravity="center"
                 android:text="Schedule"
                 android:textColor="@color/highlight"
-                android:textSize="25sp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
-            <android.support.design.widget.FloatingActionButton
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/addDosageSchedule"
+                android:gravity="center"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -50,7 +51,7 @@
 
 
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/menuRecyclerView"
@@ -58,7 +59,7 @@
 
             android:layout_margin="5dp">
 
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
 
 

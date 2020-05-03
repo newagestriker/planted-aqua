@@ -20,7 +20,7 @@
     <string name="title_activity_algae">Algae Guide</string>
 
     <string name="BBA">If you are plagued by black tufts of algae like the bristles of a paint brush, think no further;
-    You have got black beard algae. The main cause of this algae is low CO2 without doubt.It ia also possible that there is poor flow
+    You have got black beard algae. The main cause of this algae is low CO2 without doubt.It is also possible that there is poor flow
         in the tank and as such the CO2 is not well distributed. You will observe it more in regions of poor flow.</string>
     <string name="BBAqf">Excel or Glutaraldehyde seems to kill this algae very effectively. Turn off filter and pour the recommended dose of excel on the
     affected areas with a syringe. Very soon it will turn pink and die off.</string>
@@ -133,11 +133,11 @@
     <string name="PleaseWait">Please wait</string>
     <string name="Loggedout">User Logged out</string>
     <string name="NoUserMsg">You must first login to access this feature</string>
-    <string name="Nearby">Who\'s Nearby\ \  BETA</string>
+    <string name="Nearby">Who\'s Nearby</string>
     <string name="Error">Error!!!</string>
     <string name="ppm">\nppm per dose</string>
     <string name="Add">ADD</string>
-    <string name="Gram">\nGrams</string>
+    <string name="Gram">Grams</string>
     <string name="PermRationale">Permissions for Storage and Camera needs to be granted to access this feature</string>
     <string name="title_activity_maps">Map</string>
     <string name="MapsPermRationale">Permissions for Location needed to access this feature</string>
@@ -179,14 +179,15 @@
     <string name="DoNothing">Do Nothing</string>
     <string name="UserDeclined">User declined your request!!!</string>
     <string name="ViewRefreshed">View Refreshed</string>
-    <string name="AppUpdated">We noticed some configurational changes in your app. It is recommended that you reboot your device for the app to function properly</string>
-    <string name="Version">Version 3.0.0</string>
+    <string name="AppUpdated">We noticed some configuration changes in your app. It is recommended that you reboot your device for the app to function properly</string>
+    <string name="Version">Version 8.3.1</string>
     <string name="Help">Help</string>
     <string name="Notifications">Notifications</string>
     <string name="CD">Image</string>
     <string name="AddItems">Add Your Items</string>
     <string name="Description">Description</string>
     <string name="Availability">Availability</string>
+
     <string name="Uploading">Uploading Data\.\.\.Please Wait\.\.\.</string>
     <string name="Owner">Owner</string>
     <string name="Shop">Shop</string>
@@ -195,10 +196,81 @@
     <string name="SellerShopMsg">Please visit the "Shop" section to add items to your shop</string>
     <string name="FixLoc">FIX LOCATION</string>
     <string name="Specialization">Freshwater Plants and Fishes..etc..</string>
-    <string name="DealsIn">DEALS IN</string>
+    <string name="DealsIn">Deals in</string>
     <string name="Settings">Settings</string>
     <string name="User">User Type</string>
     <string name="NoFert">You must specify a Fertilizer Dosing Regimen in Task section!!</string>
+    <string name="Icons8">Icons sponsor : Icons8</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="metric">Metric</string>
+    <string name="length">Length</string>
+    <string name="width">Width</string>
+    <string name="height">Height</string>
+    <string name="light_distance_from_water_surface">Light distance from water surface</string>
+    <string name="substrate_depth">Substrate depth</string>
+    <string name="reflector">Reflector</string>
+    <string name="efficiency">Efficiency</string>
+    <string name="enter_reflector_name">Enter Reflector Name</string>
+    <string name="recalculate">RECALCULATE</string>
+    <string name="installed_lights">Installed Lights</string>
+    <string name="light_type">Light Type</string>
+    <string name="lumens_per_watt">Lumens Per Watt</string>
+    <string name="count">Count</string>
+    <string name="watt_per_count">Watt per Count</string>
+    <string name="effective_lumens">Effective Lumens</string>
+    <string name="light_zone">Light Zone</string>
+    <string name="disclaimer_the_information_provided_above_is_suggestive_only_planted_aqua_owners_are_not_responsible_for_any_loss_incurred_while_following_this_information">Disclaimer : The information provided above is suggestive only. Planted Aqua owners are not responsible for any loss incurred while following this information.</string>
+    <string name="_1">1</string>
+    <string name="calculate">CALCULATE</string>
+    <string name="lsi">LSI</string>
+    <string name="not_calculated">not calculated</string>
+    <string name="tank_name">Tank Name</string>
+    <string name="day">Day</string>
+    <string name="notes">Notes :</string>
+    <string name="learning">Learning :</string>
+    <string name="date">Date</string>
+    <string name="clear">Clear</string>
+    <string name="press_above_icon">Press above icon</string>
+    <string name="_0">0</string>
+    <string name="cloud_storage_error">Some error occurred!!. Make sure the image is from your phone storage..</string>
+    <string name="unknown_error">Some error occurred!!</string>
+    <string name="black_brush_algae">Black Brush Algae</string>
+    <string name="cause">Cause</string>
+    <string name="quick_fix">Quick Fix</string>
+    <string name="root_fix">Root Fix</string>
+    <string name="no_reco">There are no Recommendations</string>
+    <string name="reco">Recommendations</string>
+    <string name="item_name">Item Name</string>
+    <string name="total_spent">Total Spent</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+    <string name="end_date">End Date</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="planted_aqua">Planted Aqua</string>
+    <string name="_000">0.00</string>
+    <string name="no_tank_found">No Tank found having such name!!</string>
+    <string name="multiple_tanks_found">Multiple Tanks found having the same name!! Please use unique names for Tanks.</string>
+    <string name="expense_report_generated">Your Monthly expense report is generated</string>
+    <string name="delete_all_expense">This action will clear all your expenses!! Do you want to continue?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="users_gallery">Users Gallery</string>
+    <string name="micro_calculator">Micro Calculator</string>
+    <string name="macro_calculator">Macro Calculator</string>
+    <string name="converters">Converters</string>
+    <string name="expense">Expense</string>
+    <string name="shout_box">Shout Box</string>
+    <string name="expense_beta">Expense BETA</string>
+    <string name="suggested_reco">Disclaimer : The recommendations provided below is suggestive only. Planted Aqua owners are not responsible for any loss incurred while following these recommendations.</string>
+    <string name="recommendations">Recommendations</string>
+    <string name="seller_contact_info">Contact Info</string>
+    <string name="my_chats">My Chats</string>
+    <string name="my_chats_beta">My Chats BETA</string>
+    <string name="connections">Connections</string>
+    <string name="messages">Messages</string>
 
 
 </resources>

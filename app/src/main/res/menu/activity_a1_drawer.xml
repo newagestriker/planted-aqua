@@ -23,7 +23,31 @@
         <item
             android:id="@+id/nav_users_gallery"
             android:icon="@drawable/gallery"
-            android:title="Users Gallery" />
+            android:title="@string/users_gallery" />
+        <item
+            android:id="@+id/nav_micro_calc"
+            android:icon="@drawable/table_bw"
+            android:title="@string/micro_calculator" />
+        <item
+            android:id="@+id/nav_macro_calc"
+            android:icon="@drawable/table_bw"
+            android:title="@string/macro_calculator" />
+        <item
+            android:id="@+id/nav_converter"
+            android:icon="@drawable/converter_filled"
+            android:title="@string/converters" />
+        <item
+            android:id="@+id/nav_wallet"
+            android:icon="@drawable/expense"
+            android:title="@string/expense" />
+        <item
+            android:id="@+id/nav_chatbox"
+            android:icon="@drawable/shout"
+            android:title="@string/shout_box" />
+        <item
+            android:id="@+id/nav_my_chats"
+            android:icon="@drawable/chats"
+            android:title="@string/my_chats_beta" />
 
     </group>
 
@@ -41,6 +65,9 @@
             <item
                 android:id="@+id/nav_help"
                 android:title="@string/Help" />
+            <item
+                android:id="@+id/nav_icons8"
+                android:title="@string/Icons8" />
 
         </menu>
     </item>

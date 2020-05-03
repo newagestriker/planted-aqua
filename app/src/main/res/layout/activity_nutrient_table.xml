@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MacroNutrientTableActivity"
+    tools:context=".activities.MacroNutrientTableActivity"
     android:weightSum="30"
     android:orientation="vertical">
     <LinearLayout
@@ -68,7 +68,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="Gallon"
+                        android:text="US Gallon"
                         android:textSize="6sp"
                         android:textStyle="bold" />
                 </RadioGroup>
@@ -266,6 +266,22 @@
                 android:focusable="true"
                 android:onClick="deleteSet"/>
 
+            <TextView
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:background="@drawable/accent_border"
+                android:padding="5dp"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorAccent"
+                android:id="@+id/SetRecommendedMacro"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                android:text="Set as recommended dosage"/>
+
 
         </LinearLayout>
     </LinearLayout>
@@ -301,7 +317,7 @@
 
 
 
-        <CheckBox
+        <TextView
             android:id="@+id/gNO3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -312,7 +328,7 @@
             android:textSize="12sp"
             android:textStyle="bold" />
 
-        <CheckBox
+        <TextView
             android:id="@+id/gPO4"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -324,7 +340,7 @@
             android:textStyle="bold" />
 
 
-        <CheckBox
+        <TextView
             android:id="@+id/gK"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -335,7 +351,7 @@
             android:textSize="12sp"
             android:textStyle="bold" />
 
-        <CheckBox
+        <TextView
             android:id="@+id/gMg"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -345,7 +361,7 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="12sp"
             android:textStyle="bold" />
-        <CheckBox
+        <TextView
             android:id="@+id/gCa"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -579,7 +595,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:hint="30 ppm"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/grey_500"
                 android:inputType="numberDecimal"
                 android:layout_margin="1dp"
                 android:background="@drawable/fillbox"
@@ -679,11 +695,11 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:hint="20 ppm"
+                android:textColor="@color/grey_500"
                 android:textColorHint="#aba8a8"
                 android:inputType="numberDecimal"
                 android:layout_margin="1dp"
                 android:background="@drawable/fillbox"
-                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp"
                 android:textStyle="italic" />
 
@@ -778,10 +794,10 @@
                 android:gravity="center"
                 android:inputType="numberDecimal"
                 android:hint="3 ppm"
+                android:textColor="@color/grey_500"
                 android:textColorHint="#aba8a8"
                 android:layout_margin="1dp"
                 android:background="@drawable/fillbox"
-                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp"
                 android:textStyle="italic" />
 
@@ -879,7 +895,7 @@
                 android:inputType="numberDecimal"
                 android:gravity="center"
                 android:hint="10 ppm"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/grey_500"
                 android:textColorHint="#aba8a8"
                 android:textSize="12sp"
                 android:textStyle="italic" />
@@ -972,11 +988,11 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:hint="30 ppm"
+                android:textColor="@color/grey_500"
                 android:inputType="numberDecimal"
                 android:textColorHint="#aba8a8"
                 android:layout_margin="1dp"
                 android:background="@drawable/fillbox"
-                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp"
                 android:textStyle="italic" />
             <TextView
