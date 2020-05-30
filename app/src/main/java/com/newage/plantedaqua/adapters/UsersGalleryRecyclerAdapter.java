@@ -80,7 +80,7 @@ public class UsersGalleryRecyclerAdapter extends RecyclerView.Adapter<UsersGalle
     @Override
     public void onBindViewHolder(@NonNull UsersGalleryRecyclerAdapter.RecyclerViewHolder recyclerViewHolder, int i) {
 
-        setImage(i,recyclerViewHolder.galleyItemImageView,recyclerViewHolder.progressBar);
+        setImage(i,recyclerViewHolder.galleyItemImageView);
 
         if(TextUtils.isEmpty(arrayList.get(i).getFacebookURL())) {
             recyclerViewHolder.facebookImageView.setEnabled(false);
@@ -248,7 +248,7 @@ public class UsersGalleryRecyclerAdapter extends RecyclerView.Adapter<UsersGalle
     }
 
 
-    private void setImage(final int position, final ImageView v, final ProgressBar loadingProgress) {
+    private void setImage(final int position, final ImageView v) {
 
         if (!TextUtils.isEmpty(arrayList.get(position).getTankImageURL())) {
 
@@ -376,7 +376,7 @@ public class UsersGalleryRecyclerAdapter extends RecyclerView.Adapter<UsersGalle
             connectGalleryUser.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    connectWithAuthor(getAdapterPosition());
+                    connectWithAuthor(getLayoutPosition());
                 }
             });
 
@@ -384,10 +384,10 @@ public class UsersGalleryRecyclerAdapter extends RecyclerView.Adapter<UsersGalle
             deleteGalleryItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(arrayList.get(getAdapterPosition()).getFirebaseUserID().equals(User_ID)) {
-                            deleteGalleryItems(getAdapterPosition());
-                            arrayList.remove(getAdapterPosition());
-                            notifyItemRemoved(getAdapterPosition());
+                        if(arrayList.get(getLayoutPosition()).getFirebaseUserID().equals(User_ID)) {
+                            deleteGalleryItems(getLayoutPosition());
+                            arrayList.remove(getLayoutPosition());
+                            notifyItemRemoved(getLayoutPosition());
                         }
                     }
             });
@@ -397,16 +397,16 @@ public class UsersGalleryRecyclerAdapter extends RecyclerView.Adapter<UsersGalle
                 @Override
                 public void onClick(View v) {
 
-                   /* if(arrayList.get(getAdapterPosition()).getFirebaseUserID().equals(User_ID)) {
+                   /* if(arrayList.get(getLayoutPosition()).getFirebaseUserID().equals(User_ID)) {
                         Intent intent = new Intent(context,GalleryActivity.class);
                         intent.putExtra("mode","edit");
-                        intent.putExtra("UserID",arrayList.get(getAdapterPosition()).getUserID());
+                        intent.putExtra("UserID",arrayList.get(getLayoutPosition()).getUserID());
                         context.startActivity(intent);
 
 
                     }*/
 
-                    onItemClickListener.onClick(v,getAdapterPosition());
+                    onItemClickListener.onClick(v,getLayoutPosition());
 
                 }
             });
@@ -416,7 +416,7 @@ public class UsersGalleryRecyclerAdapter extends RecyclerView.Adapter<UsersGalle
             facebookImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    intent.putExtra("URL",arrayList.get(getAdapterPosition()).getFacebookURL());
+                    intent.putExtra("URL",arrayList.get(getLayoutPosition()).getFacebookURL());
                     context.startActivity(intent);
                 }
             });
@@ -424,7 +424,7 @@ public class UsersGalleryRecyclerAdapter extends RecyclerView.Adapter<UsersGalle
             twitterImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    intent.putExtra("URL",arrayList.get(getAdapterPosition()).getTwitterURL());
+                    intent.putExtra("URL",arrayList.get(getLayoutPosition()).getTwitterURL());
                     context.startActivity(intent);
                 }
             });
@@ -432,7 +432,7 @@ public class UsersGalleryRecyclerAdapter extends RecyclerView.Adapter<UsersGalle
             instagramImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    intent.putExtra("URL",arrayList.get(getAdapterPosition()).getInstagramURL());
+                    intent.putExtra("URL",arrayList.get(getLayoutPosition()).getInstagramURL());
                     context.startActivity(intent);
                 }
             });
@@ -440,7 +440,7 @@ public class UsersGalleryRecyclerAdapter extends RecyclerView.Adapter<UsersGalle
             webImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    intent.putExtra("URL",arrayList.get(getAdapterPosition()).getWebsiteURL());
+                    intent.putExtra("URL",arrayList.get(getLayoutPosition()).getWebsiteURL());
                     context.startActivity(intent);
                 }
             });
@@ -449,15 +449,15 @@ public class UsersGalleryRecyclerAdapter extends RecyclerView.Adapter<UsersGalle
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 
-                    float userRatingAbsolute = arrayList.get(getAdapterPosition()).getRating();
+                    float userRatingAbsolute = arrayList.get(getLayoutPosition()).getRating();
                     userRatingAbsolute += galleryRatingBar.getRating();
-                    arrayList.get(getAdapterPosition()).setRating(userRatingAbsolute);
-                    galleryItemRef.child(arrayList.get(getAdapterPosition()).getUserID()).child("rating").setValue(userRatingAbsolute);
+                    arrayList.get(getLayoutPosition()).setRating(userRatingAbsolute);
+                    galleryItemRef.child(arrayList.get(getLayoutPosition()).getUserID()).child("rating").setValue(userRatingAbsolute);
 
-                    int userRatingCount = arrayList.get(getAdapterPosition()).getRatingCount();
+                    int userRatingCount = arrayList.get(getLayoutPosition()).getRatingCount();
                     userRatingCount++;
-                    arrayList.get(getAdapterPosition()).setRatingCount(userRatingCount);
-                    galleryItemRef.child(arrayList.get(getAdapterPosition()).getUserID()).child("ratingCount").setValue(userRatingCount);
+                    arrayList.get(getLayoutPosition()).setRatingCount(userRatingCount);
+                    galleryItemRef.child(arrayList.get(getLayoutPosition()).getUserID()).child("ratingCount").setValue(userRatingCount);
 
 
                     ratingCountTextView.setText(Integer.toString(userRatingCount) + " ratings");
@@ -466,10 +466,10 @@ public class UsersGalleryRecyclerAdapter extends RecyclerView.Adapter<UsersGalle
 
                     ratingValue.setText(String.format(Locale.getDefault(),"%.1f",userRatingAbsolute/userRatingCount));
 
-                    arrayList.get(getAdapterPosition()).setYourRating(galleryRatingBar.getRating());
-                    galleryItemRef.child(arrayList.get(getAdapterPosition()).getUserID()).child("yourRating").setValue(galleryRatingBar.getRating());
+                    arrayList.get(getLayoutPosition()).setYourRating(galleryRatingBar.getRating());
+                    galleryItemRef.child(arrayList.get(getLayoutPosition()).getUserID()).child("yourRating").setValue(galleryRatingBar.getRating());
 
-                    msgTheAuthor(galleryRatingBar.getRating(),arrayList.get(getAdapterPosition()).getFirebaseUserID());
+                    msgTheAuthor(galleryRatingBar.getRating(),arrayList.get(getLayoutPosition()).getFirebaseUserID());
                 }
             });
 

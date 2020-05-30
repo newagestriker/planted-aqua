@@ -5,7 +5,7 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
-    android:background="@drawable/gradient1"
+    android:background="@drawable/gradient6"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activities.A1Activity"
@@ -20,13 +20,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+
     <TextView
         android:id="@+id/InstructionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:gravity="center"
-        android:text="Click on the '+' sign on Top Right to add a new tank."/>
+        android:text="@string/add_tank_instructions"/>
 
     <LinearLayout
         android:layout_margin="5dp"
@@ -83,7 +85,13 @@
 
     </LinearLayout>
 
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ShowcaseTankRecyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+        </androidx.recyclerview.widget.RecyclerView>
 
     <androidx.recyclerview.widget.RecyclerView
 
@@ -119,6 +127,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         >
         <ImageView
+            android:id="@+id/testImage"
+            android:clickable="true"
+            android:focusable="true"
             android:padding="8dp"
             android:src="@drawable/converter_filled"
             android:layout_weight="1"

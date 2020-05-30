@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -65,12 +67,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.newage.plantedaqua.BuildConfig;
+import com.newage.plantedaqua.adapters.ShowcaseRecyclerAdapter;
 import com.newage.plantedaqua.helpers.ExpenseDBHelper;
 import com.newage.plantedaqua.helpers.MyDbHelper;
 import com.newage.plantedaqua.helpers.NutrientDbHelper;
@@ -78,11 +83,14 @@ import com.newage.plantedaqua.R;
 import com.newage.plantedaqua.adapters.RecyclerAdapterPicsInfo;
 import com.newage.plantedaqua.helpers.TankDBHelper;
 import com.newage.plantedaqua.helpers.TinyDB;
+import com.newage.plantedaqua.models.GalleryInfo;
 import com.onesignal.OneSignal;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.facebook.ads.*;
 
@@ -93,16 +101,13 @@ public class A1Activity extends AppCompatActivity
 
     private ArrayList<TankProgressDetails> tanklabels=new ArrayList <>();
     private TankProgressDetails tpd,temp;
-    private RecyclerView startScreenRecyclerView;
     private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
     private int TANK_DETAILS_CREATION=1;
     private int TANK_DETAILS_MODIFICATION=2;
     private boolean clicked=false;
     private ArrayList<String> TagList=new ArrayList <>();
     private RelativeLayout relativeLayout;
     private TankDBHelper tankDBHelper;
-    private SQLiteDatabase DB;
     private Snackbar snackbar;
     private View headerview;
     private static final int RC_SIGN_IN = 47 ;
@@ -111,13 +116,10 @@ public class A1Activity extends AppCompatActivity
     private FirebaseUser user;
     private ProgressDialog progressDialog;
     private View userGSignIn;
-    private TextView logout;
     private DrawerLayout drawer;
-    private TinyDB rebootRequired;
-    private int currentVersionCode;
-    private int storedVersionCode;
     private TextView instructionText;
     private DatabaseReference devRef;
+
 
 
 
@@ -126,20 +128,17 @@ public class A1Activity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
 
+        TinyDB rebootRequired = new TinyDB(this);
 
 
-
-        rebootRequired = new TinyDB(this);
-
-
-        currentVersionCode = BuildConfig.VERSION_CODE;
-        storedVersionCode = rebootRequired.getInt("STORED_VERSION_CODE");
-        if(storedVersionCode<25){
+        int currentVersionCode = BuildConfig.VERSION_CODE;
+        int storedVersionCode = rebootRequired.getInt("STORED_VERSION_CODE");
+        if(storedVersionCode <25){
             modifyDBs();
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        if (storedVersionCode > 0 && storedVersionCode!=currentVersionCode ) {
+        if (storedVersionCode > 0 && storedVersionCode != currentVersionCode) {
             builder.setTitle(getResources().getString(R.string.Attention))
                     .setMessage(getResources().getString(R.string.AppUpdated))
                     .setNeutralButton(getResources().getString(R.string.OK), new DialogInterface.OnClickListener() {
@@ -156,13 +155,21 @@ public class A1Activity extends AppCompatActivity
 
         loadBannerAd();
 
-
+//        ImageView imageView = findViewById(R.id.testImage);
+//        imageView.setOnClickListener(v -> {
+//            startActivity(new Intent(this,TestActivity.class));
+//        });
 
         instructionText = findViewById(R.id.InstructionText);
 
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+
+        if(user!=null){
+            loadUserTankImages();
+        }
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -207,7 +214,7 @@ public class A1Activity extends AppCompatActivity
             }
         });
 
-        logout = headerview.findViewById(R.id.Logout);
+        TextView logout = headerview.findViewById(R.id.Logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -927,7 +934,7 @@ public class A1Activity extends AppCompatActivity
     private void insertTankRow(){
 
         tankDBHelper =TankDBHelper.newInstance(this);
-        DB = tankDBHelper.getWritableDatabase();
+        SQLiteDatabase DB = tankDBHelper.getWritableDatabase();
         Cursor c=tankDBHelper.getData(DB);
 
 
@@ -948,8 +955,8 @@ public class A1Activity extends AppCompatActivity
 
         relativeLayout=findViewById(R.id.mainLayout);
 
-        startScreenRecyclerView=findViewById(R.id.startScreenRecyclerView);
-        layoutManager=new LinearLayoutManager(this);
+        RecyclerView startScreenRecyclerView = findViewById(R.id.startScreenRecyclerView);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         startScreenRecyclerView.setLayoutManager(layoutManager);
         adapter=new RecyclerAdapterPicsInfo(tanklabels, this,R.layout.each_tank_layout, new RecyclerAdapterPicsInfo.OnItemClickListener() {
             @Override
@@ -1282,6 +1289,57 @@ public class A1Activity extends AppCompatActivity
 
 
     }
+    RecyclerView userTankImagesRecyclerView;
+    ArrayList<GalleryInfo> galleryInfoArrayList = new ArrayList<>();
+    private void loadUserTankImages(){
+
+        DatabaseReference  galleryItemRef = FirebaseDatabase.getInstance().getReference("GI");
+
+        Query galleryItemRefQuery = galleryItemRef.orderByChild("rating");
+
+
+
+        userTankImagesRecyclerView = findViewById(R.id.ShowcaseTankRecyclerView);
+        RecyclerView.Adapter showcaseAdapter = new ShowcaseRecyclerAdapter<>(galleryInfoArrayList, R.layout.showcase_recycler_view_item);
+        userTankImagesRecyclerView.setAdapter(showcaseAdapter);
+
+        galleryItemRefQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                GalleryInfo galleryInfo = new GalleryInfo();
+                galleryInfo = dataSnapshot.getValue(GalleryInfo.class);
+                galleryInfoArrayList.add(galleryInfo);
+                adapter.notifyItemInserted(galleryInfoArrayList.size()-1);
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                Toast.makeText(A1Activity.this,"Database Error Occurred. Please check your Internet Connection",Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
+
+    }
 
     private AdView adView;
 
@@ -1338,5 +1396,58 @@ public class A1Activity extends AppCompatActivity
         super.onDestroy();
     }
 
+    private int pos = 0;
+    private Timer timer = new Timer();
+    private Boolean taskCancelled = true;
+    private TimerTask timerTask;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        timer.cancel();
+        taskCancelled = timerTask.cancel();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (taskCancelled) {
+
+
+            timerTask = new  TimerTask() {
+
+                @Override
+                public void run() {
+                    if (pos == galleryInfoArrayList.size()-1) {
+                        pos = 0;
+                    }
+                    A1Activity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            userTankImagesRecyclerView.scrollToPosition(pos);
+                            pos++;
+                        }
+                    });
+
+
+                }
+
+            };
+
+
+
+
+            timer = new Timer();
+
+
+            timer.scheduleAtFixedRate(
+                    timerTask, 1000L, 4000L
+            );
+
+
+        }
+
+
+    }
 }
 

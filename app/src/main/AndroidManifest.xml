@@ -24,14 +24,15 @@
         android:roundIcon="@drawable/plantedaqua"
         android:supportsRtl="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.ChatUsersActivity"
+        <activity android:name=".activities.TestActivity"
             android:theme="@style/AppTheme">
         </activity>
         <activity
+            android:name=".activities.ChatUsersActivity"
+            android:theme="@style/AppTheme"></activity>
+        <activity
             android:name=".activities.SingleChatActivity"
-            android:theme="@style/AppTheme">
-
-        </activity>
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">

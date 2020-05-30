@@ -81,10 +81,8 @@ public class GalleryActivity extends AppCompatActivity {
     private EditText floraInput;
     private EditText faunaInput;
     private EditText descriptionInput;
-    private ImageView takeGalleryTankPic;
     private String tempImageID="";
     private boolean newImageCreated=false;
-    private Uri tankPicUriFromGallery;
     private GalleryInfo galleryInfo;
     private ImageView tankImage;
     private ImageView galleryDisplayPic;
@@ -256,7 +254,7 @@ public class GalleryActivity extends AppCompatActivity {
         floraInput = findViewById(R.id.Flora);
         faunaInput = findViewById(R.id.Fauna);
         descriptionInput = findViewById(R.id.Description);
-        takeGalleryTankPic = findViewById(R.id.TakeGalleryTankPic);
+        ImageView takeGalleryTankPic = findViewById(R.id.TakeGalleryTankPic);
         tankImage = findViewById(R.id.TankImage);
         galleryDisplayPic = findViewById(R.id.GalleryDisplayPic);
         progressDialog=new ProgressDialog(this);
@@ -433,7 +431,7 @@ public class GalleryActivity extends AppCompatActivity {
 
             if (requestCode == SELECT_FILE) {
 
-                tankPicUriFromGallery=data.getData();
+                Uri tankPicUriFromGallery = data.getData();
                 try {
                     fileCreated = image.createNewFile();
                     if (fileCreated) {

@@ -95,14 +95,14 @@ public class RecyclerViewAlbum extends RecyclerView.Adapter<RecyclerViewAlbum.Re
         @Override
         public void onClick(View view) {
 
-            onItemClickListener.onClick(view,getAdapterPosition());
+            onItemClickListener.onClick(view,getLayoutPosition());
 
 
         }
 
         @Override
         public boolean onLongClick(View view) {
-            onItemClickListener.onLongClick(view,getAdapterPosition());
+            onItemClickListener.onLongClick(view,getLayoutPosition());
             return true;
         }
     }

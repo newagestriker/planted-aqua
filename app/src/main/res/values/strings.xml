@@ -271,6 +271,11 @@
     <string name="my_chats_beta">My Chats BETA</string>
     <string name="connections">Connections</string>
     <string name="messages">Messages</string>
+    <string name="fan_off">OFF</string>
+    <string name="fan_low">1</string>
+    <string name="fan_medium">2</string>
+    <string name="fan_high">3</string>
+    <string name="add_tank_instructions">Click on the \'+\' sign on Top Right to add a new tank.</string>
 
 
 </resources>

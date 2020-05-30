@@ -220,13 +220,13 @@ public class RecyclerAdapterSellerItems extends RecyclerView.Adapter<RecyclerAda
                     @Override
                     public void onClick(View v) {
                         //Log.i("Delete", "Delete");
-                        deleteTheItem(getAdapterPosition());
+                        deleteTheItem(getLayoutPosition());
                     }
                 });
             }else
                 deleteItem.setVisibility(View.GONE);
 
-            //Log.i("AdaptorPosition", Integer.toString(getAdapterPosition()));
+            //Log.i("AdaptorPosition", Integer.toString(getLayoutPosition()));
 
         }
 

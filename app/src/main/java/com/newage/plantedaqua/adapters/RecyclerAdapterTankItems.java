@@ -172,8 +172,8 @@ public class RecyclerAdapterTankItems extends RecyclerView.Adapter<RecyclerAdapt
         @Override
         public void onClick(View view) {
 
-            String tag=arrayList.get(getAdapterPosition()).getTag();
-            onItemClickListener.onClick(view,getAdapterPosition(),tag);
+            String tag=arrayList.get(getLayoutPosition()).getTag();
+            onItemClickListener.onClick(view,getLayoutPosition(),tag);
 
 
         }
@@ -182,7 +182,7 @@ public class RecyclerAdapterTankItems extends RecyclerView.Adapter<RecyclerAdapt
         public boolean onLongClick(View view) {
 
 
-            onItemClickListener.onLongClick(view,getAdapterPosition());
+            onItemClickListener.onLongClick(view,getLayoutPosition());
             return true;
 
 

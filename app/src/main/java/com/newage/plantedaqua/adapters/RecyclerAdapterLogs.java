@@ -115,7 +115,7 @@ public class RecyclerAdapterLogs extends RecyclerView.Adapter<RecyclerAdapterLog
         @Override
         public void onClick(View view) {
 
-                onItemClickListener.onClick(view,getAdapterPosition());
+                onItemClickListener.onClick(view,getLayoutPosition());
 
 
 

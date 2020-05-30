@@ -105,7 +105,7 @@ public class ExpenseTableRecyclerView extends RecyclerView.Adapter<ExpenseTableR
             @Override
             public void onClick(View view) {
 
-                onExpenseItemClickListener.onClick(view,getAdapterPosition());
+                onExpenseItemClickListener.onClick(view,getLayoutPosition());
 
 
             }

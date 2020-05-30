@@ -107,7 +107,7 @@ public interface OnItemClickListener{
     @Override
     public void onClick(View view) {
 
-        onItemClickListener.onClick(view,getAdapterPosition());
+        onItemClickListener.onClick(view,getLayoutPosition());
 
 
 

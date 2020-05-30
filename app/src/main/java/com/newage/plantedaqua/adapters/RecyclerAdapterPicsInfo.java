@@ -188,14 +188,14 @@ public class RecyclerAdapterPicsInfo extends RecyclerView.Adapter<RecyclerAdapte
         @Override
         public void onClick(View view) {
 
-            String uri=arrayList.get(getAdapterPosition()).imageuri;
-            onItemClickListener.onClick(view,getAdapterPosition(),uri);
+            String uri=arrayList.get(getLayoutPosition()).imageuri;
+            onItemClickListener.onClick(view,getLayoutPosition(),uri);
         }
 
         @Override
         public boolean onLongClick(View view) {
 
-            onItemClickListener.onLongClick(view,getAdapterPosition());
+            onItemClickListener.onLongClick(view,getLayoutPosition());
             return true;
 
 

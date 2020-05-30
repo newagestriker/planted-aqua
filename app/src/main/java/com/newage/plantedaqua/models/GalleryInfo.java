@@ -29,6 +29,10 @@ public class GalleryInfo {
         ratingCount = 0;
     }
 
+    public float avgRating(){
+        return ratingCount== 0.0f?0.0f:rating/ratingCount;
+    }
+
     public String getEmail() {
         return email;
     }
