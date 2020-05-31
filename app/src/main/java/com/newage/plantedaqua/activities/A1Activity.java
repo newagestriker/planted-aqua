@@ -1316,7 +1316,7 @@ public class A1Activity extends AppCompatActivity
                 GalleryInfo galleryInfo = new GalleryInfo();
                 galleryInfo = dataSnapshot.getValue(GalleryInfo.class);
                 galleryInfoArrayList.add(galleryInfo);
-                adapter.notifyItemInserted(galleryInfoArrayList.size()-1);
+                showcaseAdapter.notifyItemInserted(galleryInfoArrayList.size()-1);
 
             }
 

@@ -159,7 +159,7 @@ public class SellerActivity extends AppCompatActivity {
         sellerItemQuan=view.findViewById(R.id.SellerItemQuan);
         sellerItemPrice=view.findViewById(R.id.SellerItemPrice);
         sellerItemAvail=view.findViewById(R.id.SellerItemAvail);
-
+        itemImage.setImageDrawable(getResources().getDrawable(R.drawable.noimage));
         itemImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

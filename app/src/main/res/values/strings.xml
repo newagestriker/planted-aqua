@@ -276,6 +276,7 @@
     <string name="fan_medium">2</string>
     <string name="fan_high">3</string>
     <string name="add_tank_instructions">Click on the \'+\' sign on Top Right to add a new tank.</string>
+    <string name="ratings">ratings</string>
 
 
 </resources>

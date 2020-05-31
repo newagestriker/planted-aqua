@@ -29,6 +29,10 @@ public class GalleryInfo {
         ratingCount = 0;
     }
 
+    public String ratingInText(){
+        return ratingCount+" Ratings";
+    }
+
     public float avgRating(){
         return ratingCount== 0.0f?0.0f:rating/ratingCount;
     }

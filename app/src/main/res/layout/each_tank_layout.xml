@@ -48,11 +48,11 @@
                 <ImageView
                     android:id="@+id/TankImage"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="200dp"
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:focusable="true"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/aquarium2" />
 
                 <ProgressBar

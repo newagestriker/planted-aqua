@@ -151,10 +151,6 @@ public class RecyclerAdapterSellerItems extends RecyclerView.Adapter<RecyclerAda
                 if (err.isEmpty()) {
                     requestManager
                             .load(bitmap)
-                            .apply(new RequestOptions()
-                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                    .placeholder(R.drawable.noimage)
-                                    .error(R.drawable.noimage))
                             .into(imageView);
                 } else {
                     Toast.makeText(context, err, Toast.LENGTH_SHORT).show();
