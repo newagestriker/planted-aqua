@@ -1,6 +1,7 @@
 package com.newage.plantedaqua.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.library.baseAdapters.BR
@@ -11,10 +12,15 @@ import com.newage.plantedaqua.R
 import com.newage.plantedaqua.databinding.ShowcaseRecyclerViewItemBinding
 import com.newage.plantedaqua.models.GalleryInfo
 
-class ShowcaseRecyclerAdapter<T>(val items : ArrayList<T>, private val layout_ID : Int) : RecyclerView.Adapter<ShowcaseRecyclerAdapter.ShowcaseViewHolder>() {
+class ShowcaseRecyclerAdapter<T>(val items : ArrayList<T>, private val layout_ID : Int, private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<ShowcaseRecyclerAdapter.ShowcaseViewHolder>() {
+
+    interface OnItemClickListener{
+        fun onItemClick(view:View?,pos:Int)
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowcaseViewHolder {
-        return ShowcaseViewHolder.from(parent,layout_ID)
+        return ShowcaseViewHolder.from(parent,layout_ID,onItemClickListener)
     }
 
     override fun getItemCount() = items.size
@@ -23,21 +29,32 @@ class ShowcaseRecyclerAdapter<T>(val items : ArrayList<T>, private val layout_ID
         holder.bind(items[position],layout_ID)
     }
 
-    class ShowcaseViewHolder(private val binding: ShowcaseRecyclerViewItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ShowcaseViewHolder(private val binding: ShowcaseRecyclerViewItemBinding, private val onItemClickListener: OnItemClickListener) : RecyclerView.ViewHolder(binding.root),View.OnClickListener {
+
+        override fun onClick(v: View?) {
+            onItemClickListener.onItemClick(v,layoutPosition)
+        }
+
+        init{
+            binding.showcaseTankMainLayout.setOnClickListener(this)
+
+        }
 
         companion object {
-            fun from(parent: ViewGroup,layout_ID: Int) : ShowcaseViewHolder {
+            fun from(parent: ViewGroup, layout_ID: Int, onItemClickListener: OnItemClickListener) : ShowcaseViewHolder {
                 var binding: Any? = null
 
                 //Matching Bindings with Layout ID
                 when(layout_ID) {
                     R.layout.showcase_recycler_view_item -> {
                         binding  = DataBindingUtil.inflate(LayoutInflater.from(parent.context), layout_ID, parent, false) as ShowcaseRecyclerViewItemBinding
+
                     }
                 }
-                return ShowcaseViewHolder(binding as ShowcaseRecyclerViewItemBinding)
+                return ShowcaseViewHolder(binding as ShowcaseRecyclerViewItemBinding,onItemClickListener)
             }
         }
+
 
         fun <T> bind(item:T,layout_ID: Int){
 

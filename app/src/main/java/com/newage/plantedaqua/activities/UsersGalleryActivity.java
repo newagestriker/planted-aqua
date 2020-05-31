@@ -39,7 +39,7 @@ public class UsersGalleryActivity extends AppCompatActivity {
     private ProgressBar galleryItemLoadingProgressBar;
     private int UPDATE_ITEM_CODE = 27;
     private FirebaseAuth mAuth;
-
+    private int pos;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (mAuth.getCurrentUser()!=null)
@@ -72,6 +72,7 @@ public class UsersGalleryActivity extends AppCompatActivity {
         progressBarRelativeLayout = findViewById(R.id.ProgressBarRelativeLayout);
         galleryItemLoadingProgressBar = findViewById(R.id.GalleryItemsLoadingProgessBar);
         User_ID = getIntent().getStringExtra("UserID");
+        pos = getIntent().getIntExtra("Position",-1);
 
         galleryItemRef = FirebaseDatabase.getInstance().getReference("GI");
 
@@ -135,6 +136,10 @@ public class UsersGalleryActivity extends AppCompatActivity {
                 galleryItemLoadingProgressBar.setVisibility(View.GONE);
                 progressBarRelativeLayout.setVisibility(View.GONE);
                 adapter.notifyItemInserted(galleryInfoArrayList.size()-1);
+
+                if(galleryInfoArrayList.size()-1==pos && pos!=-1){
+                    usersGalleryRecyclerView.scrollToPosition(pos);
+                }
 
             }
 

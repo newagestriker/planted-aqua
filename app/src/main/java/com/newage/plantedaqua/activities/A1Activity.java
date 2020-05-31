@@ -89,6 +89,7 @@ import com.onesignal.OneSignal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -1190,25 +1191,25 @@ public class A1Activity extends AppCompatActivity
         //Log.i("Default_Alarm",Long.toString(alarmInMillis));
 
         PendingIntent pi = PendingIntent.getBroadcast(this, reqCode, intent, PendingIntent.FLAG_NO_CREATE);
-        if(pi==null){
-            //System.out.println("null");
-            //System.out.println("Ramiz: No such pending intent exists "+c.getInt(3));
-        }
-        else{
+        if(pi!=null){
             //System.out.println("not null");
             //System.out.println("Ramiz: Pending intent exists ");
             pi = PendingIntent.getBroadcast(this, reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            assert alarmManager != null;
             alarmManager.cancel(pi);
 
         }
 
         pi = PendingIntent.getBroadcast(this.getApplicationContext(), reqCode, intent, 0);
         if (Build.VERSION.SDK_INT >= 23) {
+            assert alarmManager != null;
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmInMillis, pi);
         }
         else if (Build.VERSION.SDK_INT >= 19) {
+            assert alarmManager != null;
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmInMillis, pi);
         } else {
+            assert alarmManager != null;
             alarmManager.set(AlarmManager.RTC_WAKEUP, alarmInMillis, pi);
         }
 
@@ -1300,7 +1301,12 @@ public class A1Activity extends AppCompatActivity
 
 
         userTankImagesRecyclerView = findViewById(R.id.ShowcaseTankRecyclerView);
-        RecyclerView.Adapter showcaseAdapter = new ShowcaseRecyclerAdapter<>(galleryInfoArrayList, R.layout.showcase_recycler_view_item);
+        RecyclerView.Adapter showcaseAdapter = new ShowcaseRecyclerAdapter<>(galleryInfoArrayList, R.layout.showcase_recycler_view_item, (view, pos) -> {
+            Intent iUsersGallery = new Intent(A1Activity.this, UsersGalleryActivity.class);
+            iUsersGallery.putExtra("UserID", Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+            iUsersGallery.putExtra("Position",pos);
+            startActivity(iUsersGallery);
+        });
         userTankImagesRecyclerView.setAdapter(showcaseAdapter);
 
         galleryItemRefQuery.addChildEventListener(new ChildEventListener() {
