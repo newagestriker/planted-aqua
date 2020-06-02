@@ -8,8 +8,8 @@ public class ExpenseItems {
     private String itemID;
     private String mode;
     private int expenseQuantity;
-    private Double expensePrice;
-    private Double expenseTotalPrice;
+    private float expensePrice;
+    private float expenseTotalPrice;
     private int expenseMonth;
     private int expenseDay;
     private int expenseYear;
@@ -22,7 +22,7 @@ public class ExpenseItems {
         expenseTankName = "";
         expenseItemName = "";
         expenseQuantity = 0;
-        expensePrice = 0d;
+        expensePrice = 0f;
         expenseMonth = 0;
         expenseDay = 0;
         expenseYear = 0;
@@ -46,11 +46,11 @@ public class ExpenseItems {
         this.category = category;
     }
 
-    public Double getExpenseTotalPrice() {
+    public float getExpenseTotalPrice() {
         return expenseTotalPrice;
     }
 
-    public void setExpenseTotalPrice(Double expenseTotalPrice) {
+    public void setExpenseTotalPrice(float expenseTotalPrice) {
         this.expenseTotalPrice = expenseTotalPrice;
     }
 
@@ -118,11 +118,11 @@ public class ExpenseItems {
         this.expenseQuantity = expenseQuantity;
     }
 
-    public Double getExpensePrice() {
+    public float getExpensePrice() {
         return expensePrice;
     }
 
-    public void setExpensePrice(Double expensePrice) {
+    public void setExpensePrice(float expensePrice) {
         this.expensePrice = expensePrice;
     }
 

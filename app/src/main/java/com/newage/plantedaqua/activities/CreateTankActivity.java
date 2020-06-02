@@ -123,7 +123,7 @@ public class CreateTankActivity extends AppCompatActivity {
                 TankDBHelper tankDBHelper = TankDBHelper.newInstance(this);
                 SQLiteDatabase DB = tankDBHelper.getWritableDatabase();
                 ExpenseDBHelper expenseDBHelper = ExpenseDBHelper.getInstance(this);
-                Double numericPrice = Double.parseDouble(price.replace(",","."));
+                float numericPrice = Float.parseFloat(price.replace(",","."));
 
 
 

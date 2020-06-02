@@ -420,7 +420,7 @@ public class RamizAlarm extends BroadcastReceiver {
 
     }
 
-    Double expense = 0d;
+    float expense = 0f;
 
     private String generateExpenseReport(final Context context) {
 

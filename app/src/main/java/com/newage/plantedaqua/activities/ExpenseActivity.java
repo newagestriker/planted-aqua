@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +23,13 @@ import android.widget.ImageView;
 
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.newage.plantedaqua.helpers.ExpenseDBHelper;
 import com.newage.plantedaqua.models.ExpenseItems;
 import com.newage.plantedaqua.adapters.ExpenseTableRecyclerView;
@@ -33,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -43,7 +52,7 @@ public class ExpenseActivity extends AppCompatActivity {
     private ExpenseItems expenseItems;
     private ArrayList<ExpenseItems> expenseItemsArrayList;
     private RecyclerView expenseRecyclerView;
-    private Double expense;
+    private float expense;
     private TextView dateInput;
     private EditText tankNameInput;
     private EditText expenseItemInput;
@@ -129,6 +138,7 @@ public class ExpenseActivity extends AppCompatActivity {
 
                             expenseDBHelper.deleteAllExpense();
                             expenseItemsArrayList.clear();
+                            barChart.invalidate();
                             adapter.notifyDataSetChanged();
                             totalExpense.setText(getResources().getString(R.string._000));
 
@@ -163,43 +173,11 @@ public class ExpenseActivity extends AppCompatActivity {
             int rnd = new Random().nextInt(10000);
             ID = timeStamp + "_" + rnd;
 
-        /*Cursor c = tankDBHelper.getDataCondition("AquariumName",aquaname);
-        if(c!=null){
-            if(c.moveToFirst()){
 
-                if(c.getCount()>1) {
-
-                    messageText = getResources().getString(R.string.multiple_tanks_found);
-
-
-                }
-                else{
-
-                    ID = c.getString(1);
-
-                }
-
-
-            }
-            else{
-                messageText = getResources().getString(R.string.no_tank_found);
-            }
-            c.close();
-        }
-
-
-        if(!messageText.isEmpty()){
-
-            LinearLayout linearLayout = findViewById(R.id.ExpenseMainLayout);
-            Snackbar.make(linearLayout,messageText,Snackbar.LENGTH_LONG).show();
-            return;
-
-        }
-*/
 
         String itemName = expenseItemInput.getText().toString();
         int quantity = Integer.parseInt(TextUtils.isEmpty(itemQuantityInput.getText().toString())?"1":itemQuantityInput.getText().toString());
-        Double numericPrice = Double.parseDouble(TextUtils.isEmpty(itemPriceInput.getText().toString())?"0.0":itemPriceInput.getText().toString().replace(",","."));
+        float numericPrice = Float.parseFloat(TextUtils.isEmpty(itemPriceInput.getText().toString())?"0.0":itemPriceInput.getText().toString().replace(",","."));
 
         expenseItems = new ExpenseItems();
         expenseItems.setExpenseTotalPrice(quantity*numericPrice);
@@ -221,6 +199,7 @@ public class ExpenseActivity extends AppCompatActivity {
         totalExpense.setText(String.format(Locale.getDefault(),"%.2f",expense));
         expenseItemsArrayList.add(expenseItems);
         adapter.notifyItemInserted(expenseItemsArrayList.size()-1);
+        barChart.invalidate();
     }
 
     private int dy=0,mnth = 0,yr = 0;
@@ -372,6 +351,7 @@ public class ExpenseActivity extends AppCompatActivity {
                     expenseDBHelper.deleteExpense("ItemID",expenseItemsArrayList.get(position).getItemID());
                     expenseItemsArrayList.remove(position);
                     adapter.notifyItemRemoved(position);
+                    barChart.invalidate();
                     expense = expenseDBHelper.getExpenseperMonth(-1);
                     totalExpense.setText(String.format(Locale.getDefault(),"%.2f",expense));
                 }
@@ -384,6 +364,8 @@ public class ExpenseActivity extends AppCompatActivity {
         });
 
         expenseRecyclerView.setAdapter(adapter);
+
+        displayCharts();
 
     }
 
@@ -412,8 +394,8 @@ public class ExpenseActivity extends AppCompatActivity {
                     expenseItem.setExpenseMonth(c.getInt(5));
                     expenseItem.setExpenseYear(c.getInt(6));
                     expenseItem.setExpenseQuantity(c.getInt(9));
-                    expenseItem.setExpensePrice(c.getDouble(10));
-                    expenseItem.setExpenseTotalPrice(c.getDouble(11));
+                    expenseItem.setExpensePrice(c.getFloat(10));
+                    expenseItem.setExpenseTotalPrice(c.getFloat(11));
                     expenseItem.setShowDeleteButton(showDeleteButton);
 
 
@@ -432,7 +414,7 @@ public class ExpenseActivity extends AppCompatActivity {
 
         }
 
-
+        barChart.invalidate();
 
 
 
@@ -490,8 +472,8 @@ public class ExpenseActivity extends AppCompatActivity {
                     expenseItem.setExpenseMonth(c.getInt(5));
                     expenseItem.setExpenseYear(c.getInt(6));
                     expenseItem.setExpenseQuantity(c.getInt(9));
-                    expenseItem.setExpensePrice(c.getDouble(10));
-                    expenseItem.setExpenseTotalPrice(c.getDouble(11));
+                    expenseItem.setExpensePrice(c.getFloat(10));
+                    expenseItem.setExpenseTotalPrice(c.getFloat(11));
                     expenseItem.setCategory(c.getString(12));
                     expenseItem.setShowDeleteButton(showDeleteButton);
 
@@ -542,8 +524,8 @@ public class ExpenseActivity extends AppCompatActivity {
                     expenseItem.setExpenseMonth(c.getInt(5));
                     expenseItem.setExpenseYear(c.getInt(6));
                     expenseItem.setExpenseQuantity(c.getInt(9));
-                    expenseItem.setExpensePrice(c.getDouble(10));
-                    expenseItem.setExpenseTotalPrice(c.getDouble(11));
+                    expenseItem.setExpensePrice(c.getFloat(10));
+                    expenseItem.setExpenseTotalPrice(c.getFloat(11));
                     expenseItem.setCategory(c.getString(12));
                     expenseItem.setShowDeleteButton(showDeleteButton);
 
@@ -562,6 +544,55 @@ public class ExpenseActivity extends AppCompatActivity {
 
 
     }
+
+    // DISPLAY CHARTS
+    private BarChart barChart;
+    private BarData barData;
+
+    private void displayCharts(){
+        barChart = findViewById(R.id.ExpenseBarChart);
+        barChart.setFitBars(true);
+        barChart.setVisibleXRangeMaximum(20);
+
+        ArrayList<BarEntry> yVals = new ArrayList<>();
+        ArrayList<String> xVals = new ArrayList<>();
+        int i=0;
+        for (ExpenseItems expenseItem: expenseItemsArrayList) {
+
+            yVals.add(new BarEntry(i++,(float) expenseItem.getExpenseTotalPrice()));
+            xVals.add(expenseItem.getExpenseDate());
+        }
+
+        BarDataSet barDataSet = new BarDataSet(yVals,"Amount Spent");
+        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        barDataSet.setDrawValues(true);
+
+        barData = new BarData(barDataSet);
+
+        formatXAxis(barChart,xVals);
+        barChart.setData(barData);
+        barChart.invalidate();
+        barChart.animateY(500);
+
+    }
+
+    private void formatXAxis(BarChart barChart,ArrayList<String> xVals){
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setLabelRotationAngle(90);
+
+        barChart.getXAxis().setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                int index = (int) value;
+                return xVals.get(index);
+            }
+        });
+
+    }
+
+
 
 
 

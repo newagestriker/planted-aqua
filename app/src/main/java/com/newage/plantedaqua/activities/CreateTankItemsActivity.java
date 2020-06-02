@@ -136,7 +136,7 @@ public class CreateTankItemsActivity extends AppCompatActivity {
                 }
                 SQLiteDatabase db = myDbHelper.getWritableDatabase();
                 ExpenseDBHelper expenseDBHelper = ExpenseDBHelper.getInstance(this);
-                Double numericPrice = Double.parseDouble(priceInput.replace(",","."));
+                float numericPrice = Float.parseFloat(priceInput.replace(",","."));
                 int numericQuantity = Integer.parseInt(quantityInput);
 
 

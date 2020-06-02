@@ -544,7 +544,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
 
     }
 
-    public void addDataTI(SQLiteDatabase db,String id,String name,String category,String uriName,String cur,Double price,Integer quantity,String buyDate,String expDate,String gender,String food,String care,String remarks,String sciName){
+    public void addDataTI(SQLiteDatabase db,String id,String name,String category,String uriName,String cur,float price,Integer quantity,String buyDate,String expDate,String gender,String food,String care,String remarks,String sciName){
 
         ContentValues contentValues = new ContentValues();
         contentValues.put("I_ID",id);
@@ -602,7 +602,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
         }
 
     }
-    public void updateItemTI(SQLiteDatabase db,String id,String name,String category,String uriName,String cur,Double price,Integer quantity,String buyDate,String expDate,String gender,String food,String care,String remarks,String sciName) {
+    public void updateItemTI(SQLiteDatabase db,String id,String name,String category,String uriName,String cur,float price,Integer quantity,String buyDate,String expDate,String gender,String food,String care,String remarks,String sciName) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put("I_Name", name);

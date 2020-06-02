@@ -82,7 +82,7 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
     //id integer primary key autoincrement,AquariumID text,TankName text,ItemName text,Day text,Month text,Year text,ShownDate text,TimeInMIllis integer,Quantity integer,Price real,TotalPrice real,AdditionalInfo text)
 
 
-    public void addDataExpense(SQLiteDatabase db,String itemID,String TankName,String ItemName,int Day, int Month, int Year, String ShownDate, long TimeInMIllis, int Quantity, Double Price, Double TotalPrice, String AdditionalInfo, String aquariumID ) {
+    public void addDataExpense(SQLiteDatabase db,String itemID,String TankName,String ItemName,int Day, int Month, int Year, String ShownDate, long TimeInMIllis, int Quantity, float Price, float TotalPrice, String AdditionalInfo, String aquariumID ) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put("ItemID",itemID);
@@ -110,7 +110,7 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public void updateDataExpense(SQLiteDatabase db,String AquariumID,String TankName,String ItemName,int Day, int Month, int Year, String ShownDate, long TimeInMIllis, int Quantity, Double Price, Double TotalPrice, String AdditionalInfo, String aquariumID ) {
+    public void updateDataExpense(SQLiteDatabase db,String AquariumID,String TankName,String ItemName,int Day, int Month, int Year, String ShownDate, long TimeInMIllis, int Quantity, float Price, float TotalPrice, String AdditionalInfo, String aquariumID ) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put("ItemID",AquariumID);
@@ -214,7 +214,7 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
     }
 
 
-    public double getFilteredNetExpense(String startDate, String endDate) {
+    public float getFilteredNetExpense(String startDate, String endDate) {
 
         SQLiteDatabase db = expenseDBHelper.getReadableDatabase();
         String query = "select sum(TotalPrice) as Total from expense_table where date(ShownDate) between date('" + startDate + "') and date('" + endDate + "') order by date(ShownDate) desc";
@@ -222,14 +222,14 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
 
         try {
 
-            double sum = 0d;
+            float sum = 0f;
 
             Cursor cursor = db.rawQuery(query, null);
 
             if (cursor != null) {
 
                 if (cursor.moveToFirst()) {
-                    sum = cursor.getDouble(cursor.getColumnIndex("Total"));
+                    sum = cursor.getFloat(cursor.getColumnIndex("Total"));
 
                 }
                 cursor.close();
@@ -239,12 +239,12 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
         }
         catch (Exception e) {
 
-            return -1d;
+            return -1f;
         }
 
     }
 
-    public double getExpenseperMonth(int month) {
+    public float getExpenseperMonth(int month) {
 
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
 
@@ -260,14 +260,14 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
 
         try {
 
-            double sum =0d;
+            float sum =0f;
 
             Cursor cursor =  db.rawQuery(query,null);
 
             if(cursor!=null) {
 
                 if (cursor.moveToFirst()) {
-                    sum = cursor.getDouble(cursor.getColumnIndex("Total"));
+                    sum = cursor.getFloat(cursor.getColumnIndex("Total"));
 
                 }
                 cursor.close();
@@ -279,7 +279,7 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
 
         } catch (Exception e) {
 
-            return -1d;
+            return -1f;
         }
 
     }

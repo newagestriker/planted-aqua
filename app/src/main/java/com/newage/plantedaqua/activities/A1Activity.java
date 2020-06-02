@@ -272,7 +272,7 @@ public class A1Activity extends AppCompatActivity
         TankDBHelper tankDBHelper = TankDBHelper.newInstance(getApplicationContext());
         ExpenseDBHelper expenseDBHelper = ExpenseDBHelper.getInstance(getApplicationContext());
         MyDbHelper myDbHelper;
-        Double numericPrice;
+        float numericPrice;
         String aquaName;
         String aquaID;
 
@@ -305,7 +305,7 @@ public class A1Activity extends AppCompatActivity
                     }
                     finaldt = formatDate(year)+"-"+formatDate(mnth)+"-"+formatDate(dy);
                     tankDBHelper.updateSingleItem("AquariumID",aquaID,"StartupDate",finaldt);
-                    numericPrice = Double.parseDouble(TextUtils.isEmpty(cTanks.getString(5))?"0.0":cTanks.getString(5).replace(",","."));
+                    numericPrice = Float.parseFloat(TextUtils.isEmpty(cTanks.getString(5))?"0.0":cTanks.getString(5).replace(",","."));
                     expenseDBHelper.addDataExpense(expenseDBHelper.getWritableDatabase(),aquaID,aquaName, cTanks.getString(2),dy,mnth,year,finaldt,0L,1,numericPrice,numericPrice,"",aquaID);
                     myDbHelper = MyDbHelper.newInstance(getApplicationContext(),aquaID);
                     cMyDB = myDbHelper.getDataTI(myDbHelper.getWritableDatabase());
@@ -329,7 +329,7 @@ public class A1Activity extends AppCompatActivity
                                 }
                                 finaldt = formatDate(year)+"-"+formatDate(mnth)+"-"+formatDate(dy);
                                 numericQuantity = Integer.parseInt(cMyDB.getString(6));
-                                numericPrice = Double.parseDouble(TextUtils.isEmpty(cMyDB.getString(5))?"0.0":cMyDB.getString(5).replace(",","."));
+                                numericPrice =Float.parseFloat(TextUtils.isEmpty(cMyDB.getString(5))?"0.0":cMyDB.getString(5).replace(",","."));
                                 myDbHelper.updateItemTISingleItem(TID,"I_BuyDate",finaldt);
                                 expenseDBHelper.addDataExpense(expenseDBHelper.getWritableDatabase(),TID,aquaName,cMyDB.getString(1),dy,mnth,year,finaldt,0L,numericQuantity,numericPrice,numericPrice*numericQuantity,"",aquaID);
 
@@ -1317,6 +1317,9 @@ public class A1Activity extends AppCompatActivity
                 galleryInfo = dataSnapshot.getValue(GalleryInfo.class);
                 galleryInfoArrayList.add(galleryInfo);
                 showcaseAdapter.notifyItemInserted(galleryInfoArrayList.size()-1);
+                if(galleryInfoArrayList.size()==1){
+                    startCarousel();
+                }
 
             }
 
@@ -1404,56 +1407,63 @@ public class A1Activity extends AppCompatActivity
 
     private int pos = 0;
     private Timer timer = new Timer();
-    private Boolean taskCancelled = true;
+    private Boolean taskCancelled = false;
     private TimerTask timerTask;
 
     @Override
     protected void onPause() {
         super.onPause();
         timer.cancel();
-        taskCancelled = timerTask.cancel();
+        if(timerTask!=null) {
+            taskCancelled = timerTask.cancel();
+        }
+    }
+
+    private void startCarousel(){
+
+        timerTask = new TimerTask() {
+
+            @Override
+            public void run() {
+                if (pos == galleryInfoArrayList.size() - 1) {
+                    pos = 0;
+                }
+                A1Activity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        userTankImagesRecyclerView.scrollToPosition(pos);
+                        pos++;
+                    }
+                });
+
+
+            }
+
+        };
+
+
+        timer = new Timer();
+
+
+        timer.scheduleAtFixedRate(
+                timerTask, 1000L, 4000L
+        );
+
+
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (taskCancelled) {
+            if (taskCancelled && galleryInfoArrayList.size()>0) {
 
+                startCarousel();
 
-            timerTask = new  TimerTask() {
-
-                @Override
-                public void run() {
-                    if (pos == galleryInfoArrayList.size()-1) {
-                        pos = 0;
-                    }
-                    A1Activity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            userTankImagesRecyclerView.scrollToPosition(pos);
-                            pos++;
-                        }
-                    });
-
-
-                }
-
-            };
-
-
-
-
-            timer = new Timer();
-
-
-            timer.scheduleAtFixedRate(
-                    timerTask, 1000L, 4000L
-            );
+            }
 
 
         }
 
-
-    }
 }
 

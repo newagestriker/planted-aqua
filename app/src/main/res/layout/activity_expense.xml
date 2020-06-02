@@ -337,6 +337,15 @@
         android:layout_height="wrap_content">
     </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:background="@color/white"
+        android:id="@+id/ExpenseBarChart"
+        android:layout_margin="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+    </com.github.mikephil.charting.charts.BarChart>
    
 
 
