@@ -229,10 +229,10 @@
 
         android:weightSum="6">
         <TextView
-            android:layout_marginStart="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginEnd="2dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
             android:background="@color/colorAccent"
             android:layout_gravity="center"
             android:textStyle="bold"
@@ -245,8 +245,8 @@
             android:layout_height="match_parent"
             android:text="@string/date"/>
         <TextView
-            android:layout_marginRight="2dp"
-            android:layout_marginEnd="2dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
             android:background="@color/colorAccent"
             android:layout_gravity="center"
             android:textStyle="bold"
@@ -259,8 +259,8 @@
             android:layout_height="match_parent"
             android:text="@string/tank_name"/>
         <TextView
-            android:layout_marginRight="2dp"
-            android:layout_marginEnd="2dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
             android:background="@color/colorAccent"
             android:layout_gravity="center"
             android:textStyle="bold"
@@ -273,8 +273,8 @@
             android:layout_height="match_parent"
             android:text="@string/item_name"/>
         <TextView
-            android:layout_marginRight="2dp"
-            android:layout_marginEnd="2dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
             android:background="@color/colorAccent"
             android:layout_gravity="center"
             android:textStyle="bold"
@@ -287,8 +287,8 @@
             android:layout_height="match_parent"
             android:text="@string/Quan"/>
         <TextView
-            android:layout_marginRight="2dp"
-            android:layout_marginEnd="2dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
             android:background="@color/colorAccent"
             android:layout_gravity="center"
             android:textStyle="bold"
@@ -301,8 +301,8 @@
             android:layout_height="match_parent"
             android:text="@string/Price"/>
         <TextView
-            android:layout_marginRight="2dp"
-            android:layout_marginEnd="2dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
             android:background="@color/colorAccent"
             android:layout_gravity="center"
             android:textStyle="bold"
@@ -329,25 +329,23 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_margin="2dp"
+        android:layout_margin="1dp"
         android:background="@color/white"
         android:id="@+id/ExpenseRecyclerView"
-        android:minHeight="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
     <com.github.mikephil.charting.charts.BarChart
-        android:background="@color/white"
+        android:visibility="gone"
         android:id="@+id/ExpenseBarChart"
-        android:layout_margin="2dp"
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="400dp"
+        android:layout_margin="1dp"
+        android:background="@color/white">
 
     </com.github.mikephil.charting.charts.BarChart>
-   
-
 
 
 </LinearLayout>

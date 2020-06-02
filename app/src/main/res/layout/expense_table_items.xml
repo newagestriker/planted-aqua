@@ -1,150 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     >
 
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/eachExpenseRowMainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/DeleteExpenseItemButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/cross">
+
+
+        </ImageView>
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/DeleteExpenseItemButton">
 
 
-     <TableRow
-         android:background="@color/grey_200"
-
-         android:weightSum="6"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-
-
-         >
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/grey_200"
+                android:weightSum="6"
 
 
-
-    <TextView
-        android:textColor="@color/colorAccent"
-        android:layout_marginRight="1dp"
-        android:layout_marginEnd="1dp"
-        android:background="@color/white"
-        android:id="@+id/ExpenseDate"
-        android:padding="2dp"
-        android:textSize="10sp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
-    <TextView
-        android:textColor="@color/colorAccent"
-        android:layout_marginRight="1dp"
-        android:layout_marginEnd="1dp"
-        android:background="@color/white"
-        android:id="@+id/ExpenseTankName"
-        android:padding="2dp"
-        android:textSize="15sp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        />
-    <TextView
-        android:textColor="@color/colorAccent"
-        android:layout_marginRight="1dp"
-        android:layout_marginEnd="1dp"
-        android:background="@color/white"
-        android:id="@+id/ExpenseItemName"
-        android:padding="2dp"
-        android:textSize="15sp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        />
-    <TextView
-
-        android:textColor="@color/colorAccent"
-        android:layout_marginRight="1dp"
-        android:layout_marginEnd="1dp"
-        android:background="@color/white"
-        android:id="@+id/ExpenseQuantity"
-        android:padding="2dp"
-        android:textSize="15sp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        />
-
-        <TextView
-            android:textColor="@color/colorAccent"
-            android:layout_marginRight="1dp"
-            android:layout_marginEnd="1dp"
-            android:background="@color/white"
-            android:id="@+id/ExpensePricePerUnit"
-            android:padding="2dp"
-            android:textSize="15sp"
-            android:layout_gravity="center"
-            android:gravity="center|end"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
-    <TextView
-        android:textColor="@color/colorAccent"
-        android:background="@color/white"
-        android:layout_marginRight="1dp"
-        android:layout_marginEnd="1dp"
-        android:id="@+id/ExpensePrice"
-        android:padding="2dp"
-        android:textSize="15sp"
-        android:layout_gravity="center"
-        android:gravity="center|end"
-        android:layout_weight="1"
-        android:layout_width="0dp"
+                >
 
 
-        android:layout_height="match_parent" />
+                <TextView
+                    android:id="@+id/ExpenseDate"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="10sp" />
 
-         <ImageView
-             android:background="@color/white"
-             android:id="@+id/DeleteExpenseItemButton"
-             android:focusable="true"
-             android:clickable="true"
-             android:visibility="gone"
-             android:padding="2dp"
-             android:layout_height="wrap_content"
-             android:layout_width="match_parent"
-             android:src="@drawable/cross"
-             >
+                <TextView
+                    android:id="@+id/ExpenseTankName"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/ExpenseItemName"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="10sp" />
+
+                <TextView
+
+                    android:id="@+id/ExpenseQuantity"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/ExpensePricePerUnit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="center|end"
+                    android:padding="2dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/ExpensePrice"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="center|end"
+                    android:padding="2dp"
+                    android:textColor="@color/colorAccent"
 
 
-         </ImageView>
+                    android:textSize="10sp" />
 
 
-
-
-
-
-
-     </TableRow>
+            </TableRow>
 
         </TableLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
-
-
-
-<View
-android:layout_width="match_parent"
-android:layout_height="2dp"
-android:layout_margin="2dp"
-android:background="@color/colorPrimaryDark">
-</View>
 
 </LinearLayout>

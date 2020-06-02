@@ -1,5 +1,7 @@
 package com.newage.plantedaqua.models;
 
+import com.github.mikephil.charting.data.Entry;
+
 public class ExpenseItems {
 
     private String expenseDate;

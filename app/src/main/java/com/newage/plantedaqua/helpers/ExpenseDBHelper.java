@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class ExpenseDBHelper extends SQLiteOpenHelper {
 
@@ -310,7 +311,33 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
 
     }
 
+    public Cursor getExpensePerGroup(String col,String startDate,String endDate) {
 
+        SQLiteDatabase db = getInstance(context).getReadableDatabase();
+
+        String query;
+
+        if(startDate.isEmpty()){
+            query = "select ShownDate,sum(TotalPrice) from (select * from expense_table order by date(ShownDate) desc) group by " + col ;
+        }
+        else {
+
+            query = "select ShownDate,sum(TotalPrice) from (select * from expense_table  where date(ShownDate) between date('" + startDate + "') and date('" + endDate + "') order by date(ShownDate) desc) group by " + col;
+           // Log.i("QUERY",query);
+        }
+
+        try {
+
+            return db.rawQuery(query,null);
+
+
+
+        } catch (Exception e) {
+
+            return null;
+        }
+
+    }
 
 
 }

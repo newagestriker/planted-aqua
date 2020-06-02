@@ -2,6 +2,8 @@ package com.newage.plantedaqua.adapters;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +27,10 @@ public class ExpenseTableRecyclerView extends RecyclerView.Adapter<ExpenseTableR
 
 
 
-    public ExpenseTableRecyclerView(ArrayList<ExpenseItems> arrayList, OnExpenseItemClickListener onExpenseItemClickListener){
+    public ExpenseTableRecyclerView(Context context,ArrayList<ExpenseItems> arrayList, OnExpenseItemClickListener onExpenseItemClickListener){
             this.arrayList=arrayList;
             this.onExpenseItemClickListener=onExpenseItemClickListener;
+            this.context = context;
 
         }
 
@@ -52,11 +55,17 @@ public class ExpenseTableRecyclerView extends RecyclerView.Adapter<ExpenseTableR
             if(arrayList.get(position).isShowDeleteButton() && arrayList.get(position).getCategory().equals("EXTRA")){
 
                 holder.deleteExpenseButton.setVisibility(View.VISIBLE);
+                holder.mainLayoutPerRow.setBackground(ContextCompat.getDrawable(context, R.drawable.fillbox));
+                holder.mainLayoutPerRow.setPadding(5,5,5,5);
 
             }
             else
             {
                 holder.deleteExpenseButton.setVisibility(View.GONE);
+
+                holder.mainLayoutPerRow.setBackground(null);
+                holder.mainLayoutPerRow.setPadding(0,0,0,0);
+
             }
 
 
@@ -84,6 +93,7 @@ public class ExpenseTableRecyclerView extends RecyclerView.Adapter<ExpenseTableR
             TextView expensePrice;
             TextView expensePricePerQuantity;
             ImageView deleteExpenseButton;
+            ConstraintLayout mainLayoutPerRow;
 
 
 
@@ -95,6 +105,7 @@ public class ExpenseTableRecyclerView extends RecyclerView.Adapter<ExpenseTableR
                expenseQuantity = view.findViewById(R.id.ExpenseQuantity);
                expensePrice = view.findViewById(R.id.ExpensePrice);
                expensePricePerQuantity = view.findViewById(R.id.ExpensePricePerUnit);
+                mainLayoutPerRow = view.findViewById(R.id.eachExpenseRowMainLayout);
                deleteExpenseButton = view.findViewById(R.id.DeleteExpenseItemButton);
                deleteExpenseButton.setOnClickListener(this);
                view.setOnClickListener(this);
