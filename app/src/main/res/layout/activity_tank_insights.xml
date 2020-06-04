@@ -34,7 +34,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="5dp"
-            android:text="Light Zone"
+            android:text="@string/light_zone"
             android:textStyle="bold"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp" />
@@ -46,7 +46,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="5dp"
-            android:text="Insufficient data"
+            android:text="@string/insufficient_data"
             android:textColor="@color/colorAccent"
             android:textSize="15sp" />
             </LinearLayout>
@@ -72,7 +72,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:textStyle="bold"
-            android:text="Dosage Recommendation"
+            android:text="@string/dosage_recommendation"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp" />
 
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:padding="5dp"
-                android:text="Micro"
+                android:text="@string/micro"
                 android:textStyle="bold|italic"
                 android:textColor="@color/colorPrimary"
                 android:textSize="15sp" />
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:padding="5dp"
-            android:text="No Data. Please set recommended dosage data from Micro Dosage Calculator."
+            android:text="@string/no_data_for_micro_dosage"
             android:textColor="@color/grey_500"
             android:textSize="15sp" />
 
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:padding="5dp"
-                android:text="Macro"
+                android:text="@string/macro"
                 android:textStyle="bold|italic"
                 android:textColor="@color/colorPrimary"
                 android:textSize="15sp" />
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:padding="5dp"
-                android:text="No Data. Please set recommended dosage data from Macro Dosage Calculator."
+                android:text="@string/no_data_for_macro_dose"
                 android:textColor="@color/grey_500"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -143,7 +143,7 @@
         android:textColor="@color/duskYellow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pending Tasks"/>
+        android:text="@string/pending_tasks"/>
 
 
 
@@ -186,7 +186,7 @@
         android:textColor="@color/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Upcoming Tasks"/>
+        android:text="@string/upcoming_tasks"/>
 
 
     <LinearLayout

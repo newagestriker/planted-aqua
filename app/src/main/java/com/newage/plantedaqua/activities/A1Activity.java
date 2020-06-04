@@ -24,10 +24,14 @@ import com.facebook.ads.AdError;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
 
+import android.os.Handler;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -39,6 +43,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -82,8 +90,10 @@ import com.newage.plantedaqua.helpers.NutrientDbHelper;
 import com.newage.plantedaqua.R;
 import com.newage.plantedaqua.adapters.RecyclerAdapterPicsInfo;
 import com.newage.plantedaqua.helpers.TankDBHelper;
+import com.newage.plantedaqua.helpers.TanksSectionsPagerAdapter;
 import com.newage.plantedaqua.helpers.TinyDB;
 import com.newage.plantedaqua.models.GalleryInfo;
+import com.newage.plantedaqua.models.TanksDetails;
 import com.onesignal.OneSignal;
 
 import java.util.ArrayList;
@@ -156,12 +166,15 @@ public class A1Activity extends AppCompatActivity
 
         loadBannerAd();
 
-//        ImageView imageView = findViewById(R.id.testImage);
-//        imageView.setOnClickListener(v -> {
-//            startActivity(new Intent(this,TestActivity.class));
-//        });
+        //region INITIALIZE SHORTCUTS
+        ImageView algaeSC = findViewById(R.id.algaeShortCut);
+        ImageView converterSC = findViewById(R.id.converterShortCut);
+        ImageView walletSC = findViewById(R.id.walletShortCut);
+        ImageView macroSC = findViewById(R.id.macroShortCut);
+        //endregion
 
         instructionText = findViewById(R.id.InstructionText);
+        tankDBHelper = TankDBHelper.newInstance(this);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -265,6 +278,35 @@ public class A1Activity extends AppCompatActivity
         /*Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();*/
+    }
+
+
+
+    public void shortCutClick(View view){
+
+        switch (view.getTag().toString()){
+            case  "wallet" : {
+                Intent iExpense = new Intent(this, ExpenseActivity.class);
+                startActivity(iExpense);
+                break;
+            }
+            case  "macro" : {
+                Intent iMacro = new Intent(this, MacroNutrientTableActivity.class);
+                startActivity(iMacro);
+                break;
+            }
+            case  "converter" : {
+                Intent iExpense = new Intent(this, ConverterActivity.class);
+                startActivity(iExpense);
+                break;
+            }
+            default : {
+                Intent i3 = new Intent(this, AlgaeActivity.class);
+                startActivity(i3);
+                break;
+            }
+        }
+
     }
 
     private void modifyDBs() {
@@ -488,6 +530,8 @@ public class A1Activity extends AppCompatActivity
 
         }
 
+        loadViewPagerTankDetails();
+
     }
 
     private void setDefaultSymbol(){
@@ -495,6 +539,7 @@ public class A1Activity extends AppCompatActivity
         if(settingsDB.getString("DefaultCurrencySymbol").isEmpty()){
             settingsDB.putString("DefaultCurrencySymbol","₹");
         }
+
     }
 
     private void checkConsent() {
@@ -644,11 +689,8 @@ public class A1Activity extends AppCompatActivity
 
         if (id == R.id.nav_nearby) {
             startMapsActivty();
-        } else if (id == R.id.nav_algae) {
-
-            Intent i3 = new Intent(this, AlgaeActivity.class);
-            startActivity(i3);
-        }else if (id == R.id.nav_privacy) {
+        }
+        else if (id == R.id.nav_privacy) {
 
             Intent i4 = new Intent(this, ConditionsActivity.class);
             i4.putExtra("URL","https://plantedaquaapp.blogspot.com/p/privacy-policy.html");
@@ -707,17 +749,6 @@ public class A1Activity extends AppCompatActivity
 
         }
 
-        else if (id == R.id.nav_wallet) {
-
-            Intent iExpense = new Intent(this, ExpenseActivity.class);
-            startActivity(iExpense);
-        }
-
-        else if (id == R.id.nav_macro_calc) {
-
-            Intent iExpense = new Intent(this, MacroNutrientTableActivity.class);
-            startActivity(iExpense);
-        }
 
         else if (id == R.id.nav_micro_calc) {
 
@@ -725,11 +756,7 @@ public class A1Activity extends AppCompatActivity
             startActivity(iExpense);
         }
 
-        else if (id == R.id.nav_converter) {
 
-            Intent iExpense = new Intent(this, ConverterActivity.class);
-            startActivity(iExpense);
-        }
 
         else if (id == R.id.nav_chatbox) {
 
@@ -934,7 +961,7 @@ public class A1Activity extends AppCompatActivity
 
     private void insertTankRow(){
 
-        tankDBHelper =TankDBHelper.newInstance(this);
+
         SQLiteDatabase DB = tankDBHelper.getWritableDatabase();
         Cursor c=tankDBHelper.getData(DB);
 
@@ -1026,13 +1053,13 @@ public class A1Activity extends AppCompatActivity
         startScreenRecyclerView.setAdapter(adapter);
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
 
             @Override
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
-                final int position = viewHolder.getAdapterPosition(); //swiped position
+                final int position = viewHolder.getLayoutPosition(); //swiped position
                 clicked=false;
                 if (direction == ItemTouchHelper.LEFT||direction == ItemTouchHelper.RIGHT) { //swipe left
                     temp=new TankProgressDetails();
@@ -1120,6 +1147,14 @@ public class A1Activity extends AppCompatActivity
 
                 adapter.notifyItemInserted(tanklabels.size() - 1);
                 setInstructionVisibility();
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        tanksSectionsPagerAdapter.notifyDataSetChanged();
+                        viewPager2.setCurrentItem(tanksDetailsArrayList.size()-1);
+                    }
+                });
+
             }
             if(requestCode==TANK_DETAILS_MODIFICATION){
 
@@ -1132,6 +1167,14 @@ public class A1Activity extends AppCompatActivity
                 tanklabels.get(position).setTag(data.getStringExtra("Tag"));
                 adapter.notifyItemChanged(position);
                 setInstructionVisibility();
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        tanksSectionsPagerAdapter.notifyDataSetChanged();
+                        viewPager2.setCurrentItem(position);
+                    }
+                });
+
 
             }
         }
@@ -1318,7 +1361,11 @@ public class A1Activity extends AppCompatActivity
                 galleryInfoArrayList.add(galleryInfo);
                 showcaseAdapter.notifyItemInserted(galleryInfoArrayList.size()-1);
                 if(galleryInfoArrayList.size()==1){
+                    userTankImagesRecyclerView.setVisibility(View.VISIBLE);
                     startCarousel();
+                }
+                if(galleryInfoArrayList.size()==0){
+                    userTankImagesRecyclerView.setVisibility(View.GONE);
                 }
 
             }
@@ -1464,6 +1511,94 @@ public class A1Activity extends AppCompatActivity
 
 
         }
+    ArrayList<TanksDetails> tanksDetailsArrayList;
+    TanksSectionsPagerAdapter tanksSectionsPagerAdapter;
+    ViewPager viewPager2;
+    private void loadViewPagerTankDetails(){
+        tanksDetailsArrayList = new ArrayList<>();
+        TanksDetails tanksDetails = new TanksDetails();
+        Cursor cursor = tankDBHelper.getData(tankDBHelper.getReadableDatabase());
+        if(cursor!=null){
+            if(cursor.moveToFirst()){
+                do{
+                    tanksDetails = new TanksDetails();
+                    tanksDetails.setTankID(cursor.getString(1));
+                    tanksDetails.setTankName(cursor.getString(2));
+                    tanksDetails.setTankPicUri(cursor.getString(3));
+                    tanksDetails.setTankType(cursor.getString(4));
+                    tanksDetails.setTankStatus(cursor.getString(9));
+                    tanksDetails.setTankStartDate(cursor.getString(10));
+                    tanksDetails.setTankEndDate(cursor.getString(11));
+                    tanksDetails.setTankCO2Supply(cursor.getString(12));
+                    tanksDetails.setTankLightRegion(cursor.getString(16)==null?"":cursor.getString(16));
+
+                    tanksDetailsArrayList.add(tanksDetails);
+
+                }while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
+        viewPager2 = findViewById(R.id.TanksViewPager);
+        tanksSectionsPagerAdapter = new TanksSectionsPagerAdapter(tanksDetailsArrayList,getSupportFragmentManager());
+        viewPager2.setAdapter(tanksSectionsPagerAdapter);
+    }
+
+    public void onTankDashBoardItemsClicked(View view){
+
+        switch(view.getId()){
+            case R.id.deleteTank : removeTankFromPager(view.getTag().toString());
+            break;
+            default : editTankDetails();
+            break;
+        }
+
+
+
+    }
+
+    private void editTankDetails(){
+        Intent intent=new Intent(A1Activity.this,CreateTankActivity.class);
+        intent.putExtra("mode","modification");
+        intent.putExtra("Position",viewPager2.getCurrentItem());
+        startActivityForResult(intent,TANK_DETAILS_MODIFICATION);
+    }
+
+    private void removeTankFromPager(String aquariumID){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Delete Tank")
+                .setMessage("This action will delete your tank and all relevant data. Do you wish to continue?")
+                .setNegativeButton(getResources().getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                       // Log.i("AQUARIUMID",aquariumID);
+                        getApplication().deleteDatabase(aquariumID);
+                        tankDBHelper.deleteItem("AquariumID", aquariumID);
+                        tankDBHelper.deleteItemReco(aquariumID);
+                        tankDBHelper.deleteItemLight(aquariumID);
+                        NutrientDbHelper nutrientDbHelper = NutrientDbHelper.newInstance(A1Activity.this.getApplicationContext(), aquariumID);
+                        ExpenseDBHelper expenseDBHelper = ExpenseDBHelper.getInstance(A1Activity.this.getApplicationContext());
+                        expenseDBHelper.deleteExpense("AquariumID", aquariumID);
+                        nutrientDbHelper.deleteNutrientTables();
+                      //  Log.i("POSITION",Integer.toString(viewPager2.getCurrentItem()));
+                        tanksDetailsArrayList.remove(viewPager2.getCurrentItem());
+                        tanksSectionsPagerAdapter.notifyDataSetChanged();
+                       // Log.i("SIZE",Integer.toString(tanksDetailsArrayList.size()));
+                    }
+                })
+                .create()
+                .show();
+    }
+
+
+
 
 }
 

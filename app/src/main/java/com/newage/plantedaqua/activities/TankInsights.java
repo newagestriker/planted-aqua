@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 
 public class TankInsights extends AppCompatActivity {
@@ -40,14 +41,10 @@ public class TankInsights extends AppCompatActivity {
 
     private RecyclerAdapterLogs adapter2;
     private ArrayList<LogData> logData2=new ArrayList<>();
-    private LogData logData;
 
     private RecyclerView recyclerView;
 
     private ArrayList<LogData> logData1 = new ArrayList<>();
-    private RecyclerAdapterLogs adapter1;
-
-
 
 
     @Override
@@ -55,7 +52,7 @@ public class TankInsights extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tank_insights);
 
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         Intent intent = getIntent();
@@ -190,7 +187,23 @@ public class TankInsights extends AppCompatActivity {
             upcomingTaskTextView.setText("Upcoming Tasks");
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
-            adapter1 = new RecyclerAdapterLogs(logData1, this, new RecyclerAdapterLogs.OnItemClickListener() {
+            /*String status=logData1.get(position).getStatus();
+                if(status.equals(getResources().getString(R.string.Completed))){
+                    logData1.get(position).setStatus(getResources().getString(R.string.Skipped));
+                    adapter1.notifyDataSetChanged();
+                    String task=logData1.get(position).getTask();
+                    String category=logData1.get(position).getCategory();
+                    myDbHelper.updateItemLogs("Log_Task",task,"Log_Category",category,"Log_Status",getResources().getString(R.string.Skipped));
+
+                }
+                else{
+                    logData1.get(position).setStatus(getResources().getString(R.string.Completed));
+                    adapter1.notifyDataSetChanged();
+                    String task=logData1.get(position).getTask();
+                    String category=logData1.get(position).getCategory();
+                    myDbHelper.updateItemLogs("Log_Task",task,"Log_Category",category,"Log_Status",getResources().getString(R.string.Completed));
+                }*/
+            RecyclerAdapterLogs adapter1 = new RecyclerAdapterLogs(logData1, this, new RecyclerAdapterLogs.OnItemClickListener() {
                 @Override
                 public void onClick(View view, int position) {
                 /*String status=logData1.get(position).getStatus();
@@ -323,7 +336,7 @@ public class TankInsights extends AppCompatActivity {
         Cursor c = myDbHelper.getDataLogsCondition("Log_Status", "Skipped");
         if (c.moveToFirst()) {
             do {
-                logData = new LogData();
+                LogData logData = new LogData();
                 logData.setCategory(c.getString(3));
                 logData.setTask(c.getString(2));
                 logData.setDt(c.getString(1));

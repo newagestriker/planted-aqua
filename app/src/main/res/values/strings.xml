@@ -180,7 +180,7 @@
     <string name="UserDeclined">User declined your request!!!</string>
     <string name="ViewRefreshed">View Refreshed</string>
     <string name="AppUpdated">We noticed some configuration changes in your app. It is recommended that you reboot your device for the app to function properly</string>
-    <string name="Version">Version 8.3.1</string>
+    <string name="Version">Version 8.4.1</string>
     <string name="Help">Help</string>
     <string name="Notifications">Notifications</string>
     <string name="CD">Image</string>
@@ -277,6 +277,15 @@
     <string name="fan_high">3</string>
     <string name="add_tank_instructions">Click on the \'+\' sign on Top Right to add a new tank.</string>
     <string name="ratings">ratings</string>
+    <string name="tank_image">Tank Image</string>
+    <string name="insufficient_data">Insufficient data</string>
+    <string name="dosage_recommendation">Dosage Recommendation</string>
+    <string name="micro">Micro</string>
+    <string name="macro">Macro</string>
+    <string name="pending_tasks">Pending Tasks</string>
+    <string name="upcoming_tasks">Upcoming Tasks</string>
+    <string name="no_data_for_micro_dosage">No Data. Please set recommended dosage data from Micro Dosage Calculator.</string>
+    <string name="no_data_for_macro_dose">No Data. Please set recommended dosage data from Macro Dosage Calculator.</string>
 
 
 </resources>

@@ -35,8 +35,8 @@ android {
         applicationId "com.newage.plantedaqua"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 36
-        versionName "8.3.1"
+        versionCode 38
+        versionName "8.4.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 onesignal_app_id               : '75961582-4d0f-4c61-bd6e-7fd712577fbc',

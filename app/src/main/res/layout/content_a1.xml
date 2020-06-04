@@ -15,7 +15,7 @@
     >
 
     <LinearLayout
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="90dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -86,6 +86,7 @@
     </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
             android:id="@+id/ShowcaseTankRecyclerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -94,13 +95,20 @@
         </androidx.recyclerview.widget.RecyclerView>
 
     <androidx.recyclerview.widget.RecyclerView
-
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/startScreenRecyclerView"
         android:layout_margin="3dp">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/TanksViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </androidx.viewpager.widget.ViewPager>
 
 
     </LinearLayout>
@@ -112,14 +120,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="40dp"
         />
 
     <LinearLayout
 
         android:id="@+id/tabbed_options"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:weightSum="4"
 
         android:layout_alignParentBottom="true"
@@ -127,25 +135,39 @@
         app:layout_constraintBottom_toBottomOf="parent"
         >
         <ImageView
-            android:id="@+id/testImage"
+            android:id="@+id/converterShortCut"
             android:clickable="true"
             android:focusable="true"
             android:padding="8dp"
+            android:tag="converter"
+            android:onClick="shortCutClick"
             android:src="@drawable/converter_filled"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:contentDescription="TODO">
 
         </ImageView>
         <ImageView
+            android:tag="algae"
+            android:onClick="shortCutClick"
+            android:id="@+id/algaeShortCut"
+            android:clickable="true"
+            android:focusable="true"
             android:padding="8dp"
             android:src="@drawable/algaebw"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:contentDescription="TODO">
 
         </ImageView>
         <ImageView
+            android:tag="macro"
+            android:onClick="shortCutClick"
+            android:id="@+id/macroShortCut"
+            android:clickable="true"
+            android:focusable="true"
             android:padding="8dp"
             android:src="@drawable/table_bw"
             android:layout_weight="1"
@@ -154,6 +176,11 @@
 
         </ImageView>
         <ImageView
+            android:tag="wallet"
+            android:onClick="shortCutClick"
+            android:id="@+id/walletShortCut"
+            android:clickable="true"
+            android:focusable="true"
             android:padding="8dp"
             android:src="@drawable/expense"
             android:layout_weight="1"

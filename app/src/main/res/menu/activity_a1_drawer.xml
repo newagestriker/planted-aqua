@@ -9,10 +9,6 @@
             android:icon="@drawable/bino"
             android:title="@string/Nearby" />
         <item
-            android:id="@+id/nav_algae"
-            android:icon="@drawable/algaebw"
-            android:title="@string/Algae" />
-        <item
             android:id="@+id/nav_seller"
             android:icon="@drawable/shopbw"
             android:title="@string/Shop" />
@@ -28,18 +24,6 @@
             android:id="@+id/nav_micro_calc"
             android:icon="@drawable/table_bw"
             android:title="@string/micro_calculator" />
-        <item
-            android:id="@+id/nav_macro_calc"
-            android:icon="@drawable/table_bw"
-            android:title="@string/macro_calculator" />
-        <item
-            android:id="@+id/nav_converter"
-            android:icon="@drawable/converter_filled"
-            android:title="@string/converters" />
-        <item
-            android:id="@+id/nav_wallet"
-            android:icon="@drawable/expense"
-            android:title="@string/expense" />
         <item
             android:id="@+id/nav_chatbox"
             android:icon="@drawable/shout"

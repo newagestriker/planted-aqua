@@ -6,5 +6,6 @@
     <color name="highlight">#F1ED0F</color>
     <color name="duskYellow">#efc90c</color>
     <color name="lightGrey">#cacaca</color>
+    <color name="customDarkBackground">#052B00</color>
 
 </resources>

@@ -10,6 +10,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -42,16 +44,6 @@ import java.util.ArrayList;
 public class TasksActivity extends AppCompatActivity {
 
     /**
-     * The {@link PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
@@ -73,7 +65,15 @@ public class TasksActivity extends AppCompatActivity {
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         coordinatorLayout=findViewById(R.id.main_content);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(this,getSupportFragmentManager());
+        /**
+         * The {@link PagerAdapter} that will provide
+         * fragments for each of the sections. We use a
+         * {@link FragmentPagerAdapter} derivative, which will keep every
+         * loaded fragment in memory. If this becomes too memory intensive, it
+         * may be best to switch to a
+         * {@link FragmentStatePagerAdapter}.
+         */
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.container);
@@ -81,23 +81,6 @@ public class TasksActivity extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-       /* mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                mSectionsPagerAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });*/
 
         }
 
@@ -148,7 +131,8 @@ public class TasksActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
            View rootView = inflater.inflate(R.layout.fragment_tasks, container, false);
            Bundle args=getArguments();
-           int position=args.getInt(ARG_SECTION_NUMBER);
+            assert args != null;
+            int position=args.getInt(ARG_SECTION_NUMBER);
            String AlarmType;
             switch (position){
                 case 0: AlarmType=getResources().getString(R.string.page_text_1);
@@ -423,7 +407,7 @@ public class TasksActivity extends AppCompatActivity {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public static class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         private Context context;
          SectionsPagerAdapter(Context context,FragmentManager fm) {
@@ -431,6 +415,7 @@ public class TasksActivity extends AppCompatActivity {
             this.context=context;
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.

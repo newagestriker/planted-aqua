@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.newage.plantedaqua.helpers.ConnectionDetector;
 import com.newage.plantedaqua.models.GalleryInfo;
 import com.newage.plantedaqua.R;
 import com.newage.plantedaqua.adapters.UsersGalleryRecyclerAdapter;
@@ -68,6 +69,9 @@ public class UsersGalleryActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Users Gallery");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users_gallery);
+        ConnectionDetector connectionDetector = new ConnectionDetector(this,"google.com");
+        if (!connectionDetector.isInternetAvailable())
+            Toast.makeText(this,"No internet connection found",Toast.LENGTH_LONG).show();
         mAuth = FirebaseAuth.getInstance();
         progressBarRelativeLayout = findViewById(R.id.ProgressBarRelativeLayout);
         galleryItemLoadingProgressBar = findViewById(R.id.GalleryItemsLoadingProgessBar);

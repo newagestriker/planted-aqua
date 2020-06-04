@@ -101,31 +101,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-        userInfoCard=findViewById(R.id.userInfoCard);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+            userInfoCard = findViewById(R.id.userInfoCard);
 
 
-        mAuth=FirebaseAuth.getInstance();
-        setPermanent=findViewById(R.id.SetPermanent);
-        userID=mAuth.getCurrentUser().getUid();
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setMessage(getResources().getString(R.string.PleaseWait));
-        progressDialog.show();
-        storageReference= FirebaseStorage.getInstance().getReference("images");
-        String userType=getIntent().getStringExtra("UserType");
-        setUserdata(userType);
+            mAuth = FirebaseAuth.getInstance();
+            setPermanent = findViewById(R.id.SetPermanent);
+            userID = mAuth.getCurrentUser().getUid();
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage(getResources().getString(R.string.PleaseWait));
+            progressDialog.show();
+            storageReference = FirebaseStorage.getInstance().getReference("images");
+            String userType = getIntent().getStringExtra("UserType");
+            setUserdata(userType);
 
 
-        if(mAuth.getCurrentUser().getEmail()!=null)
-            current_user_email=mAuth.getCurrentUser().getEmail();
-        if(mAuth.getCurrentUser().getDisplayName()!=null)
-            current_user_dn=mAuth.getCurrentUser().getDisplayName();
-        OneSignal.sendTag("User_ID", mAuth.getCurrentUser().getUid());
-        OneSignal.sendTag("User_Type", userType);
+            if (mAuth.getCurrentUser().getEmail() != null)
+                current_user_email = mAuth.getCurrentUser().getEmail();
+            if (mAuth.getCurrentUser().getDisplayName() != null)
+                current_user_dn = mAuth.getCurrentUser().getDisplayName();
+            OneSignal.sendTag("User_ID", mAuth.getCurrentUser().getUid());
+            OneSignal.sendTag("User_Type", userType);
 
 
-        //userID="bapi";
+            //userID="bapi";
+        }
 
     }
     //JSONObject tags = new JSONObject();
@@ -149,26 +151,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         intent.putExtra("from_user", to_user);
         startActivity(intent);
 
-//        View view=getLayoutInflater().inflate(R.layout.connect_layout,null);
-//        UserMsg=view.findViewById(R.id.userMessage);
-//        AlertDialog.Builder builder=new AlertDialog.Builder(this);
-//        builder.setView(view)
-//                .setCancelable(false)
-//                .setPositiveButton(getResources().getString(R.string.Send), new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        msg=UserMsg.getText().toString();
-//                        sendRequest();
-//                        storeReceiverUserDetails();
-//
-//                    }
-//                })
-//                .setNegativeButton(getResources().getString(R.string.Cancel), new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                }).create().show();
     }
     private void storeReceiverUserDetails(){
 
