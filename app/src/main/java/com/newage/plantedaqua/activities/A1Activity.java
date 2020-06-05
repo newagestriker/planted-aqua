@@ -1511,6 +1511,11 @@ public class A1Activity extends AppCompatActivity
 
 
         }
+
+
+
+    //region EACH TANK IN VIEWPAGER
+
     ArrayList<TanksDetails> tanksDetailsArrayList;
     TanksSectionsPagerAdapter tanksSectionsPagerAdapter;
     ViewPager viewPager2;
@@ -1544,11 +1549,33 @@ public class A1Activity extends AppCompatActivity
         viewPager2.setAdapter(tanksSectionsPagerAdapter);
     }
 
+    //Adding Click Events to Icons in Each Tank Card
     public void onTankDashBoardItemsClicked(View view){
 
         switch(view.getId()){
             case R.id.deleteTank : removeTankFromPager(view.getTag().toString());
             break;
+            case R.id.imageNutrientOption : navigateToSelectedOption(new Intent(this,DosingGraphsActivity.class),viewPager2.getCurrentItem(),"");
+                break;
+            case R.id.imageFloraOption: navigateToSelectedOption(new Intent(this,TankItemListActivity.class),viewPager2.getCurrentItem(),"Fl");
+                break;
+            case R.id.imageFaunaOption: navigateToSelectedOption(new Intent(this,TankItemListActivity.class),viewPager2.getCurrentItem(),"Fr");
+                break;
+            case R.id.imageTanksEquipmentOption: navigateToSelectedOption(new Intent(this,TankItemListActivity.class),viewPager2.getCurrentItem(),"E");
+                break;
+            case R.id.imageLogOptions: navigateToSelectedOption(new Intent(this,LogsActivity.class),viewPager2.getCurrentItem(),"");
+                break;
+            case R.id.imageTaskOptions: navigateToSelectedOption(new Intent(this,TasksActivity.class),viewPager2.getCurrentItem(),"");
+                break;
+            case R.id.imageLightOption: navigateToSelectedOption(new Intent(this,LightCalcActivity.class),viewPager2.getCurrentItem(),"");
+                break;
+            case R.id.imageMacroOption: navigateToSelectedOption(new Intent(this,MacroNutrientTableActivity.class),viewPager2.getCurrentItem(),"");
+                break;
+            case R.id.imageMicroOption: navigateToSelectedOption(new Intent(this,MicroNutrientTableActivity.class),viewPager2.getCurrentItem(),"");
+                break;
+            case R.id.imageTPAOptions: navigateToSelectedOption(new Intent(this,TankProgressActivity.class),viewPager2.getCurrentItem(),"");
+                break;
+
             default : editTankDetails();
             break;
         }
@@ -1596,6 +1623,19 @@ public class A1Activity extends AppCompatActivity
                 .create()
                 .show();
     }
+
+    private void navigateToSelectedOption(Intent intent,int position, String itemCategory){
+
+
+        intent.putExtra("AquariumID",tanksDetailsArrayList.get(position).getTankID());
+        intent.putExtra("AquariumName",tanksDetailsArrayList.get(position).getTankName());
+        intent.putExtra("ItemCategory",itemCategory);
+
+        startActivity(intent);
+
+    }
+
+    //endregion
 
 
 

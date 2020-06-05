@@ -74,15 +74,17 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
                 TankNameText.animate().translationY(-100f).duration = 300L
                 constraintLayoutEachTankOptions.apply {
                     alpha = 0f
+                    scaleX = 0f
+                    scaleY = 0f
                     visibility = View.VISIBLE
-                    animate().alpha(1f).setDuration(500L).setListener(null)
+                    animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(500L).setListener(null)
                 }
             }
                  else {
-                TankNameText.animate().translationY(0f).duration = 500L
+                TankNameText.animate().translationY(0f).duration = 300L
                     constraintLayoutEachTankOptions.apply {
 
-                        animate().alpha(0f).setDuration(300L).setListener(object : AnimatorListenerAdapter() {
+                        animate().alpha(0f).scaleX(0f).scaleY(0f).setDuration(500L).setListener(object : AnimatorListenerAdapter() {
                             override fun onAnimationEnd(animation: Animator) {
                                 visibility = View.GONE
                             }

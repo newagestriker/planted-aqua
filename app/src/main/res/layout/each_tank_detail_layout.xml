@@ -107,254 +107,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView2"
-            app:cardCornerRadius="2dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            app:cardBackgroundColor="@color/customDarkBackground"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="6dp">
-
-
-                <ImageView
-
-                    android:id="@+id/imageView"
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    android:layout_margin="1dp"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/tank_image"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-                <TextView
-                    android:id="@+id/typeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="@{boundTankDetails.tankType}"
-                    android:textColor="@color/highlight"
-                    android:textSize="12sp"
-                    android:textStyle="italic"
-                    app:layout_constraintBottom_toTopOf="@+id/statusText"
-                    app:layout_constraintStart_toEndOf="@+id/imageView"
-                    app:layout_constraintTop_toBottomOf="@+id/lightZoneText"
-                    app:visibleGone="@{boundTankDetails.tankType.empty}"
-                    tools:text="Planted" />
-
-                <TextView
-                    android:id="@+id/statusText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="@{boundTankDetails.tankStatus}"
-                    android:textColor="@color/highlight"
-                    android:textSize="12sp"
-                    android:textStyle="italic"
-                    app:layout_constraintBottom_toTopOf="@+id/co2SupplyText"
-                    app:layout_constraintStart_toEndOf="@+id/imageView"
-                    app:layout_constraintTop_toBottomOf="@+id/typeText"
-                    app:visibleGone="@{boundTankDetails.tankStatus.empty}"
-                    tools:text="In Use" />
-
-                <TextView
-                    android:id="@+id/fromDateText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="@{`From `+boundTankDetails.tankStartDate}"
-                    android:textColor="@color/highlight"
-                    android:textSize="12sp"
-                    android:textStyle="italic"
-                    app:layout_constraintBottom_toTopOf="@+id/toDateText"
-                    app:layout_constraintStart_toEndOf="@+id/imageView"
-                    app:layout_constraintTop_toBottomOf="@+id/co2SupplyText"
-                    app:visibleGone="@{boundTankDetails.tankStartDate.empty}"
-                    tools:text="From 9/11/2019" />
-
-                <TextView
-                    android:id="@+id/toDateText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="@{`To `+boundTankDetails.tankEndDate}"
-                    android:textColor="@color/highlight"
-                    android:textSize="12sp"
-                    android:textStyle="italic"
-                    app:layout_constraintBottom_toTopOf="@+id/constraintLayoutEachTankOptions"
-                    app:layout_constraintStart_toEndOf="@+id/imageView"
-                    app:layout_constraintTop_toBottomOf="@+id/fromDateText"
-                    app:visibleGone="@{boundTankDetails.tankEndDate.empty}"
-                    tools:text="To 10/4/2020" />
-
-                <TextView
-                    android:id="@+id/co2SupplyText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="@{boundTankDetails.tankCO2Supply +` CO2`}"
-                    android:textColor="@color/highlight"
-                    android:textSize="12sp"
-                    android:textStyle="italic"
-                    app:layout_constraintBottom_toTopOf="@+id/fromDateText"
-                    app:layout_constraintStart_toEndOf="@+id/imageView"
-                    app:layout_constraintTop_toBottomOf="@+id/statusText"
-                    app:visibleGone="@{boundTankDetails.tankCO2Supply.empty}"
-                    tools:text="Liquid CO2" />
-
-                <TextView
-                    android:id="@+id/lightZoneText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="@{boundTankDetails.tankLightRegion}"
-                    android:textColor="@color/highlight"
-                    android:textSize="12sp"
-                    android:textStyle="italic"
-                    app:layout_constraintBottom_toTopOf="@+id/typeText"
-                    app:layout_constraintStart_toEndOf="@+id/imageView"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:visibleGone="@{boundTankDetails.tankLightRegion.empty}"
-                    tools:text="Medium Light" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:visibility="gone"
-                    android:id="@+id/constraintLayoutEachTankOptions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView">
-
-                    <ImageView
-                        android:id="@+id/imageNutrientOption"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageLogOptions"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/imageFaunaOption"
-                        app:layout_constraintTop_toTopOf="@+id/imageLogOptions"
-                        app:srcCompat="@drawable/chart" />
-
-                    <ImageView
-                        android:id="@+id/imageFloraOption"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageLogOptions"
-                        app:layout_constraintEnd_toStartOf="@+id/imageFaunaOption"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/imageTanksEquipmentOption"
-                        app:layout_constraintTop_toTopOf="@+id/imageLogOptions"
-                        app:srcCompat="@drawable/flora" />
-
-                    <ImageView
-                        android:id="@+id/imageFaunaOption"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageLogOptions"
-                        app:layout_constraintEnd_toStartOf="@+id/imageNutrientOption"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/imageFloraOption"
-                        app:layout_constraintTop_toTopOf="@+id/imageLogOptions"
-                        app:srcCompat="@drawable/fish" />
-
-                    <ImageView
-                        android:id="@+id/imageTanksEquipmentOption"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageLogOptions"
-                        app:layout_constraintEnd_toStartOf="@+id/imageFloraOption"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/imageLogOptions"
-                        app:layout_constraintTop_toTopOf="@+id/imageLogOptions"
-                        app:srcCompat="@drawable/equipment" />
-
-                    <ImageView
-                        android:id="@+id/imageLogOptions"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/imageTanksEquipmentOption"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/imageMacroOption"
-                        app:srcCompat="@drawable/log" />
-
-                    <ImageView
-                        android:id="@+id/imageTaskOptions"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/imageTPAOptions"
-                        app:layout_constraintTop_toTopOf="@+id/imageMacroOption"
-                        app:srcCompat="@drawable/tasks" />
-
-                    <ImageView
-                        android:id="@+id/imageLightOption"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        app:layout_constraintEnd_toStartOf="@+id/imageTPAOptions"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/imageMicroOption"
-                        app:layout_constraintTop_toTopOf="@+id/imageMacroOption"
-                        app:srcCompat="@drawable/light" />
-
-                    <ImageView
-                        android:id="@+id/imageMacroOption"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintEnd_toStartOf="@+id/imageMicroOption"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/macrodose" />
-
-                    <ImageView
-                        android:id="@+id/imageMicroOption"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        app:layout_constraintEnd_toStartOf="@+id/imageLightOption"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/imageMacroOption"
-                        app:layout_constraintTop_toTopOf="@+id/imageMacroOption"
-                        app:srcCompat="@drawable/table" />
-
-                    <ImageView
-                        android:id="@+id/imageTPAOptions"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        app:layout_constraintEnd_toStartOf="@+id/imageTaskOptions"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/imageLightOption"
-                        app:layout_constraintTop_toTopOf="@+id/imageMacroOption"
-                        app:srcCompat="@drawable/album" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
         <ScrollView
             android:id="@+id/scrollView2"
             android:layout_width="match_parent"
@@ -362,7 +114,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView2">
+            app:layout_constraintTop_toBottomOf="@+id/cardView">
 
             <LinearLayout
 
@@ -372,11 +124,286 @@
 
                 >
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    app:cardBackgroundColor="@color/customDarkBackground"
+                    app:cardCornerRadius="2dp"
+                   >
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="6dp">
+
+
+                        <ImageView
+
+                            android:id="@+id/imageView"
+                            android:layout_width="150dp"
+                            android:layout_height="100dp"
+                            android:layout_margin="1dp"
+                            android:adjustViewBounds="true"
+                            android:contentDescription="@string/tank_image"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+                        <TextView
+                            android:id="@+id/typeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="@{boundTankDetails.tankType}"
+                            android:textColor="@color/highlight"
+                            android:textSize="12sp"
+                            android:textStyle="italic"
+                            app:layout_constraintBottom_toTopOf="@+id/statusText"
+                            app:layout_constraintStart_toEndOf="@+id/imageView"
+                            app:layout_constraintTop_toBottomOf="@+id/lightZoneText"
+                            app:visibleGone="@{boundTankDetails.tankType.empty}"
+                            tools:text="Planted" />
+
+                        <TextView
+                            android:id="@+id/statusText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="@{boundTankDetails.tankStatus}"
+                            android:textColor="@color/highlight"
+                            android:textSize="12sp"
+                            android:textStyle="italic"
+                            app:layout_constraintBottom_toTopOf="@+id/co2SupplyText"
+                            app:layout_constraintStart_toEndOf="@+id/imageView"
+                            app:layout_constraintTop_toBottomOf="@+id/typeText"
+                            app:visibleGone="@{boundTankDetails.tankStatus.empty}"
+                            tools:text="In Use" />
+
+                        <TextView
+                            android:id="@+id/fromDateText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="@{`From `+boundTankDetails.tankStartDate}"
+                            android:textColor="@color/highlight"
+                            android:textSize="12sp"
+                            android:textStyle="italic"
+                            app:layout_constraintBottom_toTopOf="@+id/toDateText"
+                            app:layout_constraintStart_toEndOf="@+id/imageView"
+                            app:layout_constraintTop_toBottomOf="@+id/co2SupplyText"
+                            app:visibleGone="@{boundTankDetails.tankStartDate.empty}"
+                            tools:text="From 9/11/2019" />
+
+                        <TextView
+                            android:id="@+id/toDateText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="@{`To `+boundTankDetails.tankEndDate}"
+                            android:textColor="@color/highlight"
+                            android:textSize="12sp"
+                            android:textStyle="italic"
+                            app:layout_constraintBottom_toTopOf="@+id/constraintLayoutEachTankOptions"
+                            app:layout_constraintStart_toEndOf="@+id/imageView"
+                            app:layout_constraintTop_toBottomOf="@+id/fromDateText"
+                            app:visibleGone="@{boundTankDetails.tankEndDate.empty}"
+                            tools:text="To 10/4/2020" />
+
+                        <TextView
+                            android:id="@+id/co2SupplyText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="@{boundTankDetails.tankCO2Supply +` CO2`}"
+                            android:textColor="@color/highlight"
+                            android:textSize="12sp"
+                            android:textStyle="italic"
+                            app:layout_constraintBottom_toTopOf="@+id/fromDateText"
+                            app:layout_constraintStart_toEndOf="@+id/imageView"
+                            app:layout_constraintTop_toBottomOf="@+id/statusText"
+                            app:visibleGone="@{boundTankDetails.tankCO2Supply.empty}"
+                            tools:text="Liquid CO2" />
+
+                        <TextView
+                            android:id="@+id/lightZoneText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="@{boundTankDetails.tankLightRegion}"
+                            android:textColor="@color/highlight"
+                            android:textSize="12sp"
+                            android:textStyle="italic"
+                            app:layout_constraintBottom_toTopOf="@+id/typeText"
+                            app:layout_constraintStart_toEndOf="@+id/imageView"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:visibleGone="@{boundTankDetails.tankLightRegion.empty}"
+                            tools:text="Medium Light" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraintLayoutEachTankOptions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+                            <ImageView
+                                android:id="@+id/imageNutrientOption"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:onClick="onTankDashBoardItemsClicked"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageLogOptions"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toEndOf="@+id/imageFaunaOption"
+                                app:layout_constraintTop_toTopOf="@+id/imageLogOptions"
+                                app:srcCompat="@drawable/chart" />
+
+                            <ImageView
+                                android:id="@+id/imageFloraOption"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:onClick="onTankDashBoardItemsClicked"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageLogOptions"
+                                app:layout_constraintEnd_toStartOf="@+id/imageFaunaOption"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toEndOf="@+id/imageTanksEquipmentOption"
+                                app:layout_constraintTop_toTopOf="@+id/imageLogOptions"
+                                app:srcCompat="@drawable/flora" />
+
+                            <ImageView
+                                android:id="@+id/imageFaunaOption"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:onClick="onTankDashBoardItemsClicked"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageLogOptions"
+                                app:layout_constraintEnd_toStartOf="@+id/imageNutrientOption"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toEndOf="@+id/imageFloraOption"
+                                app:layout_constraintTop_toTopOf="@+id/imageLogOptions"
+                                app:srcCompat="@drawable/fish" />
+
+                            <ImageView
+                                android:id="@+id/imageTanksEquipmentOption"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:onClick="onTankDashBoardItemsClicked"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageLogOptions"
+                                app:layout_constraintEnd_toStartOf="@+id/imageFloraOption"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toEndOf="@+id/imageLogOptions"
+                                app:layout_constraintTop_toTopOf="@+id/imageLogOptions"
+                                app:srcCompat="@drawable/equipment" />
+
+                            <ImageView
+                                android:id="@+id/imageLogOptions"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="8dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:onClick="onTankDashBoardItemsClicked"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/imageTanksEquipmentOption"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/imageMacroOption"
+                                app:srcCompat="@drawable/log" />
+
+                            <ImageView
+                                android:id="@+id/imageTaskOptions"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:onClick="onTankDashBoardItemsClicked"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toEndOf="@+id/imageTPAOptions"
+                                app:layout_constraintTop_toTopOf="@+id/imageMacroOption"
+                                app:srcCompat="@drawable/tasks" />
+
+                            <ImageView
+                                android:id="@+id/imageLightOption"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:onClick="onTankDashBoardItemsClicked"
+                                app:layout_constraintEnd_toStartOf="@+id/imageTPAOptions"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toEndOf="@+id/imageMicroOption"
+                                app:layout_constraintTop_toTopOf="@+id/imageMacroOption"
+                                app:srcCompat="@drawable/light" />
+
+                            <ImageView
+                                android:id="@+id/imageMacroOption"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_marginTop="8dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:onClick="onTankDashBoardItemsClicked"
+                                app:layout_constraintEnd_toStartOf="@+id/imageMicroOption"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/table" />
+
+                            <ImageView
+                                android:id="@+id/imageMicroOption"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:onClick="onTankDashBoardItemsClicked"
+                                app:layout_constraintEnd_toStartOf="@+id/imageLightOption"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toEndOf="@+id/imageMacroOption"
+                                app:layout_constraintTop_toTopOf="@+id/imageMacroOption"
+                                app:srcCompat="@drawable/macrodose" />
+
+                            <ImageView
+                                android:id="@+id/imageTPAOptions"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:onClick="onTankDashBoardItemsClicked"
+                                app:layout_constraintEnd_toStartOf="@+id/imageTaskOptions"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toEndOf="@+id/imageLightOption"
+                                app:layout_constraintTop_toTopOf="@+id/imageMacroOption"
+                                app:srcCompat="@drawable/album" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_margin="2dp"
                     app:cardCornerRadius="8dp">
 
                     <LinearLayout
@@ -389,7 +416,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
                             android:gravity="center"
-                            android:padding="5dp"
+                            android:padding="3dp"
                             android:text="@string/dosage_recommendation"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="16sp"
@@ -401,7 +428,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
-                            android:padding="5dp"
+                            android:padding="3dp"
                             android:text="@string/micro"
                             android:textColor="@color/colorPrimary"
                             android:textSize="15sp"
@@ -412,7 +439,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
-                            android:padding="5dp"
+                            android:padding="3dp"
                             android:text="@string/no_data_for_micro_dosage"
                             android:textColor="@color/grey_500"
                             android:textSize="12sp" />
@@ -422,7 +449,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
-                            android:padding="5dp"
+                            android:padding="3dp"
                             android:text="@string/macro"
                             android:textColor="@color/colorPrimary"
                             android:textSize="15sp"
@@ -433,7 +460,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
-                            android:padding="5dp"
+                            android:padding="3dp"
                             android:text="@string/no_data_for_macro_dose"
                             android:textColor="@color/grey_500"
                             android:textSize="12sp" />
@@ -459,7 +486,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:padding="5dp"
+                            android:padding="3dp"
                             android:text="@string/pending_tasks"
                             android:textColor="@color/duskYellow"
                             android:textSize="15sp"
@@ -503,7 +530,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:padding="5dp"
+                            android:padding="3dp"
                             android:text="@string/upcoming_tasks"
                             android:textColor="@color/colorAccent"
                             android:textSize="15sp"
@@ -548,7 +575,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:padding="5dp"
+                            android:padding="3dp"
                             android:text="@string/recommendations"
                             android:textColor="@color/colorPrimary"
                             android:textSize="12sp"
@@ -558,6 +585,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="3dp"
+                            android:textSize="12sp"
                             android:text="@string/suggested_reco"
                             android:textStyle="italic" />
 
