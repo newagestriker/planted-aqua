@@ -94,14 +94,6 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
         </androidx.recyclerview.widget.RecyclerView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/startScreenRecyclerView"
-        android:layout_margin="3dp">
-
-    </androidx.recyclerview.widget.RecyclerView>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/TanksViewPager"
