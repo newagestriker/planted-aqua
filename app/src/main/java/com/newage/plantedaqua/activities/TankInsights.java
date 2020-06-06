@@ -187,41 +187,10 @@ public class TankInsights extends AppCompatActivity {
             upcomingTaskTextView.setText("Upcoming Tasks");
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
-            /*String status=logData1.get(position).getStatus();
-                if(status.equals(getResources().getString(R.string.Completed))){
-                    logData1.get(position).setStatus(getResources().getString(R.string.Skipped));
-                    adapter1.notifyDataSetChanged();
-                    String task=logData1.get(position).getTask();
-                    String category=logData1.get(position).getCategory();
-                    myDbHelper.updateItemLogs("Log_Task",task,"Log_Category",category,"Log_Status",getResources().getString(R.string.Skipped));
 
-                }
-                else{
-                    logData1.get(position).setStatus(getResources().getString(R.string.Completed));
-                    adapter1.notifyDataSetChanged();
-                    String task=logData1.get(position).getTask();
-                    String category=logData1.get(position).getCategory();
-                    myDbHelper.updateItemLogs("Log_Task",task,"Log_Category",category,"Log_Status",getResources().getString(R.string.Completed));
-                }*/
             RecyclerAdapterLogs adapter1 = new RecyclerAdapterLogs(logData1, this, new RecyclerAdapterLogs.OnItemClickListener() {
                 @Override
                 public void onClick(View view, int position) {
-                /*String status=logData1.get(position).getStatus();
-                if(status.equals(getResources().getString(R.string.Completed))){
-                    logData1.get(position).setStatus(getResources().getString(R.string.Skipped));
-                    adapter1.notifyDataSetChanged();
-                    String task=logData1.get(position).getTask();
-                    String category=logData1.get(position).getCategory();
-                    myDbHelper.updateItemLogs("Log_Task",task,"Log_Category",category,"Log_Status",getResources().getString(R.string.Skipped));
-
-                }
-                else{
-                    logData1.get(position).setStatus(getResources().getString(R.string.Completed));
-                    adapter1.notifyDataSetChanged();
-                    String task=logData1.get(position).getTask();
-                    String category=logData1.get(position).getCategory();
-                    myDbHelper.updateItemLogs("Log_Task",task,"Log_Category",category,"Log_Status",getResources().getString(R.string.Completed));
-                }*/
                 }
             });
             recyclerView.setAdapter(adapter1);
@@ -254,22 +223,6 @@ public class TankInsights extends AppCompatActivity {
         if (currentTimeInMillis<alarmTimeInMillis){
 
             logData.setDy(setRelativeDays(alarmTimeInMillis,strDays[dayNumber-1]));
-/*
-            if(DateUtils.isToday(alarmTimeInMillis)){
-                logData.setDy("TODAY");
-            }
-            else if(isTomorrow(alarmTimeInMillis)){
-                logData.setDy("TOMORROW");
-            }
-            else if(isYesterday(alarmTimeInMillis)) {
-                logData.setDy("YESTERDAY");
-            }
-            else{
-                logData.setDy(strDays[dayNumber-1]);
-
-            }*/
-
-
 
             logData.setCategory(alarmCategory);
             logData.setTask(alarmName);

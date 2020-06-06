@@ -342,7 +342,7 @@ public class ExpenseActivity extends AppCompatActivity {
 
         expenseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         expenseRecyclerView.getViewTreeObserver()
-                .addOnGlobalLayoutListener(new OnViewGlobalLayoutListener(expenseRecyclerView,256,this));
+                .addOnGlobalLayoutListener(new OnViewGlobalLayoutListener(expenseRecyclerView, 256, this));
 
         adapter = new ExpenseTableRecyclerView(this,expenseItemsArrayList, new ExpenseTableRecyclerView.OnExpenseItemClickListener() {
             @Override
@@ -632,7 +632,7 @@ public class ExpenseActivity extends AppCompatActivity {
     //endregion
 
 
-    public class OnViewGlobalLayoutListener implements ViewTreeObserver.OnGlobalLayoutListener {
+    public static class OnViewGlobalLayoutListener implements ViewTreeObserver.OnGlobalLayoutListener {
 
 
         private Context context;

@@ -9,6 +9,8 @@ data class TanksDetails(
         var tankLightRegion : String = "",
         var tankCO2Supply : String = "",
         var tankStartDate : String = "",
-        var tankEndDate : String = ""
+        var tankEndDate : String = "",
+        var macroDosageText : String = "",
+        var microDosageText : String = ""
 ) {
 }

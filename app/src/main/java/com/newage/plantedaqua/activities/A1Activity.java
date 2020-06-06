@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 
 import android.os.Handler;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -83,6 +84,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.newage.plantedaqua.BuildConfig;
+import com.newage.plantedaqua.adapters.RecyclerAdapterLogs;
 import com.newage.plantedaqua.adapters.ShowcaseRecyclerAdapter;
 import com.newage.plantedaqua.helpers.ExpenseDBHelper;
 import com.newage.plantedaqua.helpers.MyDbHelper;
@@ -93,12 +95,18 @@ import com.newage.plantedaqua.helpers.TankDBHelper;
 import com.newage.plantedaqua.helpers.TanksSectionsPagerAdapter;
 import com.newage.plantedaqua.helpers.TinyDB;
 import com.newage.plantedaqua.models.GalleryInfo;
+import com.newage.plantedaqua.models.LogData;
 import com.newage.plantedaqua.models.TanksDetails;
 import com.onesignal.OneSignal;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -1460,6 +1468,7 @@ public class A1Activity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+        tinyDB.putInt("A1_VIEWPAGER_POSITION",viewPager2.getCurrentItem());
         timer.cancel();
         if(timerTask!=null) {
             taskCancelled = timerTask.cancel();
@@ -1502,6 +1511,8 @@ public class A1Activity extends AppCompatActivity
 
     @Override
     protected void onResume() {
+
+        viewPager2.setCurrentItem(tinyDB.getInt("A1_VIEWPAGER_POSITION"));
         super.onResume();
             if (taskCancelled && galleryInfoArrayList.size()>0) {
 
@@ -1519,7 +1530,9 @@ public class A1Activity extends AppCompatActivity
     ArrayList<TanksDetails> tanksDetailsArrayList;
     TanksSectionsPagerAdapter tanksSectionsPagerAdapter;
     ViewPager viewPager2;
+    TinyDB tinyDB;
     private void loadViewPagerTankDetails(){
+        tinyDB = new TinyDB(getApplicationContext());
         tanksDetailsArrayList = new ArrayList<>();
         TanksDetails tanksDetails = new TanksDetails();
         Cursor cursor = tankDBHelper.getData(tankDBHelper.getReadableDatabase());
@@ -1536,7 +1549,8 @@ public class A1Activity extends AppCompatActivity
                     tanksDetails.setTankEndDate(cursor.getString(11));
                     tanksDetails.setTankCO2Supply(cursor.getString(12));
                     tanksDetails.setTankLightRegion(cursor.getString(16)==null?"":cursor.getString(16));
-
+                    tanksDetails.setMicroDosageText(cursor.getString(20)==null?"":cursor.getString(20));
+                    tanksDetails.setMacroDosageText(cursor.getString(21)==null?"":cursor.getString(21));
                     tanksDetailsArrayList.add(tanksDetails);
 
                 }while (cursor.moveToNext());
@@ -1547,6 +1561,7 @@ public class A1Activity extends AppCompatActivity
         viewPager2 = findViewById(R.id.TanksViewPager);
         tanksSectionsPagerAdapter = new TanksSectionsPagerAdapter(tanksDetailsArrayList,getSupportFragmentManager());
         viewPager2.setAdapter(tanksSectionsPagerAdapter);
+
     }
 
     //Adding Click Events to Icons in Each Tank Card
@@ -1569,12 +1584,17 @@ public class A1Activity extends AppCompatActivity
                 break;
             case R.id.imageLightOption: navigateToSelectedOption(new Intent(this,LightCalcActivity.class),viewPager2.getCurrentItem(),"");
                 break;
-            case R.id.imageMacroOption: navigateToSelectedOption(new Intent(this,MacroNutrientTableActivity.class),viewPager2.getCurrentItem(),"");
+            case R.id.imageMacroOption:
+            case R.id.SetMacroValue:
+                navigateToSelectedOption(new Intent(this,MacroNutrientTableActivity.class),viewPager2.getCurrentItem(),"");
                 break;
-            case R.id.imageMicroOption: navigateToSelectedOption(new Intent(this,MicroNutrientTableActivity.class),viewPager2.getCurrentItem(),"");
+            case R.id.imageMicroOption:
+            case R.id.SetMicroValue:
+                navigateToSelectedOption(new Intent(this,MicroNutrientTableActivity.class),viewPager2.getCurrentItem(),"");
                 break;
             case R.id.imageTPAOptions: navigateToSelectedOption(new Intent(this,TankProgressActivity.class),viewPager2.getCurrentItem(),"");
                 break;
+
 
             default : editTankDetails();
             break;
@@ -1634,6 +1654,13 @@ public class A1Activity extends AppCompatActivity
         startActivity(intent);
 
     }
+
+
+
+
+
+
+
 
     //endregion
 

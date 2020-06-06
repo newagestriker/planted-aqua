@@ -192,22 +192,22 @@
                 android:textStyle="italic" />
 
             <Button
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:id="@+id/Calculate"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Calculate"
                 android:gravity="center"
-                android:textColor="@color/colorPrimaryDark"
                 android:textSize="10sp"
                 android:textStyle="bold" />
 
             <Button
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:id="@+id/resetbuttom"
-                android:textColor="@color/colorPrimaryDark"
                 android:text="Reset"
                 android:textSize="10sp"
                 android:textStyle="bold"
