@@ -139,6 +139,88 @@
                         android:padding="6dp">
 
 
+                        <TextView
+                            android:id="@+id/currencyOfTankPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:text="@{boundTankDetails.currency}"
+                            android:textColor="@color/highlight"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/priceText"
+                            app:layout_constraintStart_toEndOf="@+id/priceText"
+                            app:layout_constraintTop_toTopOf="@+id/priceText"
+                            app:layout_constraintVertical_bias="1.0"
+                            tools:text="$" />
+
+                        <TextView
+                            android:id="@+id/currencyOfTankPrice2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:text="@{boundTankDetails.currency}"
+                            android:textColor="@color/highlight"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/totalExpenseText"
+                            app:layout_constraintStart_toEndOf="@+id/totalExpenseText"
+                            app:layout_constraintTop_toTopOf="@+id/totalExpenseText"
+                            tools:text="$" />
+
+                        <TextView
+                            android:id="@+id/priceInNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginLeft="4dp"
+                            android:text="@{boundTankDetails.tankPrice}"
+                            android:textColor="@color/highlight"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/priceText"
+                            app:layout_constraintStart_toEndOf="@+id/currencyOfTankPrice"
+                            app:layout_constraintTop_toTopOf="@+id/priceText"
+                            app:layout_constraintVertical_bias="1.0"
+                            tools:text="56000" />
+
+                        <TextView
+                            android:id="@+id/totalExpenseText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total Expenditure"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@+id/constraintLayoutEachTankOptions"
+                            app:layout_constraintStart_toStartOf="@+id/priceText"
+                            app:layout_constraintTop_toBottomOf="@+id/priceText" />
+
+                        <TextView
+                            android:id="@+id/priceText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tank Price"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@+id/totalExpenseText"
+                            app:layout_constraintStart_toStartOf="@+id/fromDateText"
+                            app:layout_constraintTop_toBottomOf="@+id/fromDateText" />
+
+                        <TextView
+                            android:id="@+id/tankVolumeMetric"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginLeft="4dp"
+                            android:text="@{boundTankDetails.tankVolumeMetric}"
+                            android:textColor="@color/highlight"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/tankVolume"
+                            app:layout_constraintStart_toEndOf="@+id/tankVolume"
+                            app:layout_constraintTop_toTopOf="@+id/tankVolume"
+                            tools:text="Litres" />
+
                         <ImageView
 
                             android:id="@+id/imageView"
@@ -155,47 +237,45 @@
                             android:id="@+id/typeText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
                             android:text="@{boundTankDetails.tankType}"
                             android:textColor="@color/highlight"
                             android:textSize="12sp"
                             android:textStyle="italic"
-                            app:layout_constraintBottom_toTopOf="@+id/statusText"
+                            app:layout_constraintBottom_toTopOf="@+id/tankVolume"
                             app:layout_constraintStart_toEndOf="@+id/imageView"
-                            app:layout_constraintTop_toBottomOf="@+id/lightZoneText"
+                            app:layout_constraintTop_toTopOf="parent"
                             app:visibleGone="@{boundTankDetails.tankType.empty}"
                             tools:text="Planted" />
 
                         <TextView
                             android:id="@+id/statusText"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginLeft="10dp"
+                            android:layout_height="17dp"
                             android:text="@{boundTankDetails.tankStatus}"
                             android:textColor="@color/highlight"
                             android:textSize="12sp"
                             android:textStyle="italic"
-                            app:layout_constraintBottom_toTopOf="@+id/co2SupplyText"
-                            app:layout_constraintStart_toEndOf="@+id/imageView"
-                            app:layout_constraintTop_toBottomOf="@+id/typeText"
+                            app:layout_constraintBottom_toBottomOf="@+id/typeText"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/lightZoneText"
+                            app:layout_constraintTop_toTopOf="@+id/typeText"
                             app:visibleGone="@{boundTankDetails.tankStatus.empty}"
-                            tools:text="In Use" />
+                            tools:text="Dismantled" />
 
                         <TextView
                             android:id="@+id/fromDateText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginLeft="10dp"
                             android:text="@{`From `+boundTankDetails.tankStartDate}"
                             android:textColor="@color/highlight"
                             android:textSize="12sp"
                             android:textStyle="italic"
-                            app:layout_constraintBottom_toTopOf="@+id/toDateText"
-                            app:layout_constraintStart_toEndOf="@+id/imageView"
-                            app:layout_constraintTop_toBottomOf="@+id/co2SupplyText"
+                            app:layout_constraintBottom_toTopOf="@+id/priceText"
+                            app:layout_constraintStart_toStartOf="@+id/tankVolume"
+                            app:layout_constraintTop_toBottomOf="@+id/tankVolume"
                             app:visibleGone="@{boundTankDetails.tankStartDate.empty}"
                             tools:text="From 9/11/2019" />
 
@@ -203,15 +283,15 @@
                             android:id="@+id/toDateText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginLeft="4dp"
                             android:text="@{`To `+boundTankDetails.tankEndDate}"
                             android:textColor="@color/highlight"
                             android:textSize="12sp"
                             android:textStyle="italic"
-                            app:layout_constraintBottom_toTopOf="@+id/constraintLayoutEachTankOptions"
-                            app:layout_constraintStart_toEndOf="@+id/imageView"
-                            app:layout_constraintTop_toBottomOf="@+id/fromDateText"
+                            app:layout_constraintBottom_toBottomOf="@+id/fromDateText"
+                            app:layout_constraintStart_toEndOf="@+id/fromDateText"
+                            app:layout_constraintTop_toTopOf="@+id/fromDateText"
                             app:visibleGone="@{boundTankDetails.tankEndDate.empty}"
                             tools:text="To 10/4/2020" />
 
@@ -219,15 +299,14 @@
                             android:id="@+id/co2SupplyText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginLeft="10dp"
                             android:text="@{boundTankDetails.tankCO2Supply +` CO2`}"
                             android:textColor="@color/highlight"
                             android:textSize="12sp"
                             android:textStyle="italic"
-                            app:layout_constraintBottom_toTopOf="@+id/fromDateText"
-                            app:layout_constraintStart_toEndOf="@+id/imageView"
-                            app:layout_constraintTop_toBottomOf="@+id/statusText"
+                            app:layout_constraintBottom_toBottomOf="@+id/tankVolumeMetric"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/tankVolumeMetric"
+                            app:layout_constraintTop_toTopOf="@+id/tankVolumeMetric"
                             app:visibleGone="@{boundTankDetails.tankCO2Supply.empty}"
                             tools:text="Liquid CO2" />
 
@@ -235,15 +314,15 @@
                             android:id="@+id/lightZoneText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginLeft="10dp"
                             android:text="@{boundTankDetails.tankLightRegion}"
                             android:textColor="@color/highlight"
                             android:textSize="12sp"
                             android:textStyle="italic"
-                            app:layout_constraintBottom_toTopOf="@+id/typeText"
-                            app:layout_constraintStart_toEndOf="@+id/imageView"
-                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="@+id/typeText"
+                            app:layout_constraintEnd_toStartOf="@+id/statusText"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/typeText"
+                            app:layout_constraintTop_toTopOf="@+id/typeText"
                             app:visibleGone="@{boundTankDetails.tankLightRegion.empty}"
                             tools:text="Medium Light" />
 
@@ -251,6 +330,7 @@
                             android:id="@+id/constraintLayoutEachTankOptions"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+
                             android:visibility="gone"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -326,7 +406,7 @@
                                 app:layout_constraintHorizontal_bias="0.5"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/imageMacroOption"
-                                app:srcCompat="@drawable/log" />
+                                app:srcCompat="@drawable/tasks" />
 
                             <ImageView
                                 android:id="@+id/imageTaskOptions"
@@ -339,7 +419,7 @@
                                 app:layout_constraintHorizontal_bias="0.5"
                                 app:layout_constraintStart_toEndOf="@+id/imageTPAOptions"
                                 app:layout_constraintTop_toTopOf="@+id/imageMacroOption"
-                                app:srcCompat="@drawable/tasks" />
+                                app:srcCompat="@drawable/log" />
 
                             <ImageView
                                 android:id="@+id/imageLightOption"
@@ -394,6 +474,33 @@
                                 app:layout_constraintTop_toTopOf="@+id/imageMacroOption"
                                 app:srcCompat="@drawable/album" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <TextView
+                            android:id="@+id/expenditureInNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginLeft="4dp"
+                            android:text="@{boundTankDetails.cumExpenses}"
+                            android:textColor="@color/highlight"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/totalExpenseText"
+                            app:layout_constraintStart_toEndOf="@+id/currencyOfTankPrice2"
+                            app:layout_constraintTop_toTopOf="@+id/totalExpenseText"
+                            app:layout_constraintVertical_bias="1.0"
+                            tools:text="56000" />
+
+                        <TextView
+                            android:id="@+id/tankVolume"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{boundTankDetails.tankVolume}"
+                            android:textColor="@color/highlight"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toTopOf="@+id/fromDateText"
+                            app:layout_constraintStart_toStartOf="@+id/typeText"
+                            app:layout_constraintTop_toBottomOf="@+id/typeText"
+                            tools:text="80" />
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

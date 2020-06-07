@@ -6,6 +6,8 @@ import android.database.Cursor;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
@@ -14,7 +16,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.newage.plantedaqua.adapters.RecyclerAdapterLogs;
+import com.newage.plantedaqua.helpers.CustomAlertDialog;
 import com.newage.plantedaqua.helpers.MyDbHelper;
 import com.newage.plantedaqua.models.LogData;
 import com.newage.plantedaqua.R;
@@ -24,10 +28,10 @@ import java.util.ArrayList;
 
 public class LogsActivity extends AppCompatActivity {
 
-    MyDbHelper myDbHelper;
-    String aquariumID="";
-    ArrayList<LogData> logData=new ArrayList <>();
-    RecyclerView.Adapter adapter;
+    private MyDbHelper myDbHelper;
+    private String aquariumID="";
+    private ArrayList<LogData> logData=new ArrayList <>();
+    private RecyclerView.Adapter adapter;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,6 +68,7 @@ public class LogsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logs);
+        CoordinatorLayout mainLayout = findViewById(R.id.LogsMainLayout);
         Intent intent=getIntent();
         aquariumID=intent.getStringExtra("AquariumID");
         String aquaName=intent.getStringExtra("AquariumName");
@@ -86,7 +91,7 @@ public class LogsActivity extends AppCompatActivity {
         c.close();
 
 
-
+        CustomAlertDialog customAlertDialog = new CustomAlertDialog();
 
         RecyclerView recyclerView = findViewById(R.id.Log_RecyclerView);
         RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(this);
@@ -95,7 +100,6 @@ public class LogsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 String task = logData.get(position).getTask();
-                String category = logData.get(position).getCategory();
                 View infoView = getLayoutInflater().inflate(R.layout.alarm_info_layout,null);
                 TextView infoText = infoView.findViewById(R.id.AlarmDetailsText);
                 String dt = logData.get(position).getDt();
@@ -106,12 +110,14 @@ public class LogsActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                         myDbHelper.updateItemLogsUsingDate(dt,"Log_Status", getResources().getString(R.string.Skipped));
                         myDbHelper.updateStatusMaL(getResources().getString(R.string.Skipped),dt);
+                        Snackbar.make(mainLayout,"Task " + task + " is "+getResources().getString(R.string.Skipped),Snackbar.LENGTH_SHORT).show();
 
                     } else {
                         logData.get(position).setStatus(getResources().getString(R.string.Completed));
                         adapter.notifyDataSetChanged();
                         myDbHelper.updateItemLogsUsingDate(dt, "Log_Status", getResources().getString(R.string.Completed));
                         myDbHelper.updateStatusMaL(getResources().getString(R.string.Completed),dt);
+                        Snackbar.make(mainLayout,"Task " + task + " is "+getResources().getString(R.string.Completed),Snackbar.LENGTH_SHORT).show();
                     }
                 }
 
@@ -119,12 +125,18 @@ public class LogsActivity extends AppCompatActivity {
 
             {
 
-                myDbHelper.deleteItemLogsUsingDate(dt);
-                myDbHelper.deleteItemMaL(dt);
-                logData.remove(position);
-                adapter.notifyItemRemoved(position);
+                customAlertDialog.showDialog(LogsActivity.this,null,"Delete Log", "Deleted Logs cannot be recovered.", ()->{
 
-                Toast.makeText(LogsActivity.this, "Task " + task + " is deleted from Logs", Toast.LENGTH_SHORT).show();
+                    myDbHelper.deleteItemLogsUsingDate(dt);
+                    myDbHelper.deleteItemMaL(dt);
+                    logData.remove(position);
+                    adapter.notifyItemRemoved(position);
+
+                   // Toast.makeText(LogsActivity.this, "Task " + task + " is deleted from Logs", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(mainLayout,"Task " + task + " is deleted from Logs",Snackbar.LENGTH_SHORT).show();
+                    return null;
+                });
+
             }
             else{
 

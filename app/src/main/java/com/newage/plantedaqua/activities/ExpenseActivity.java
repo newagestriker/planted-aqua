@@ -175,8 +175,8 @@ public class ExpenseActivity extends AppCompatActivity {
 
 
         String itemName = expenseItemInput.getText().toString();
-        int quantity = Integer.parseInt(TextUtils.isEmpty(itemQuantityInput.getText().toString()) ? "1" : itemQuantityInput.getText().toString());
-        float numericPrice = Float.parseFloat(TextUtils.isEmpty(itemPriceInput.getText().toString()) ? "0.0" : itemPriceInput.getText().toString().replace(",", "."));
+        int quantity = Integer.parseInt(TextUtils.isEmpty(itemQuantityInput.getText().toString()) ? "1" : itemQuantityInput.getText().toString().replace(",", "."));
+        float numericPrice = Float.parseFloat(TextUtils.isEmpty(itemPriceInput.getText().toString()) ? "0" : itemPriceInput.getText().toString().replace(",", "."));
 
         expenseItems = new ExpenseItems();
         expenseItems.setExpenseTotalPrice(quantity * numericPrice);

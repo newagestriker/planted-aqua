@@ -110,7 +110,7 @@ public class GalleryActivity extends AppCompatActivity {
 
    
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         
         getAllData();
         return super.onOptionsItemSelected(item);
@@ -239,44 +239,44 @@ public class GalleryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gallery);
 
         User_ID = getIntent().getStringExtra("UserID");
-        mode = getIntent().getStringExtra("mode");
-        mAuth = FirebaseAuth.getInstance();
+        if(User_ID!=null) {
 
-        galleryInfo=new GalleryInfo();
+            mode = getIntent().getStringExtra("mode");
+            mAuth = FirebaseAuth.getInstance();
 
-        facebookURLInput = findViewById(R.id.FacebookURL);
-        twitterURLInput = findViewById(R.id.TwitterURL);
-        instagramURLInput = findViewById(R.id.InstagramURL);
-        authorsNameInput = findViewById(R.id.AuthorsName);
-        webURLInput = findViewById(R.id.WebURL);
-        techInput = findViewById(R.id.Tech);
-        ftsInput = findViewById(R.id.FullTankSpecs);
-        floraInput = findViewById(R.id.Flora);
-        faunaInput = findViewById(R.id.Fauna);
-        descriptionInput = findViewById(R.id.Description);
-        ImageView takeGalleryTankPic = findViewById(R.id.TakeGalleryTankPic);
-        tankImage = findViewById(R.id.TankImage);
-        galleryDisplayPic = findViewById(R.id.GalleryDisplayPic);
-        progressDialog=new ProgressDialog(this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setMessage(getResources().getString(R.string.Uploading));
+            galleryInfo = new GalleryInfo();
 
-        galleryItemRef = FirebaseDatabase.getInstance().getReference("GI");
+            facebookURLInput = findViewById(R.id.FacebookURL);
+            twitterURLInput = findViewById(R.id.TwitterURL);
+            instagramURLInput = findViewById(R.id.InstagramURL);
+            authorsNameInput = findViewById(R.id.AuthorsName);
+            webURLInput = findViewById(R.id.WebURL);
+            techInput = findViewById(R.id.Tech);
+            ftsInput = findViewById(R.id.FullTankSpecs);
+            floraInput = findViewById(R.id.Flora);
+            faunaInput = findViewById(R.id.Fauna);
+            descriptionInput = findViewById(R.id.Description);
+            ImageView takeGalleryTankPic = findViewById(R.id.TakeGalleryTankPic);
+            tankImage = findViewById(R.id.TankImage);
+            galleryDisplayPic = findViewById(R.id.GalleryDisplayPic);
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage(getResources().getString(R.string.Uploading));
 
-        takeGalleryTankPic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            galleryItemRef = FirebaseDatabase.getInstance().getReference("GI");
 
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            takeGalleryTankPic.setOnClickListener(v -> {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     verifyPermissions();
-                }else{
+                } else {
                     selectImage();
                 }
 
-            }
-        });
+            });
 
-        loadInitialData();
+            loadInitialData();
+        }
 
 
     }

@@ -58,7 +58,12 @@ public class UsersGalleryRecyclerAdapter extends RecyclerView.Adapter<UsersGalle
         this.onItemClickListener = onItemClickListener;
         this.context = context;
         mAuth = FirebaseAuth.getInstance();
-        PU = TextUtils.isEmpty(mAuth.getCurrentUser().getPhotoUrl().toString())?"":mAuth.getCurrentUser().getPhotoUrl().toString();
+        if(mAuth.getCurrentUser().getPhotoUrl()!=null) {
+            PU = TextUtils.isEmpty(mAuth.getCurrentUser().getPhotoUrl().toString()) ? "" : mAuth.getCurrentUser().getPhotoUrl().toString();
+        }
+        else {
+            PU = "";
+        }
     }
 
     public interface OnItemClickListener {

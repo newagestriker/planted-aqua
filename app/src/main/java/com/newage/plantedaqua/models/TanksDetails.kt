@@ -1,5 +1,6 @@
 package com.newage.plantedaqua.models
 
+
 data class TanksDetails(
         var tankID : String = "",
         var tankName : String = "",
@@ -11,6 +12,11 @@ data class TanksDetails(
         var tankStartDate : String = "",
         var tankEndDate : String = "",
         var macroDosageText : String = "",
-        var microDosageText : String = ""
+        var microDosageText : String = "",
+        var cumExpenses : String = "",
+        var tankVolume : String = "",
+        var tankVolumeMetric : String = "",
+        var tankPrice : String = "",
+        var currency: String = ""
 ) {
 }

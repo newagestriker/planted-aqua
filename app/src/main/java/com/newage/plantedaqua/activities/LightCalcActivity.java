@@ -39,11 +39,8 @@ public class LightCalcActivity extends AppCompatActivity {
     private Spinner Reflector;
     private EditText Efficiency;
     private ImageView addLights;
-    private ImageView DeleteAllLightsData;
-    private Button RecalculateButton;
-    private Button calculateLSIButton;
     private TextView LightZone;
-
+    private TextView estimatedTankVolumeText;
     private RecyclerView.Adapter lightRecyclerAdapter;
     private TankDBHelper tankDBHelper;
     private String aquariumID;
@@ -59,7 +56,6 @@ public class LightCalcActivity extends AppCompatActivity {
     private String lightZone;
     private String co2="";
     private String aquariumName="";
-    private float metricMultiplier=1f;
     TextView lsiTextView;
 
     @Override
@@ -105,11 +101,14 @@ public class LightCalcActivity extends AppCompatActivity {
         TankHeight = findViewById(R.id.TankHeight);
         SubstrateDepth = findViewById(R.id.SubstrateDepth);
         LightHeight = findViewById(R.id.SurfaceDistance);
-        DeleteAllLightsData = findViewById(R.id.DeleteAllLightData);
-        RecalculateButton = findViewById(R.id.Recalculate);
+        ImageView deleteAllLightsData = findViewById(R.id.DeleteAllLightData);
+        Button recalculateButton = findViewById(R.id.Recalculate);
         lsiTextView = findViewById(R.id.lsi_output);
+        estimatedTankVolumeText = findViewById(R.id.EstimatedTankVolume);
 
-        calculateLSIButton = findViewById(R.id.calculateLSI);
+        Button calculateLSIButton = findViewById(R.id.calculateLSI);
+
+        Button setTankVolume = findViewById(R.id.UpdateTankGallons);
 
         LightZone = findViewById(R.id.LightZone);
 
@@ -177,7 +176,7 @@ public class LightCalcActivity extends AppCompatActivity {
         lightRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         lightRecyclerView.setAdapter(lightRecyclerAdapter);
 
-        DeleteAllLightsData.setOnClickListener(new View.OnClickListener() {
+        deleteAllLightsData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -213,7 +212,7 @@ public class LightCalcActivity extends AppCompatActivity {
         });
 
 
-        RecalculateButton.setOnClickListener(new View.OnClickListener() {
+        recalculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 recalculateLSI();
@@ -486,8 +485,7 @@ public class LightCalcActivity extends AppCompatActivity {
         editor.apply();
 
 
-
-        metricMultiplier = values.get(metricSpinner.getSelectedItem().toString());
+        float metricMultiplier = values.get(metricSpinner.getSelectedItem().toString());
 
         tankDBHelper.updateSingleItem("AquariumID",aquariumID,"ReflectorPosition",Integer.toString(reflectorPosition));
 
@@ -510,20 +508,20 @@ public class LightCalcActivity extends AppCompatActivity {
 
 
 
-        length = TextUtils.isEmpty(TankLength.getText().toString())? 1f : Float.parseFloat(TankLength.getText().toString().replace(",","."))*metricMultiplier;
-        tankDBHelper.updateSingleItem("AquariumID",aquariumID,"TankLength",Float.toString(length/metricMultiplier));
+        length = TextUtils.isEmpty(TankLength.getText().toString())? 1f : Float.parseFloat(TankLength.getText().toString().replace(",","."))* metricMultiplier;
+        tankDBHelper.updateSingleItem("AquariumID",aquariumID,"TankLength",Float.toString(length/ metricMultiplier));
 
-        width = TextUtils.isEmpty(TankWidth.getText().toString())? 1f : Float.parseFloat(TankWidth.getText().toString().replace(",","."))*metricMultiplier;
-        tankDBHelper.updateSingleItem("AquariumID",aquariumID,"TankWidth",Float.toString(width/metricMultiplier));
+        width = TextUtils.isEmpty(TankWidth.getText().toString())? 1f : Float.parseFloat(TankWidth.getText().toString().replace(",","."))* metricMultiplier;
+        tankDBHelper.updateSingleItem("AquariumID",aquariumID,"TankWidth",Float.toString(width/ metricMultiplier));
 
-        height = TextUtils.isEmpty(TankHeight.getText().toString())? 1f : Float.parseFloat(TankHeight.getText().toString().replace(",","."))*metricMultiplier;
-        tankDBHelper.updateSingleItem("AquariumID",aquariumID,"TankHeight",Float.toString(height/metricMultiplier));
+        height = TextUtils.isEmpty(TankHeight.getText().toString())? 1f : Float.parseFloat(TankHeight.getText().toString().replace(",","."))* metricMultiplier;
+        tankDBHelper.updateSingleItem("AquariumID",aquariumID,"TankHeight",Float.toString(height/ metricMultiplier));
 
-        substrateDepth = TextUtils.isEmpty(SubstrateDepth.getText().toString())? 1f : Float.parseFloat(SubstrateDepth.getText().toString().replace(",","."))*metricMultiplier;
-        tankDBHelper.updateSingleItem("AquariumID",aquariumID,"SubstrateDepth",Float.toString(substrateDepth/metricMultiplier));
+        substrateDepth = TextUtils.isEmpty(SubstrateDepth.getText().toString())? 1f : Float.parseFloat(SubstrateDepth.getText().toString().replace(",","."))* metricMultiplier;
+        tankDBHelper.updateSingleItem("AquariumID",aquariumID,"SubstrateDepth",Float.toString(substrateDepth/ metricMultiplier));
 
-        lightHeight = TextUtils.isEmpty(LightHeight.getText().toString())? 1f : Float.parseFloat(LightHeight.getText().toString().replace(",","."))*metricMultiplier;
-        tankDBHelper.updateSingleItem("AquariumID",aquariumID,"HeightFromSurface",Float.toString(lightHeight/metricMultiplier));
+        lightHeight = TextUtils.isEmpty(LightHeight.getText().toString())? 1f : Float.parseFloat(LightHeight.getText().toString().replace(",","."))* metricMultiplier;
+        tankDBHelper.updateSingleItem("AquariumID",aquariumID,"HeightFromSurface",Float.toString(lightHeight/ metricMultiplier));
 
         efficiency = (TextUtils.isEmpty(Efficiency.getText().toString())? 1f : Float.parseFloat(Efficiency.getText().toString().replace(",",".")))/100f;
         tankDBHelper.updateSingleItem("AquariumID",aquariumID,"ReflectorEfficiency",Efficiency.getText().toString());
@@ -586,8 +584,12 @@ public class LightCalcActivity extends AppCompatActivity {
 
     }
 
+    private String tankVolume = "";
+
     private void finalLSICalc(){
 
+        tankVolume = Integer.toString(Math.round((length * width * height)*0.004329f));
+        estimatedTankVolumeText.setText(tankVolume+" US Gallons");
         float area = length * width;
         float lightDistance = height+lightHeight-substrateDepth;
         float netEffectiveLumens;
@@ -623,10 +625,18 @@ public class LightCalcActivity extends AppCompatActivity {
         tankDBHelper.updateSingleItem("AquariumID",aquariumID,"LSI",String.format(Locale.getDefault(),"%.2f",LSI));
         tankDBHelper.updateSingleItem("AquariumID",aquariumID,"TotalLumens",String.format(Locale.getDefault(),"%.2f",effectiveLumenPerLight));
 
-        checkCO2level();
+
 
         Toast.makeText(this,"Data Refreshed",Toast.LENGTH_SHORT).show();
 
+
+    }
+
+    @Override
+    protected void onStop() {
+        checkCO2level();
+
+        super.onStop();
     }
 
     String recoString="";
@@ -685,4 +695,10 @@ public class LightCalcActivity extends AppCompatActivity {
     }
 
 
+    public void updateTankGallons(View view) {
+
+        tankDBHelper.updateSingleItem("AquariumID",aquariumID,"Volume",tankVolume);
+        tankDBHelper.updateSingleItem("AquariumID",aquariumID,"VolumeMetric","US Gallon");
+        Toast.makeText(this,"Tank Volume Updated",Toast.LENGTH_SHORT).show();
+    }
 }

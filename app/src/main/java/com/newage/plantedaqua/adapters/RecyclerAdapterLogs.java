@@ -23,9 +23,6 @@ public class RecyclerAdapterLogs extends RecyclerView.Adapter<RecyclerAdapterLog
 
     private ArrayList<LogData>arrayList;
     private OnItemClickListener onItemClickListener;
-    private RecyclerViewHolder recyclerViewHolder;
-
-
 
 
     Context context;
@@ -41,10 +38,6 @@ public class RecyclerAdapterLogs extends RecyclerView.Adapter<RecyclerAdapterLog
     }
 
 
-
-
-
-
     public interface OnItemClickListener{
 
         void onClick(View view, int position);
@@ -57,7 +50,7 @@ public class RecyclerAdapterLogs extends RecyclerView.Adapter<RecyclerAdapterLog
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.each_log_layout,parent,false);
-        this.recyclerViewHolder=new RecyclerViewHolder(view);
+        RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(view);
         return recyclerViewHolder;
     }
 
@@ -90,7 +83,7 @@ public class RecyclerAdapterLogs extends RecyclerView.Adapter<RecyclerAdapterLog
     public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView Day,Date,Task,Status,Category;
         ImageView Change,DeleteLog;
-        LinearLayout linear_info;
+
 
 
         RecyclerViewHolder(View view) {
@@ -107,9 +100,8 @@ public class RecyclerAdapterLogs extends RecyclerView.Adapter<RecyclerAdapterLog
             DeleteLog.setTag(2);
             Change.setOnClickListener(this);
             DeleteLog.setOnClickListener(this);
-            linear_info = view.findViewById(R.id.LinearInfo);
-            linear_info.setTag(3);
-            linear_info.setOnClickListener(this);
+            Day.setTag(3);
+            Day.setOnClickListener(this);
         }
 
         @Override

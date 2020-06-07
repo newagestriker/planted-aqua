@@ -297,10 +297,7 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
         try {
 
 
-            Cursor cursor =  db.rawQuery(query,null);
-
-
-            return cursor;
+            return db.rawQuery(query,null);
 
 
 
@@ -338,6 +335,36 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
         }
 
     }
+
+    public Cursor getExpensePerGroupWithGroupValue(String col,String startDate,String endDate,String groupVal) {
+
+        SQLiteDatabase db = getInstance(context).getReadableDatabase();
+
+        String query;
+
+        if(startDate.isEmpty()){
+            query = "select ShownDate,sum(TotalPrice) from (select * from expense_table where "+col+" = ? order by date(ShownDate) desc) group by " + col ;
+        }
+        else {
+
+            query = "select ShownDate,sum(TotalPrice) from (select * from expense_table  where date(ShownDate)  between date('" + startDate + "') and date('" + endDate + "') and "+col+" = ? order by date(ShownDate) desc) group by " + col;
+            // Log.i("QUERY",query);
+        }
+
+        try {
+
+            return db.rawQuery(query,new String[]{groupVal});
+
+
+
+        } catch (Exception e) {
+
+            return null;
+        }
+
+    }
+
+
 
 
 }

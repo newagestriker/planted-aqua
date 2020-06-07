@@ -31,7 +31,7 @@ public class TankDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         try {
             db.execSQL("create table TankDetails(id integer,AquariumID text,AquariumName text,ImageUri text,AquariumType text,Price text,Currency text,Volume text,VolumeMetric text,CurrentStatus text,StartupDate text," +//10
-                    "DismantleDate text,CO2 text,LightType text,Wattage text,LumensPerWatt text,LightRegion text,AdditionalDetails text,Quality text,Seller text, MicroDosage text, MacroDosage text, DefaultAlarm text default 000, LumensPerGallon text default 0,TankLength text, TankWidth text, TankHeight text, SubstrateDepth text, HeightFromSurface text, LSI text,TotalLumens text default 0, Reflector text,ReflectorEfficiency text,LUX text,ReflectorPosition text default 0)");
+                    "DismantleDate text,CO2 text,LightType text,Wattage text,LumensPerWatt text,LightRegion text,AdditionalDetails text,Quality text,Seller text, MicroDosage text, MacroDosage text, DefaultAlarm text default '000', LumensPerGallon text default '0',TankLength text, TankWidth text, TankHeight text, SubstrateDepth text, HeightFromSurface text, LSI text,TotalLumens text default '0', Reflector text,ReflectorEfficiency text,LUX text,ReflectorPosition text default '0')");
             db.execSQL("create table RecoDetails(id integer,AquariumID text,Day text,Date text,Title text,Message text,Visibility text,AquariumName text)");
             db.execSQL("create table LightDetails(id integer primary key,AquariumID text,LightType text,LumensPerWatt text,Count text,WattPerCount text,EffectiveLumens text)");
         }
@@ -48,19 +48,19 @@ public class TankDBHelper extends SQLiteOpenHelper {
             try {
                 db.execSQL("alter table TankDetails add column MicroDosage text ");
                 db.execSQL("alter table TankDetails add column MacroDosage text");
-                db.execSQL("alter table TankDetails add column DefaultAlarm text default 000");
-                db.execSQL("alter table TankDetails add column LumensPerGallon text default 0");
+                db.execSQL("alter table TankDetails add column DefaultAlarm text default '000'");
+                db.execSQL("alter table TankDetails add column LumensPerGallon text default '0'");
                 db.execSQL("alter table TankDetails add column TankLength text");
                 db.execSQL("alter table TankDetails add column TankWidth text");
                 db.execSQL("alter table TankDetails add column TankHeight text");
                 db.execSQL("alter table TankDetails add column SubstrateDepth text");
                 db.execSQL("alter table TankDetails add column HeightFromSurface text");
                 db.execSQL("alter table TankDetails add column LSI text");
-                db.execSQL("alter table TankDetails add column TotalLumens text default 0");
+                db.execSQL("alter table TankDetails add column TotalLumens text default '0'");
                 db.execSQL("alter table TankDetails add column Reflector text");
                 db.execSQL("alter table TankDetails add column ReflectorEfficiency text");
                 db.execSQL("alter table TankDetails add column LUX text");
-                db.execSQL("alter table TankDetails add column ReflectorPosition text default 0");
+                db.execSQL("alter table TankDetails add column ReflectorPosition text default '0'");
                 db.execSQL("create table RecoDetails(id integer,AquariumID text,Day text,Date text,Title text,Message text,Visibility text,AquariumName text)");
                 db.execSQL("create table LightDetails(id integer primary key,AquariumID text,LightType text,LumensPerWatt text,Count text,WattPerCount text,EffectiveLumens text)");
 

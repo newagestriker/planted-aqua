@@ -296,7 +296,7 @@ public class CreateTankActivity extends AppCompatActivity {
 
             EditText Volume = findViewById(R.id.AquariumVolumeInput);
 
-                volume = Volume.getText().toString();
+                volume = TextUtils.isEmpty(Volume.getText().toString())?"0":Volume.getText().toString();
 
 
             RadioGroup AquariumType = findViewById(R.id.AquariumTypeGroup);

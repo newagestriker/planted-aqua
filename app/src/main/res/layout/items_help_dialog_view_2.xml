@@ -93,7 +93,7 @@
             android:layout_gravity="center"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/info_tanks"
+            android:src="@drawable/delete_values"
             />
         <TextView
             android:layout_weight="7"
@@ -102,17 +102,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Press this icon on any created TANK model for information on the TANKS."/>
+            android:text="Press this icon on any created TANK model to delete the TANK."/>
     </LinearLayout>
 
-
-    <TextView
-        android:textSize="16sp"
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="SWIPE right or left any TANK model to remove it."/>
     <Button
         android:id="@+id/help_ok_button2"
         android:layout_margin="25dp"

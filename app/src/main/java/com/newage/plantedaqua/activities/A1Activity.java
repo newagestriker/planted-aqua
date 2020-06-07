@@ -118,7 +118,7 @@ import com.facebook.ads.*;
 public class A1Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ArrayList<TankProgressDetails> tanklabels=new ArrayList <>();
+//    private ArrayList<TankProgressDetails> tanklabels=new ArrayList <>();
 //    private TankProgressDetails tpd,temp;
 //    private RecyclerView.Adapter adapter;
     private int TANK_DETAILS_CREATION=1;
@@ -1527,19 +1527,27 @@ public class A1Activity extends AppCompatActivity
 
     //region EACH TANK IN VIEWPAGER
 
-    ArrayList<TanksDetails> tanksDetailsArrayList;
-    TanksSectionsPagerAdapter tanksSectionsPagerAdapter;
-    ViewPager viewPager2;
-    TinyDB tinyDB;
+    private ArrayList<TanksDetails> tanksDetailsArrayList;
+    private TanksSectionsPagerAdapter tanksSectionsPagerAdapter;
+    private ViewPager viewPager2;
+    private TinyDB tinyDB;
+    private ExpenseDBHelper expenseDBHelper;
     private void loadViewPagerTankDetails(){
         tinyDB = new TinyDB(getApplicationContext());
         tanksDetailsArrayList = new ArrayList<>();
+        expenseDBHelper = ExpenseDBHelper.getInstance(A1Activity.this.getApplicationContext());
         TanksDetails tanksDetails = new TanksDetails();
+        Cursor c;
+        float sum = 0f;
         Cursor cursor = tankDBHelper.getData(tankDBHelper.getReadableDatabase());
         if(cursor!=null){
             if(cursor.moveToFirst()){
                 do{
                     tanksDetails = new TanksDetails();
+                    tanksDetails.setCurrency(tinyDB.getString("DefaultCurrencySymbol"));
+                    tanksDetails.setTankPrice(cursor.getString(5));
+                    tanksDetails.setTankVolume(cursor.getString(7));
+                    tanksDetails.setTankVolumeMetric(cursor.getString(8));
                     tanksDetails.setTankID(cursor.getString(1));
                     tanksDetails.setTankName(cursor.getString(2));
                     tanksDetails.setTankPicUri(cursor.getString(3));
@@ -1548,20 +1556,39 @@ public class A1Activity extends AppCompatActivity
                     tanksDetails.setTankStartDate(cursor.getString(10));
                     tanksDetails.setTankEndDate(cursor.getString(11));
                     tanksDetails.setTankCO2Supply(cursor.getString(12));
-                    tanksDetails.setTankLightRegion(cursor.getString(16)==null?"":cursor.getString(16));
+                    tanksDetails.setTankLightRegion(cursor.getString(16)==null?"Dark":cursor.getString(16));
                     tanksDetails.setMicroDosageText(cursor.getString(20)==null?"":cursor.getString(20));
                     tanksDetails.setMacroDosageText(cursor.getString(21)==null?"":cursor.getString(21));
-                    tanksDetailsArrayList.add(tanksDetails);
 
+
+                    //Get Tank Expense
+                    sum = 0f;
+                    c = expenseDBHelper.getExpensePerGroupWithGroupValue("TankName", "", "", tanksDetails.getTankName());
+                    if (c != null) {
+                        if (c.moveToFirst()) {
+                            do {
+                                sum += c.getFloat(1);
+                            } while (c.moveToNext());
+                        }
+                        c.close();
+                    }
+                    tanksDetails.setCumExpenses(String.format(Locale.getDefault(),"%.2f",sum));
+                    tanksDetailsArrayList.add(tanksDetails);
                 }while (cursor.moveToNext());
             }
             cursor.close();
         }
 
+
+
+
         setInstructionVisibility();
         viewPager2 = findViewById(R.id.TanksViewPager);
         tanksSectionsPagerAdapter = new TanksSectionsPagerAdapter(tanksDetailsArrayList,getSupportFragmentManager());
         viewPager2.setAdapter(tanksSectionsPagerAdapter);
+
+
+
 
     }
 
@@ -1612,6 +1639,7 @@ public class A1Activity extends AppCompatActivity
         startActivityForResult(intent,TANK_DETAILS_MODIFICATION);
     }
 
+
     private void removeTankFromPager(String aquariumID){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Delete Tank")
@@ -1632,10 +1660,9 @@ public class A1Activity extends AppCompatActivity
                         tankDBHelper.deleteItemReco(aquariumID);
                         tankDBHelper.deleteItemLight(aquariumID);
                         NutrientDbHelper nutrientDbHelper = NutrientDbHelper.newInstance(A1Activity.this.getApplicationContext(), aquariumID);
-                        ExpenseDBHelper expenseDBHelper = ExpenseDBHelper.getInstance(A1Activity.this.getApplicationContext());
                         expenseDBHelper.deleteExpense("AquariumID", aquariumID);
                         nutrientDbHelper.deleteNutrientTables();
-                      //  Log.i("POSITION",Integer.toString(viewPager2.getCurrentItem()));
+                      // Log.i("POSITION",Integer.toString(viewPager2.getCurrentItem()));
                         tanksDetailsArrayList.remove(viewPager2.getCurrentItem());
                         tanksSectionsPagerAdapter.notifyDataSetChanged();
                         setInstructionVisibility();
@@ -1656,14 +1683,6 @@ public class A1Activity extends AppCompatActivity
         startActivity(intent);
 
     }
-
-
-
-
-
-
-
-
     //endregion
 
 

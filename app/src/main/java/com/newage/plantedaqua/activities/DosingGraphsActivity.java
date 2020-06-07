@@ -45,14 +45,10 @@ public class DosingGraphsActivity extends AppCompatActivity {
 
     private String aquariumID;
     private String kDose,nDose,pDose,cDose,mDose,kUptake,nUptake,pUptake,cUptake,mUptake;
-    private TankDBHelper tankDBHelper;
     private NutrientDbHelper nutrientDbHelper;
     private MyDbHelper myDbHelper;
     private EditText nDoseEntry,pDoseEntry,kDoseEntry,mDoseEntry,cDoseEntry,nUptakeEntry,pUptakeEntry,kUptakeEntry,cUptakeEntry,mUptakeEntry;
-    private ImageView saveDoseImage, saveUptakeImage;
     private Button waterChangePercentButton;
-    private SharedPreferences tankSettings;
-    private float waterChangePercentFromDB;
     private SharedPreferences.Editor tankSettingsEditor;
     private LinearLayout dosingGraphsMainLayout;
 
@@ -143,7 +139,7 @@ public class DosingGraphsActivity extends AppCompatActivity {
         aquariumID = getIntent().getStringExtra("AquariumID");
 
 
-        tankDBHelper = TankDBHelper.newInstance(this);
+        TankDBHelper tankDBHelper = TankDBHelper.newInstance(this);
 
         Cursor c = tankDBHelper.getDataCondition("AquariumID", aquariumID);
 
@@ -167,8 +163,8 @@ public class DosingGraphsActivity extends AppCompatActivity {
         dosingGraphsMainLayout = findViewById(R.id.DosingGraphsMainLayout);
 
 
-        tankSettings = getApplicationContext().getSharedPreferences(aquariumID, 0);
-        waterChangePercentFromDB = tankSettings.getFloat("waterChangePercent",0.5f);
+        SharedPreferences tankSettings = getApplicationContext().getSharedPreferences(aquariumID, 0);
+        float waterChangePercentFromDB = tankSettings.getFloat("waterChangePercent", 0.5f);
         tankSettingsEditor = tankSettings.edit();
 
         nutrientDbHelper = NutrientDbHelper.newInstance(this,aquariumID);
@@ -186,34 +182,12 @@ public class DosingGraphsActivity extends AppCompatActivity {
         cUptakeEntry = findViewById(R.id.CUptakeEditText);
         mUptakeEntry = findViewById(R.id.MUptakeEditText);
 
-        /*Cursor cr;
-        cr = myDbHelper.getDataMaL();
-        if(cr!=null) {
-
-            Log.i("GraphTest","not null");
-
-            cr.moveToNext();
-
-            long rows = cr.getCount();
-            Log.i("GraphTest",Long.toString(rows));
-            if (rows > 2) {
-
-                rows -= 2;
-
-                myDbHelper.deleteRowsMacroTable(rows);
-            }
-
-            cr.close();
-        }*/
-
-
-
 
 
         //region WATER CHANGE % BUTTON IMPLEMENTATION
         waterChangePercentButton = findViewById(R.id.WaterChangePercentButton);
 
-        waterChangePercentButton.setText(String.format(Locale.getDefault(),"%.2f",waterChangePercentFromDB*100f) + " %");
+        waterChangePercentButton.setText(String.format(Locale.getDefault(),"%.2f", waterChangePercentFromDB *100f) + " %");
 
 
         waterChangePercentButton.setOnClickListener(new View.OnClickListener() {
@@ -302,9 +276,7 @@ public class DosingGraphsActivity extends AppCompatActivity {
         else {
 
 
-
-
-            saveDoseImage = findViewById(R.id.SaveDoseImage);
+            ImageView saveDoseImage = findViewById(R.id.SaveDoseImage);
             saveDoseImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -325,7 +297,7 @@ public class DosingGraphsActivity extends AppCompatActivity {
 
                 }
             });
-            saveUptakeImage = findViewById(R.id.SaveUptakeImage);
+            ImageView saveUptakeImage = findViewById(R.id.SaveUptakeImage);
             saveUptakeImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

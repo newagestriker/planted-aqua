@@ -2,13 +2,13 @@ package com.newage.plantedaqua.helpers
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.database.Cursor
 import android.os.Bundle
 import android.text.TextUtils
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ScrollView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -20,9 +20,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.newage.plantedaqua.R
+import com.newage.plantedaqua.adapters.RecyclerAdapterInfo
 import com.newage.plantedaqua.adapters.RecyclerAdapterLogs
 import com.newage.plantedaqua.databinding.EachTankDetailLayoutBinding
 import com.newage.plantedaqua.models.LogData
+import com.newage.plantedaqua.models.TankAdviceInfo
 import com.newage.plantedaqua.models.TanksDetails
 import java.text.SimpleDateFormat
 import java.util.*
@@ -56,6 +58,7 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
             showDosage.setOnClickListener(this@TanksPlaceholderFragment)
         }
 
+
         return binding.root
     }
 
@@ -80,14 +83,16 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
 
         myDbHelper = MyDbHelper.newInstance(activity, tanksDetails.tankID)
 
-        addDosageText();
-        upcomingTasks();
-        pendingTasks();
-        setReco();
 
+        addDosageText()
+        upcomingTasks()
+        pendingTasks()
+        setReco()
+        binding.scrollView2.smoothScrollTo(0,0)
         super.onActivityCreated(savedInstanceState)
     }
 
+    //region ANIMATIONS
     private fun showHideDosageInfo() {
 
         binding.apply {
@@ -172,6 +177,7 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
 
         }
     }
+    //endregion
 
 
 
@@ -194,6 +200,7 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
 
 
 
+    //region UPDATE TASK RECYCLER VIEWS
     private fun upcomingTasks() {
 
         val db = myDbHelper.readableDatabase
@@ -289,6 +296,8 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
 
     private fun pendingTasks() {
 
+        val customAlertDialog = CustomAlertDialog()
+
         val c = myDbHelper.getDataLogsCondition("Log_Status", "Skipped")
         if (c.moveToFirst()) {
             do {
@@ -310,48 +319,58 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
             PendingDashBoardRecyclerView.viewTreeObserver
                     .addOnGlobalLayoutListener( OnViewGlobalLayoutListener(UpcomingDashBoardRecyclerView, 256, activity))
             if (logData2.isEmpty()) {
-                PendingDashBoardTasks.text = "There are no pending tasks"
+                PendingDashBoardTasks.text = getString(R.string.no_pending_tasks)
                 LinearDashBoardPending.visibility = View.GONE
             } else {
                 LinearDashBoardPending.visibility = View.VISIBLE
-                PendingDashBoardTasks.text = "Pending Tasks"
+                PendingDashBoardTasks.text = getString(R.string.pending_tasks)
                 val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(activity)
                 PendingDashBoardRecyclerView.layoutManager = layoutManager
                 adapter2 = RecyclerAdapterLogs(logData2, activity, RecyclerAdapterLogs.OnItemClickListener { view, position ->
                     val task: String = logData2[position].task
-                    val category: String = logData2[position].category
                     val dt: String = logData2[position].dt
                     if (view.tag == 1) {
-                        myDbHelper.updateItemLogsUsingDate(dt, "Log_Status", resources.getString(R.string.Completed))
-                        myDbHelper.updateStatusMaL(resources.getString(R.string.Completed), dt)
-                        logData2.removeAt(position)
-                        adapter2.notifyItemRemoved(position)
-                        if (logData2.isEmpty()) {
-                            PendingDashBoardTasks.text = "There are no pending tasks"
-                            PendingDashBoardRecyclerView.visibility = View.GONE
-                            LinearDashBoardPending.visibility = View.GONE
-                        } else {
-                            PendingDashBoardTasks.text = "Pending tasks"
-                            PendingDashBoardRecyclerView.visibility = View.VISIBLE
-                            LinearDashBoardPending.visibility = View.VISIBLE
+
+                        customAlertDialog.showDialog(activity!!,null,"Mark Task As Completed","You can undo this action in your Tank Logs.") {
+                            myDbHelper.updateItemLogsUsingDate(dt, "Log_Status", resources.getString(R.string.Completed))
+                            myDbHelper.updateStatusMaL(resources.getString(R.string.Completed), dt)
+                            logData2.removeAt(position)
+                            adapter2.notifyItemRemoved(position)
+                            if (logData2.isEmpty()) {
+                                PendingDashBoardTasks.text = getString(R.string.no_pending_tasks)
+                                PendingDashBoardRecyclerView.visibility = View.GONE
+                                LinearDashBoardPending.visibility = View.GONE
+                            } else {
+                                PendingDashBoardTasks.text = getString(R.string.pending_tasks)
+                                PendingDashBoardRecyclerView.visibility = View.VISIBLE
+                                LinearDashBoardPending.visibility = View.VISIBLE
+                            }
+                            Toast.makeText(activity, "Task $task is completed..", Toast.LENGTH_SHORT).show()
                         }
-                        Toast.makeText(activity, "Task $task is completed..", Toast.LENGTH_SHORT).show()
+
+
+
                     } else {
-                        myDbHelper.deleteItemLogsUsingDate(dt)
-                        myDbHelper.deleteItemMaL(dt)
-                        logData2.removeAt(position)
-                        adapter2.notifyItemRemoved(position)
-                        if (logData2.isEmpty()) {
-                            PendingDashBoardTasks.text = "There are no pending tasks"
-                            PendingDashBoardRecyclerView.visibility = View.GONE
-                            LinearDashBoardPending.visibility = View.GONE
-                        } else {
-                            PendingDashBoardTasks.text = "Pending tasks"
-                            PendingDashBoardRecyclerView.visibility = View.VISIBLE
-                            LinearDashBoardPending.visibility = View.VISIBLE
+
+                        customAlertDialog.showDialog(activity!!, null, "Delete Log", "Deleted Logs cannot be recovered.") {
+                            myDbHelper.deleteItemLogsUsingDate(dt)
+                            myDbHelper.deleteItemMaL(dt)
+                            logData2.removeAt(position)
+                            adapter2.notifyItemRemoved(position)
+                            if (logData2.isEmpty()) {
+                                PendingDashBoardTasks.text = "There are no pending tasks"
+                                PendingDashBoardRecyclerView.visibility = View.GONE
+                                LinearDashBoardPending.visibility = View.GONE
+                            } else {
+                                PendingDashBoardTasks.text = "Pending tasks"
+                                PendingDashBoardRecyclerView.visibility = View.VISIBLE
+                                LinearDashBoardPending.visibility = View.VISIBLE
+                            }
+                            Toast.makeText(activity, "Task $task is deleted from Logs", Toast.LENGTH_SHORT).show()
                         }
-                        Toast.makeText(activity, "Task $task is deleted from Logs", Toast.LENGTH_SHORT).show()
                     }
+
+
                 })
                 PendingDashBoardRecyclerView.adapter = adapter2
             }
@@ -360,22 +379,21 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
 
 
     private fun setReco() {
-        val logDatas = ArrayList<LogData>()
-        var logData: LogData
+        val tankAdviceInfoList = ArrayList<TankAdviceInfo>()
+        var tankAdviceInfo: TankAdviceInfo
 
-        //RecoDetails(id integer,AquariumID text,Day text,Date text,Title text,Message text,Visibility text)"
         val tankDBHelper = TankDBHelper.newInstance(activity)
         val c = tankDBHelper.getDataRecoCondition(tankDBHelper.readableDatabase, tanksDetails.tankID)
         if (c != null) {
             if (c.moveToFirst()) {
                 do {
-                    if (!TextUtils.isEmpty(c.getString(5))) {
-                        logData = LogData()
-                        logData.dy = c.getString(4)
-                        logData.dt = c.getString(3)
-                        logData.task = c.getString(5)
-                        logData.status = null
-                        logDatas.add(logData)
+                    if (!TextUtils.isEmpty(c.getString(5))&&(c.getString(6) == "1")) {
+                        tankAdviceInfo = TankAdviceInfo()
+                        tankAdviceInfo.infoType = c.getString(4)
+                        tankAdviceInfo.infoDate = c.getString(3)
+                        tankAdviceInfo.infoMessage = c.getString(5)
+
+                        tankAdviceInfoList.add(tankAdviceInfo)
                     }
                 } while (c.moveToNext())
             }
@@ -385,7 +403,7 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
         binding.apply {
             RecoDashBoardRecyclerView.viewTreeObserver
                     .addOnGlobalLayoutListener( OnViewGlobalLayoutListener(UpcomingDashBoardRecyclerView, 256, activity))
-            if (logDatas.isEmpty()) {
+            if (tankAdviceInfoList.isEmpty()) {
                 RecommendationsDashBoard.text = resources.getString(R.string.no_reco)
                 LinearRecoDashBoard.visibility = View.GONE
             } else {
@@ -393,7 +411,7 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
                 RecommendationsDashBoard.text = resources.getString(R.string.reco)
                 val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(activity)
                 RecoDashBoardRecyclerView.layoutManager = layoutManager
-                val adapter = RecyclerAdapterLogs(logDatas, activity, RecyclerAdapterLogs.OnItemClickListener { _, _ -> })
+                val adapter = RecyclerAdapterInfo(tankAdviceInfoList, activity, RecyclerAdapterInfo.OnItemClickListener { _, _ -> })
                 RecoDashBoardRecyclerView.adapter = adapter
             }
         }
@@ -406,6 +424,7 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
     private fun isTomorrow(d: Long): Boolean {
         return DateUtils.isToday(d - DateUtils.DAY_IN_MILLIS)
     }
+    //endregion
 
 
 }
