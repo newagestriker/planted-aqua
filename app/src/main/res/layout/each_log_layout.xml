@@ -59,13 +59,13 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:padding="3dp"
-        tools:text="Maintenance"
         android:textColor="@color/highlight"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/Log_time"
+        app:layout_constraintBottom_toTopOf="@+id/Log_taskStatus"
         app:layout_constraintStart_toEndOf="@+id/Log_time"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Maintenance" />
 
     <TextView
         android:id="@+id/Log_time"
@@ -89,27 +89,30 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:padding="3dp"
-        tools:text="Water change"
         android:textColor="@color/white"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/Log_time"
+        app:layout_constraintBottom_toTopOf="@+id/Log_taskStatus"
         app:layout_constraintEnd_toStartOf="@+id/Log_ImageCross"
         app:layout_constraintHorizontal_bias="0.03"
         app:layout_constraintStart_toEndOf="@+id/Log_TaskCategory"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Water change" />
 
     <TextView
         android:id="@+id/Log_taskStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:padding="3dp"
         android:textColor="@color/colorPrimary"
         android:textSize="14sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/Log_TaskName"
-        app:layout_constraintStart_toStartOf="@+id/Log_TaskCategory"
-        app:layout_constraintTop_toBottomOf="@+id/Log_TaskName" />
+        app:layout_constraintEnd_toStartOf="@+id/Log_ImageChange"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/Log_time"
+        app:layout_constraintTop_toBottomOf="@+id/Log_day" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

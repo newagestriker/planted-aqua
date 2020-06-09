@@ -2,7 +2,6 @@ package com.newage.plantedaqua.helpers
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.database.Cursor
 import android.os.Bundle
 import android.text.TextUtils
 import android.text.format.DateUtils
@@ -358,11 +357,11 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
                             logData2.removeAt(position)
                             adapter2.notifyItemRemoved(position)
                             if (logData2.isEmpty()) {
-                                PendingDashBoardTasks.text = "There are no pending tasks"
+                                PendingDashBoardTasks.text = getString(R.string.no_pending_tasks)
                                 PendingDashBoardRecyclerView.visibility = View.GONE
                                 LinearDashBoardPending.visibility = View.GONE
                             } else {
-                                PendingDashBoardTasks.text = "Pending tasks"
+                                PendingDashBoardTasks.text = getString(R.string.pending_tasks)
                                 PendingDashBoardRecyclerView.visibility = View.VISIBLE
                                 LinearDashBoardPending.visibility = View.VISIBLE
                             }
