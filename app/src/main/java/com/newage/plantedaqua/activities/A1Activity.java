@@ -308,6 +308,11 @@ public class A1Activity extends AppCompatActivity
                 startActivity(iExpense);
                 break;
             }
+            case  "plantDB" : {
+                Intent iExpense = new Intent(this, PlantDatabaseActivity.class);
+                startActivity(iExpense);
+                break;
+            }
             default : {
                 Intent i3 = new Intent(this, AlgaeActivity.class);
                 startActivity(i3);
