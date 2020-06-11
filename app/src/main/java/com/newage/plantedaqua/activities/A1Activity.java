@@ -174,12 +174,6 @@ public class A1Activity extends AppCompatActivity
 
         loadBannerAd();
 
-        //region INITIALIZE SHORTCUTS
-        ImageView algaeSC = findViewById(R.id.algaeShortCut);
-        ImageView converterSC = findViewById(R.id.converterShortCut);
-        ImageView walletSC = findViewById(R.id.walletShortCut);
-        ImageView macroSC = findViewById(R.id.macroShortCut);
-        //endregion
 
         instructionText = findViewById(R.id.InstructionText);
         tankDBHelper = TankDBHelper.newInstance(this);
@@ -282,10 +276,7 @@ public class A1Activity extends AppCompatActivity
         showDeveloperMessage();
 
 
-        // ATTENTION: This was auto-generated to handle app links.
-        /*Intent appLinkIntent = getIntent();
-        String appLinkAction = appLinkIntent.getAction();
-        Uri appLinkData = appLinkIntent.getData();*/
+
     }
 
 
@@ -1272,80 +1263,80 @@ public class A1Activity extends AppCompatActivity
     }
 
 
-    public void setAlldata(Cursor c,View view){
-
-        TinyDB settingsDB = new TinyDB(getApplicationContext());
-
-
-
-        TextView AquaName=view.findViewById(R.id.AquariumNameText);
-        AquaName.setText(c.getString(2));
-
-
-        TextView Price=view.findViewById(R.id.AquariumPriceText);
-        Price.setText(c.getString(5));
-
-        TextView LightType=view.findViewById(R.id.AquariumLightTypeText);
-        LightType.setText(c.getString(13));
-
-        TextView Wattage=view.findViewById(R.id.AquariumWattageText);
-        Wattage.setText(c.getString(14));
-
-
-        TextView StartupDate=view.findViewById(R.id.AquariumAcDateText);
-        StartupDate.setText(c.getString(10));
-
-
-        TextView DismantleDate=view.findViewById(R.id.AquariumDisDateText);
-        DismantleDate.setText(c.getString(11));
-
-
-        TextView LumensPerWatt=view.findViewById(R.id.AquariumLumensText);
-        LumensPerWatt.setText(c.getString(15));
-
-        TextView Currency=view.findViewById(R.id.AquariumCurrencyText);
-        Currency.setText(settingsDB.getString("DefaultCurrencySymbol"));
-
-        TextView Volume=view.findViewById(R.id.AquariumVolumeText);
-        Volume.setText(c.getString(7));
-
-        TextView VolumeMetric=view.findViewById(R.id.AquariumMetricText);
-        VolumeMetric.setText(c.getString(8));
-
-        TextView AquariumType=view.findViewById(R.id.AquariumTypeText);
-        AquariumType.setText(c.getString(4));
-
-        TextView CurrentStatus=view.findViewById(R.id.AquariumStatusText);
-        CurrentStatus.setText(c.getString(9));
-
-
-        TextView CO2=view.findViewById(R.id.AquariumCo2Text);
-        CO2.setText(c.getString(12));
-
-
-
-
-        ImageView tankImage = view.findViewById(R.id.TankImageInfo);
-
-        String s=c.getString(3);
-        if(!s.isEmpty()) {
-
-            Uri tankpicUri;
-
-
-            tankpicUri = Uri.parse(s);
-            Glide.with(this)
-                    .load(tankpicUri)
-                    .apply(new RequestOptions()
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .skipMemoryCache(true)
-                            .error(R.drawable.aquarium2))
-                    .into(tankImage);
-
-        }
-
-
-    }
+//    public void setAlldata(Cursor c,View view){
+//
+//        TinyDB settingsDB = new TinyDB(getApplicationContext());
+//
+//
+//
+//        TextView AquaName=view.findViewById(R.id.AquariumNameText);
+//        AquaName.setText(c.getString(2));
+//
+//
+//        TextView Price=view.findViewById(R.id.AquariumPriceText);
+//        Price.setText(c.getString(5));
+//
+//        TextView LightType=view.findViewById(R.id.AquariumLightTypeText);
+//        LightType.setText(c.getString(13));
+//
+//        TextView Wattage=view.findViewById(R.id.AquariumWattageText);
+//        Wattage.setText(c.getString(14));
+//
+//
+//        TextView StartupDate=view.findViewById(R.id.AquariumAcDateText);
+//        StartupDate.setText(c.getString(10));
+//
+//
+//        TextView DismantleDate=view.findViewById(R.id.AquariumDisDateText);
+//        DismantleDate.setText(c.getString(11));
+//
+//
+//        TextView LumensPerWatt=view.findViewById(R.id.AquariumLumensText);
+//        LumensPerWatt.setText(c.getString(15));
+//
+//        TextView Currency=view.findViewById(R.id.AquariumCurrencyText);
+//        Currency.setText(settingsDB.getString("DefaultCurrencySymbol"));
+//
+//        TextView Volume=view.findViewById(R.id.AquariumVolumeText);
+//        Volume.setText(c.getString(7));
+//
+//        TextView VolumeMetric=view.findViewById(R.id.AquariumMetricText);
+//        VolumeMetric.setText(c.getString(8));
+//
+//        TextView AquariumType=view.findViewById(R.id.AquariumTypeText);
+//        AquariumType.setText(c.getString(4));
+//
+//        TextView CurrentStatus=view.findViewById(R.id.AquariumStatusText);
+//        CurrentStatus.setText(c.getString(9));
+//
+//
+//        TextView CO2=view.findViewById(R.id.AquariumCo2Text);
+//        CO2.setText(c.getString(12));
+//
+//
+//
+//
+//        ImageView tankImage = view.findViewById(R.id.TankImageInfo);
+//
+//        String s=c.getString(3);
+//        if(!s.isEmpty()) {
+//
+//            Uri tankpicUri;
+//
+//
+//            tankpicUri = Uri.parse(s);
+//            Glide.with(this)
+//                    .load(tankpicUri)
+//                    .apply(new RequestOptions()
+//                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                            .skipMemoryCache(true)
+//                            .error(R.drawable.aquarium2))
+//                    .into(tankImage);
+//
+//        }
+//
+//
+//    }
     RecyclerView userTankImagesRecyclerView;
     ArrayList<GalleryInfo> galleryInfoArrayList = new ArrayList<>();
     private void loadUserTankImages(){

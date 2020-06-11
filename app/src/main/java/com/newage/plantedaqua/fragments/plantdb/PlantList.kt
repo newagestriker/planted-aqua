@@ -5,16 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.newage.plantedaqua.R
 import com.newage.plantedaqua.adapters.RecyclerAdapter
 import com.newage.plantedaqua.adapters.ShowcaseRecyclerAdapter
 import com.newage.plantedaqua.adapters.ShowcaseRecyclerAdapter.OnItemClickListener
 import com.newage.plantedaqua.models.Plants
+import com.newage.plantedaqua.viewmodels.PlantDatabaseActivityViewModel
 import kotlinx.android.synthetic.main.content_a1.*
 import kotlinx.android.synthetic.main.fragment_plant_list.*
 import kotlinx.android.synthetic.main.fragment_plant_list.view.*
 import kotlinx.android.synthetic.main.fragment_plant_list.view.plantsRecyclerView
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,7 +35,8 @@ class PlantList : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var plantsArrayList: ArrayList<Plants>
+    private val plantDatabaseActivityViewModel : PlantDatabaseActivityViewModel by sharedViewModel()
+    private var plantsArrayList: ArrayList<Plants> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -51,15 +57,24 @@ class PlantList : Fragment() {
 
     private fun setUpViews(mainView: View){
 
-        plantsArrayList.add(Plants("1","Java Fern","Microsorum pteropus",plantPicUri = "https://upload.wikimedia.org/wikipedia/commons/8/89/Microsorum_pteropus.jpg"))
+       // plantsArrayList.add(Plants(1L,"Java Fern","Microsorum pteropus",plantPicUri = "https://upload.wikimedia.org/wikipedia/commons/8/89/Microsorum_pteropus.jpg",plantAuthorName = "Mainak Dey",plantPicLicenceName = "by CC0"))
 
         val recyclerAdapter = ShowcaseRecyclerAdapter(plantsArrayList,R.layout.each_plant_item,object: OnItemClickListener{
             override fun onItemClick(view: View?, pos: Int) {
-                Navigation.findNavController(mainView).navigate(R.id.action_plantList_to_plantDetails)
+                val action = PlantListDirections.actionPlantListToPlantDetails(plantsArrayList[pos])
+                Navigation.findNavController(mainView).navigate(action)
             }
         })
-
         mainView.plantsRecyclerView.adapter = recyclerAdapter
+        plantDatabaseActivityViewModel.getPlantList().observe(viewLifecycleOwner, Observer {
+            plantsArrayList.clear()
+            plantsArrayList.addAll(it)
+            recyclerAdapter.notifyDataSetChanged()
+
+        })
+
+
+
     }
 
     companion object {

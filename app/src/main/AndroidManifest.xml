@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
-        android:name=".MyApplication"
+        android:name=".PlantedAquaApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="false"
         android:icon="@drawable/pasquare"

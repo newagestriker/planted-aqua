@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.fabric.sdk.android.Fabric;
+import timber.log.Timber;
 
 public class MyApplication extends Application {
 
@@ -38,6 +39,10 @@ public class MyApplication extends Application {
         Fabric.with(this, new Crashlytics.Builder().core(core).build());
 
         AudienceNetworkAds.initialize(this);
+
+        Timber.plant(new Timber.DebugTree());
+
+
 
         PlantedAquaNotificationOpenedHandler plantedAquaNotificationOpenedHandler=new PlantedAquaNotificationOpenedHandler(getApplicationContext());
 

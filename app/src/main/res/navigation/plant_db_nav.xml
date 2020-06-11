@@ -17,6 +17,9 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <argument
+            android:name="receivedPlant"
+            app:argType="com.newage.plantedaqua.models.Plants" />
     </fragment>
     <fragment
         android:id="@+id/plantList"

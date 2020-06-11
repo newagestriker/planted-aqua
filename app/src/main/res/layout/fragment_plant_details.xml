@@ -1,14 +1,406 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.plantdb.PlantDetails">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="mainBoundPlants"
+            type="com.newage.plantedaqua.models.Plants" />
+    </data>
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@drawable/gradient6"
+        android:orientation="vertical"
+        tools:context=".fragments.plantdb.PlantDetails">
 
-</FrameLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:cardCornerRadius="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@{mainBoundPlants.scientificName}"
+                android:textColor="@color/customDarkBackground"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                tools:text="Java Fern">
+
+            </TextView>
+        </androidx.cardview.widget.CardView>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:id="@+id/MainPlantImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_margin="3dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@{mainBoundPlants.scientificName}"
+                    tools:src="@tools:sample/backgrounds/scenic" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:cardCornerRadius="8dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/customDarkBackground">
+
+
+                        <TextView
+                            android:id="@+id/LicenceName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginTop="8dp"
+                            android:autoLink="web"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:onClick="redirectToUrl"
+                            android:text="@{mainBoundPlants.plantPicLicenceName}"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:textStyle="italic|bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/AuthorNameText"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="by CC0" />
+
+                        <TextView
+                            android:id="@+id/AuthorNameText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginTop="8dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:onClick="redirectToUrl"
+                            android:text="@{mainBoundPlants.plantAuthorName}"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:textStyle="italic|bold"
+                            app:layout_constraintEnd_toStartOf="@+id/LicenceName"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/PhotoCredit"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Mainak Dev" />
+
+                        <TextView
+                            android:id="@+id/PhotoCredit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Photo Credit : "
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            app:layout_constraintEnd_toStartOf="@+id/AuthorNameText"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/GrowthRateText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="Growth Rate"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@+id/TemperatureText"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/LightText" />
+
+                        <TextView
+                            android:id="@+id/GrowthRate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="@{mainBoundPlants.plantGrowthRate}"
+                            android:textColor="@color/duskYellow"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toTopOf="@+id/Temperature"
+                            app:layout_constraintStart_toEndOf="@+id/GrowthRateText"
+                            app:layout_constraintTop_toBottomOf="@+id/LightLevel"
+                            tools:text="TextView" />
+
+                        <TextView
+                            android:id="@+id/CO2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="@{mainBoundPlants.plantCO2Demand}"
+                            android:textColor="@color/duskYellow"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toTopOf="@+id/DominantColor"
+                            app:layout_constraintStart_toEndOf="@+id/CO2Text"
+                            app:layout_constraintTop_toBottomOf="@+id/Temperature"
+                            tools:text="TextView" />
+
+                        <TextView
+                            android:id="@+id/CO2Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="CO2 Demand"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@+id/DominantColorText"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/TemperatureText" />
+
+                        <TextView
+                            android:id="@+id/PhText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="Ph"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@+id/DifficultyText"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/PhotoCredit" />
+
+                        <TextView
+                            android:id="@+id/Ph"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="@{mainBoundPlants.plantPh}"
+                            android:textColor="@color/duskYellow"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toTopOf="@+id/Difficulty"
+                            app:layout_constraintStart_toEndOf="@+id/PhText"
+                            app:layout_constraintTop_toBottomOf="@+id/PhotoCredit"
+                            tools:text="TextView" />
+
+                        <TextView
+                            android:id="@+id/TemperatureText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="Temperature"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@+id/CO2Text"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/GrowthRateText" />
+
+                        <TextView
+                            android:id="@+id/Temperature"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="@{mainBoundPlants.plantTemperature}"
+                            android:textColor="@color/duskYellow"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toTopOf="@+id/CO2"
+                            app:layout_constraintStart_toEndOf="@+id/TemperatureText"
+                            app:layout_constraintTop_toBottomOf="@+id/GrowthRate"
+                            tools:text="TextView" />
+
+                        <TextView
+                            android:id="@+id/TankPlacementText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="Tanks Placement"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/DominantColorText" />
+
+                        <TextView
+                            android:id="@+id/DominantColorText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="Dominant Color"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@+id/TankPlacementText"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/CO2Text" />
+
+                        <TextView
+                            android:id="@+id/DominantColor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="@{mainBoundPlants.plantDominantColor}"
+                            android:textColor="@color/duskYellow"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toTopOf="@+id/TankPlacement"
+                            app:layout_constraintStart_toEndOf="@+id/DominantColorText"
+                            app:layout_constraintTop_toBottomOf="@+id/CO2"
+                            tools:text="TextView" />
+
+                        <TextView
+                            android:id="@+id/TankPlacement"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="@{mainBoundPlants.plantTankPlacement}"
+                            android:textColor="@color/duskYellow"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/TankPlacementText"
+                            app:layout_constraintTop_toBottomOf="@+id/DominantColor"
+                            tools:text="TextView" />
+
+                        <TextView
+
+                            android:id="@+id/LightText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="Light Level"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@+id/GrowthRateText"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/CategoryText" />
+
+                        <TextView
+                            android:id="@+id/LightLevel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="@{mainBoundPlants.plantLightRegion}"
+                            android:textColor="@color/duskYellow"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toTopOf="@+id/GrowthRate"
+                            app:layout_constraintStart_toEndOf="@+id/LightText"
+                            app:layout_constraintTop_toBottomOf="@+id/Category"
+                            tools:text="TextView" />
+
+                        <TextView
+                            android:id="@+id/DifficultyText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="Difficulty"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@+id/CategoryText"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/PhText" />
+
+                        <TextView
+                            android:id="@+id/Category"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="@{mainBoundPlants.plantCategory}"
+                            android:textColor="@color/duskYellow"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toTopOf="@+id/LightLevel"
+                            app:layout_constraintStart_toEndOf="@+id/CategoryText"
+                            app:layout_constraintTop_toBottomOf="@+id/Difficulty"
+                            tools:text="TextView" />
+
+                        <TextView
+                            android:id="@+id/CategoryText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="Category"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@+id/LightText"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/DifficultyText" />
+
+                        <TextView
+                            android:id="@+id/Difficulty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="@{mainBoundPlants.plantDifficulty}"
+                            android:textColor="@color/duskYellow"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toTopOf="@+id/Category"
+                            app:layout_constraintStart_toEndOf="@+id/DifficultyText"
+                            app:layout_constraintTop_toBottomOf="@+id/Ph"
+                            tools:text="TextView" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </ScrollView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

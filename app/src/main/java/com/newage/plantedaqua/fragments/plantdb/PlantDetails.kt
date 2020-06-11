@@ -5,7 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.navArgs
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.bumptech.glide.Glide
 import com.newage.plantedaqua.R
+import com.newage.plantedaqua.databinding.EachPlantItemBinding
+import com.newage.plantedaqua.databinding.FragmentPlantDetailsBinding
+import com.newage.plantedaqua.models.Plants
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,7 +28,7 @@ class PlantDetails : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    private lateinit var binding: FragmentPlantDetailsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -30,10 +37,28 @@ class PlantDetails : Fragment() {
         }
     }
 
+    private val args : PlantDetailsArgs by navArgs()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_plant_details, container, false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_plant_details,container,false)
+        binding.mainBoundPlants = args.receivedPlant
+        binding.lifecycleOwner = this
+        //Create an instance of Circular Progress Drawable
+        val circularProgressDrawable = CircularProgressDrawable(binding.root.context)
+        circularProgressDrawable.strokeWidth = 5f
+        circularProgressDrawable.centerRadius = 30f
+        circularProgressDrawable.start()
+        binding.apply {
+            Glide.with(root.context)
+                    .load(mainBoundPlants!!.plantPicUri)
+                    .placeholder(circularProgressDrawable)
+                    .into(MainPlantImage)
+            invalidateAll()
+        }
+
+        return binding.root
     }
 
     companion object {

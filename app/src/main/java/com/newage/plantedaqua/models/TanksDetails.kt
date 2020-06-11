@@ -19,4 +19,6 @@ data class TanksDetails(
         var tankPrice : String = "",
         var currency: String = ""
 ) {
+
+
 }
