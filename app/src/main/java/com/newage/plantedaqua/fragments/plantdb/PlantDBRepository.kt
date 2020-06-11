@@ -23,7 +23,7 @@ class PlantDBRepository(private val context: Context, private val plantDao: Plan
 
         plantDBVersionReference.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onDataChange(p0: DataSnapshot) {

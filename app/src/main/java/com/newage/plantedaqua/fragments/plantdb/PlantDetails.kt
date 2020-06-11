@@ -1,5 +1,6 @@
 package com.newage.plantedaqua.fragments.plantdb
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,30 +11,31 @@ import androidx.navigation.fragment.navArgs
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.newage.plantedaqua.R
+import com.newage.plantedaqua.activities.ConditionsActivity
 import com.newage.plantedaqua.databinding.EachPlantItemBinding
 import com.newage.plantedaqua.databinding.FragmentPlantDetailsBinding
 import com.newage.plantedaqua.models.Plants
+import kotlinx.android.synthetic.main.showcase_recycler_view_item.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [PlantDetails.newInstance] factory method to
- * create an instance of this fragment.
- */
-class PlantDetails : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class PlantDetails : Fragment(), View.OnClickListener{
+
     private lateinit var binding: FragmentPlantDetailsBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+
+    override fun onClick(v: View?) {
+        when(v!!.tag){
+
+            "authorlink" -> {redirectToUrl(binding.mainBoundPlants?.plantPicAuthorLink)}
+            "licencelink" -> {redirectToUrl(binding.mainBoundPlants?.plantPicLicenceLink)}
+
+        }
+    }
+
+    private fun redirectToUrl(url:String?){
+        url?.let {
+            val webIntent = Intent(activity, ConditionsActivity::class.java)
+            webIntent.putExtra("URL", it)
+            startActivity(webIntent)
         }
     }
 
@@ -43,8 +45,9 @@ class PlantDetails : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_plant_details,container,false)
-        binding.mainBoundPlants = args.receivedPlant
         binding.lifecycleOwner = this
+        binding.mainBoundPlants = args.receivedPlant
+
         //Create an instance of Circular Progress Drawable
         val circularProgressDrawable = CircularProgressDrawable(binding.root.context)
         circularProgressDrawable.strokeWidth = 5f
@@ -56,28 +59,15 @@ class PlantDetails : Fragment() {
                     .placeholder(circularProgressDrawable)
                     .into(MainPlantImage)
             invalidateAll()
+
+            AuthorNameText.setOnClickListener(this@PlantDetails)
+            LicenceName.setOnClickListener(this@PlantDetails)
         }
+
+
 
         return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PlantDetails.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                PlantDetails().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }
-    }
+
 }

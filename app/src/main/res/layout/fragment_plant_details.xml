@@ -68,20 +68,23 @@
 
 
                         <TextView
+                            android:tag="licencelink"
+                            android:textColorLink="@color/colorPrimary"
+                            android:linksClickable="true"
+                            android:autoLink="web"
                             android:id="@+id/LicenceName"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:layout_marginStart="4dp"
                             android:layout_marginLeft="4dp"
                             android:layout_marginTop="8dp"
-                            android:autoLink="web"
                             android:clickable="true"
                             android:focusable="true"
-                            android:onClick="redirectToUrl"
                             android:text="@{mainBoundPlants.plantPicLicenceName}"
                             android:textColor="@color/white"
                             android:textSize="15sp"
                             android:textStyle="italic|bold"
+                            app:layout_constraintBottom_toBottomOf="@+id/AuthorNameText"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toEndOf="@+id/AuthorNameText"
@@ -89,15 +92,18 @@
                             tools:text="by CC0" />
 
                         <TextView
+                            android:textColorLink="@color/colorPrimary"
+                            android:autoLink="web"
+                            android:linksClickable="true"
                             android:id="@+id/AuthorNameText"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginLeft="8dp"
                             android:layout_marginTop="8dp"
                             android:clickable="true"
                             android:focusable="true"
-                            android:onClick="redirectToUrl"
+                            android:tag="authorlink"
                             android:text="@{mainBoundPlants.plantAuthorName}"
                             android:textColor="@color/white"
                             android:textSize="15sp"
@@ -109,14 +115,16 @@
                             tools:text="Mainak Dev" />
 
                         <TextView
+
                             android:id="@+id/PhotoCredit"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:layout_marginTop="8dp"
                             android:text="Photo Credit : "
                             android:textColor="@color/white"
                             android:textSize="15sp"
                             android:textStyle="italic"
+                            app:layout_constraintBottom_toBottomOf="@+id/AuthorNameText"
                             app:layout_constraintEnd_toStartOf="@+id/AuthorNameText"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_chainStyle="packed"
