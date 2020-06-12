@@ -148,16 +148,19 @@ public class A1Activity extends AppCompatActivity
 
 
         TinyDB rebootRequired = new TinyDB(this);
-
+        tankDBHelper = TankDBHelper.newInstance(this);
 
         int currentVersionCode = BuildConfig.VERSION_CODE;
         int storedVersionCode = rebootRequired.getInt("STORED_VERSION_CODE");
         if(storedVersionCode <25){
             modifyDBs();
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        setAlarmForNewVersion();
         if (storedVersionCode > 0 && storedVersionCode != currentVersionCode) {
+
+
             builder.setTitle(getResources().getString(R.string.Attention))
                     .setMessage(getResources().getString(R.string.AppUpdated))
                     .setNeutralButton(getResources().getString(R.string.OK), new DialogInterface.OnClickListener() {
@@ -182,7 +185,7 @@ public class A1Activity extends AppCompatActivity
         //endregion
 
         instructionText = findViewById(R.id.InstructionText);
-        tankDBHelper = TankDBHelper.newInstance(this);
+
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -281,11 +284,6 @@ public class A1Activity extends AppCompatActivity
 
         showDeveloperMessage();
 
-
-        // ATTENTION: This was auto-generated to handle app links.
-        /*Intent appLinkIntent = getIntent();
-        String appLinkAction = appLinkIntent.getAction();
-        Uri appLinkData = appLinkIntent.getData();*/
     }
 
 
@@ -1522,6 +1520,75 @@ public class A1Activity extends AppCompatActivity
 
 
         }
+
+    private void setAlarmForNewVersion(){
+
+        MyDbHelper alarmdbhelper1;
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        SQLiteDatabase db1 = tankDBHelper.getWritableDatabase();
+        String AquariumName;
+        PendingIntent pi;
+        String storedTimeInMillis;
+        Cursor c1 = tankDBHelper.getData(db1);
+        while (c1.moveToNext()) {
+
+            AquariumName = c1.getString(2);
+            alarmdbhelper1 = MyDbHelper.newInstance(this, c1.getString(1));
+            SQLiteDatabase db2 = alarmdbhelper1.getWritableDatabase();
+
+            Cursor c = alarmdbhelper1.getData(db2);
+
+
+            while (c.moveToNext()) {
+                Calendar calendar = Calendar.getInstance();
+                storedTimeInMillis = c.getString(2);
+
+
+                calendar.set(
+
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH),
+                        c.getInt(5),
+                        c.getInt(6),
+                        0
+                );
+
+
+                calendar.set(Calendar.DAY_OF_WEEK, c.getInt(4));
+                if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+                    calendar.add(Calendar.DAY_OF_YEAR, 7);
+                }
+
+                alarmdbhelper1.updateTimeInMillis(db2, Long.toString(calendar.getTimeInMillis()), storedTimeInMillis);
+
+
+
+                Intent inn = new Intent(this, RamizAlarm.class);
+                inn.putExtra("AT", c.getString(1));
+                inn.putExtra("AlarmName", c.getString(0));
+                inn.putExtra("NotifyType", c.getString(7));
+                inn.putExtra("AquariumID", c1.getString(1));
+                inn.putExtra("KEY_TRIGGER_TIME", calendar.getTimeInMillis());
+                inn.putExtra("KEY_INTENT_ID", c.getInt(3));
+                inn.putExtra("AquariumName", AquariumName);
+
+                pi = PendingIntent.getBroadcast(this, c.getInt(3), inn, PendingIntent.FLAG_UPDATE_CURRENT);
+                if (Build.VERSION.SDK_INT >= 23) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pi);
+                } else if (Build.VERSION.SDK_INT >= 19) {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pi);
+                } else {
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pi);
+                }
+            }
+            c.close();
+
+
+        }
+        c1.close();
+
+    }
 
 
 
