@@ -1,6 +1,6 @@
 package com.newage.plantedaqua.di
 
-import com.newage.plantedaqua.fragments.plantdb.PlantDBRepository
+import com.newage.plantedaqua.repositories.PlantDBRepository
 import com.newage.plantedaqua.room.PlantDB
 import com.newage.plantedaqua.viewmodels.PlantDatabaseActivityViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -10,7 +10,7 @@ val dbModules =  module{
 
     factory { PlantDB.getInstance(get()) }
     factory { get<PlantDB>().plantDao }
-    single {PlantDBRepository(get(),get())}
+    single { PlantDBRepository(get(), get()) }
 
 }
 

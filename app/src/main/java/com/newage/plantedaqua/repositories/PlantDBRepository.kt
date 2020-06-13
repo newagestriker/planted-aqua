@@ -1,4 +1,4 @@
-package com.newage.plantedaqua.fragments.plantdb
+package com.newage.plantedaqua.repositories
 
 import android.content.Context
 import androidx.lifecycle.LiveData

@@ -1128,12 +1128,13 @@ public class A1Activity extends AppCompatActivity
 
 
 
-            ShowcaseRecyclerAdapter<GalleryInfo> showcaseAdapter = new ShowcaseRecyclerAdapter<>(galleryInfoArrayList, R.layout.showcase_recycler_view_item, (view, pos) -> {
+            ShowcaseRecyclerAdapter<GalleryInfo> showcaseAdapter = new ShowcaseRecyclerAdapter<GalleryInfo>(R.layout.showcase_recycler_view_item, (view, pos) -> {
                 Intent iUsersGallery = new Intent(A1Activity.this, UsersGalleryActivity.class);
                 iUsersGallery.putExtra("UserID", mAuth.getCurrentUser().getUid());
                 iUsersGallery.putExtra("Position", pos);
                 startActivity(iUsersGallery);
             });
+            showcaseAdapter.submitList(galleryInfoArrayList);
             userTankImagesRecyclerView.setAdapter(showcaseAdapter);
 
             galleryItemRefQuery.addChildEventListener(new ChildEventListener() {

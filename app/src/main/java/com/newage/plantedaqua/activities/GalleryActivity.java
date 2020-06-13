@@ -24,7 +24,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -88,7 +87,6 @@ public class GalleryActivity extends AppCompatActivity {
     private ImageView galleryDisplayPic;
     private String uUID;
     private String mode;
-    private String tempID="";
     private Uri tankpicUri;
     private File image=null;
     private boolean NEW_IMAGE_CREATED = false;
@@ -364,8 +362,8 @@ public class GalleryActivity extends AppCompatActivity {
 
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HH_mm_ss", Locale.getDefault()).format(new Date());
             int rnd = new Random().nextInt(10000);
-            tempID = timeStamp + "_" + rnd;
-            image = new File(imagesFolder, tempID+"_Pic.jpg");
+            String tempID = timeStamp + "_" + rnd;
+            image = new File(imagesFolder, tempID +"_Pic.jpg");
             if (Build.VERSION.SDK_INT >= 24) {
                 tankpicUri = FileProvider.getUriForFile(this,
                         BuildConfig.APPLICATION_ID + ".provider",

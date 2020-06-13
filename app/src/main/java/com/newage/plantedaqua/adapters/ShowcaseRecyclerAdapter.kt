@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.databinding.library.baseAdapters.BR
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
@@ -15,7 +17,7 @@ import com.newage.plantedaqua.databinding.ShowcaseRecyclerViewItemBinding
 import com.newage.plantedaqua.models.GalleryInfo
 import com.newage.plantedaqua.models.Plants
 
-class ShowcaseRecyclerAdapter<T>(val items : ArrayList<T>, private val layout_ID : Int, private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<ShowcaseRecyclerAdapter.ShowcaseViewHolder>() {
+class ShowcaseRecyclerAdapter<T>(private val layout_ID : Int, private val onItemClickListener: OnItemClickListener) : ListAdapter<T,ShowcaseRecyclerAdapter.ShowcaseViewHolder>(ShowcaseDiffCallBack<T>(layout_ID)) {
 
     interface OnItemClickListener{
         fun onItemClick(view:View?,pos:Int)
@@ -25,10 +27,9 @@ class ShowcaseRecyclerAdapter<T>(val items : ArrayList<T>, private val layout_ID
         return ShowcaseViewHolder.from(parent,layout_ID,onItemClickListener)
     }
 
-    override fun getItemCount() = items.size
 
     override fun onBindViewHolder(holder: ShowcaseViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(getItem(position))
     }
 
     class ShowcaseViewHolder(private val binding: ViewDataBinding, private val onItemClickListener: OnItemClickListener,private val layout_ID: Int) : RecyclerView.ViewHolder(binding.root),View.OnClickListener {
@@ -96,7 +97,33 @@ class ShowcaseRecyclerAdapter<T>(val items : ArrayList<T>, private val layout_ID
     }
 
 
+    class ShowcaseDiffCallBack<T>(private val layout_ID : Int): DiffUtil.ItemCallback<T>() {
+
+
+        override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
+           when (layout_ID){
+               R.layout.showcase_recycler_view_item ->{
+                   return (oldItem as GalleryInfo).userID == (newItem as GalleryInfo).userID
+               }
+           }
+
+            return (oldItem as Plants).plantID == (newItem as Plants).plantID
+        }
+
+        override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
+            when (layout_ID){
+                R.layout.showcase_recycler_view_item ->{
+                    return (newItem as GalleryInfo) == (oldItem as GalleryInfo)
+                }
+            }
+
+            return (oldItem as Plants) == (newItem as Plants)
+        }
+        }
+
+    }
 
 
 
-}
+
+
