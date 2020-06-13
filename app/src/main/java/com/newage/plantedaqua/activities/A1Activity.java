@@ -71,6 +71,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -142,6 +144,18 @@ public class A1Activity extends AppCompatActivity
 
 
         TinyDB rebootRequired = new TinyDB(this);
+
+        YouTubePlayer.OnInitializedListener onInitializedListener = new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+            }
+        };
 
         tankDBHelper = TankDBHelper.newInstance(this);
         int currentVersionCode = BuildConfig.VERSION_CODE;
@@ -292,7 +306,7 @@ public class A1Activity extends AppCompatActivity
                 break;
             }
             case  "plantDB" : {
-                Intent iExpense = new Intent(this, PlantDatabaseActivity.class);
+                Intent iExpense = new Intent(this, UserVideosActivity.class);
                 startActivity(iExpense);
                 break;
             }
