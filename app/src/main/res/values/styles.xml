@@ -36,4 +36,13 @@
     </style>
 
 
+        <style name="ProgressDotsStyle" parent="android:Theme.DeviceDefault.Dialog">
+            <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>
+            <item name="DialogTitleText">Please Wait…</item>
+            <item name="DialogSpotColor">@color/colorPrimary</item>
+            <item name="DialogSpotCount">4</item>
+        </style>
+
+
+
 </resources>

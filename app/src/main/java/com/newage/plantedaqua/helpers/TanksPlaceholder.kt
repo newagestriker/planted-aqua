@@ -46,6 +46,7 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
     private var tankOptionsVisible = true
     private var dosageInfoVisible = false
     private lateinit var adapter2: RecyclerAdapterLogs
+    private lateinit var recoAdapter : RecyclerAdapterInfo
 
     private lateinit var  binding : EachTankDetailLayoutBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -71,6 +72,11 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
             tanksPlaceholderFragment.arguments = args
             return tanksPlaceholderFragment
         }
+    }
+
+    fun updateRecoRecyclerView(){
+        if(this::recoAdapter.isInitialized)
+            recoAdapter.notifyDataSetChanged()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -187,15 +193,17 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
 
                 if (!tanksDetails.microDosageText.isBlank()) {
                     DosageMicro.text = tanksDetails.microDosageText
-                    DosageMicro.setTextColor(ContextCompat.getColor(activity!!,R.color.colorAccent))
-                } else DosageMicro.text = activity!!.resources.getString(R.string.no_data_for_micro_dosage)
+                    DosageMicro.setTextColor(ContextCompat.getColor(requireActivity(),R.color.colorAccent))
+                } else DosageMicro.text = requireActivity().resources.getString(R.string.no_data_for_micro_dosage)
                 if (!tanksDetails.macroDosageText.isBlank()) {
                     DosageMacro.text = tanksDetails.macroDosageText
-                    DosageMacro.setTextColor(ContextCompat.getColor(activity!!,R.color.colorAccent))
-                } else DosageMacro.text = activity!!.resources.getString(R.string.no_data_for_macro_dose)
+                    DosageMacro.setTextColor(ContextCompat.getColor(requireActivity(),R.color.colorAccent))
+                } else DosageMacro.text = requireActivity().resources.getString(R.string.no_data_for_macro_dose)
             }
 
     }
+
+
 
 
 
@@ -222,7 +230,7 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
                 UpcomingDashBoardTasks.text = "Upcoming Tasks"
                 val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(activity)
                 UpcomingDashBoardRecyclerView.layoutManager = layoutManager
-                val adapter1 = RecyclerAdapterLogs(logData1, activity, RecyclerAdapterLogs.OnItemClickListener { view, position -> })
+                val adapter1 = RecyclerAdapterLogs(logData1, activity, RecyclerAdapterLogs.OnItemClickListener { _, _ -> })
                 UpcomingDashBoardRecyclerView.adapter = adapter1
             }
         }
@@ -265,8 +273,8 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
         return defaultValue
     }
 
-    private fun timeFormat(hour: Int, min: Int): String {
-        var hour = hour
+    private fun timeFormat(hr: Int, min: Int): String {
+        var hour = hr
         val format: String
         val strHr: String
         if (hour == 0) {
@@ -330,7 +338,7 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
                     val dt: String = logData2[position].dt
                     if (view.tag == 1) {
 
-                        customAlertDialog.showDialog(activity!!,null,"Mark Task As Completed","You can undo this action in your Tank Logs.") {
+                        customAlertDialog.showDialog(requireActivity(),null,"Mark Task As Completed","You can undo this action in your Tank Logs.") {
                             myDbHelper.updateItemLogsUsingDate(dt, "Log_Status", resources.getString(R.string.Completed))
                             myDbHelper.updateStatusMaL(resources.getString(R.string.Completed), dt)
                             logData2.removeAt(position)
@@ -351,7 +359,7 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
 
                     } else {
 
-                        customAlertDialog.showDialog(activity!!, null, "Delete Log", "Deleted Logs cannot be recovered.") {
+                        customAlertDialog.showDialog(requireActivity(), null, "Delete Log", "Deleted Logs cannot be recovered.") {
                             myDbHelper.deleteItemLogsUsingDate(dt)
                             myDbHelper.deleteItemMaL(dt)
                             logData2.removeAt(position)
@@ -410,8 +418,8 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
                 RecommendationsDashBoard.text = resources.getString(R.string.reco)
                 val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(activity)
                 RecoDashBoardRecyclerView.layoutManager = layoutManager
-                val adapter = RecyclerAdapterInfo(tankAdviceInfoList, activity, RecyclerAdapterInfo.OnItemClickListener { _, _ -> })
-                RecoDashBoardRecyclerView.adapter = adapter
+                recoAdapter = RecyclerAdapterInfo(tankAdviceInfoList, activity, RecyclerAdapterInfo.OnItemClickListener { _, _ -> })
+                RecoDashBoardRecyclerView.adapter = recoAdapter
             }
         }
     }

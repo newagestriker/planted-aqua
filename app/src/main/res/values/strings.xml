@@ -288,6 +288,8 @@
     <string name="no_data_for_macro_dose">No Data. Please set recommended dosage data from Macro Dosage Calculator.</string>
     <string name="no_pending_tasks">There are no pending tasks</string>
     <string name="update">update</string>
+    <string name="grant_image_permission">You must grant permission to load images from your backup.</string>
+    <string name="grant_permission">grant permission</string>
 
 
 </resources>

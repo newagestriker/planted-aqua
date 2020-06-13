@@ -17,6 +17,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import androidx.annotation.NonNull;
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -27,6 +29,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -57,6 +60,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
+
+import dmax.dialog.SpotsDialog;
 
 
 public class CreateTankActivity extends AppCompatActivity {
@@ -91,7 +96,17 @@ public class CreateTankActivity extends AppCompatActivity {
     boolean newImageCreated=false;
     private TinyDB settingsDB;
     private String lightZone="";
+    private Button requestPermissionButton;
+    private CardView requestPermissionCard;
+    private android.app.AlertDialog spotsProgressDialog;
 
+    private int REQ_CODE_TO_SELECT_IMAGE = 1;
+    private int REQ_CODE_FOR_BUTTON_VISIBILITY=2;
+
+    private interface PermissionGranted{
+        void onPermissionsAvailable();
+        void onPermissionsNotAvailable();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,6 +119,8 @@ public class CreateTankActivity extends AppCompatActivity {
 
         boolean TANK_NAME_PRESENT;
         if(item.getItemId()==R.id.Save){
+
+            spotsProgressDialog.show();
 
             if(tankpicUri!=null) {
                 s = tankpicUri.toString();
@@ -184,6 +201,25 @@ public class CreateTankActivity extends AppCompatActivity {
         tankImage = findViewById(R.id.TankImage);
         progressBar = findViewById(R.id.CTankProgressBar);
         linearLayout=findViewById(R.id.LinearTankDetails);
+        requestPermissionButton = findViewById(R.id.requestPermissionButton);
+        requestPermissionCard = findViewById(R.id.requestPermissionCard);
+
+
+        checkPermissions(new PermissionGranted() {
+            @Override
+            public void onPermissionsAvailable() {
+                requestPermissionCard.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onPermissionsNotAvailable() {
+                requestPermissionCard.setVisibility(View.VISIBLE);
+            }
+        });
+
+        requestPermissionButton.setOnClickListener(v->{
+            requestPermissions(REQ_CODE_FOR_BUTTON_VISIBILITY);
+        });
 
         settingsDB = new TinyDB(getApplicationContext());
 
@@ -210,7 +246,10 @@ public class CreateTankActivity extends AppCompatActivity {
             c.close();
         }
 
-
+        spotsProgressDialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setTheme(R.style.ProgressDotsStyle)
+                .build();
 
 
 
@@ -242,7 +281,18 @@ public class CreateTankActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    verifyPermissions();
+                    checkPermissions(new PermissionGranted() {
+                        @Override
+                        public void onPermissionsAvailable() {
+                            requestPermissionCard.setVisibility(View.GONE);
+                            selectImage();
+                        }
+
+                        @Override
+                        public void onPermissionsNotAvailable() {
+                            requestPermissions(REQ_CODE_TO_SELECT_IMAGE);
+                        }
+                    });
                 }else{
                     selectImage();
                 }
@@ -333,6 +383,8 @@ public class CreateTankActivity extends AppCompatActivity {
 
     }
 
+
+
     private void setAlldata(Cursor c){
 
         EditText AquaName=findViewById(R.id.AquariumNameInput);
@@ -419,17 +471,8 @@ public class CreateTankActivity extends AppCompatActivity {
         tankImage = findViewById(R.id.TankImage);
 
         s=c.getString(3);
-        tankpicUri = Uri.parse(s);
-        Glide.with(this)
-                .load(tankpicUri)
-                .apply(new RequestOptions()
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .error(R.drawable.aquarium2))
-                .into(tankImage);
-            tankImage.setFocusable(true);
-            tankImage.setClickable(true);
 
+        loadImageIntoImageView();
 
 
         /*tankImage.setOnClickListener(new View.OnClickListener() {
@@ -448,6 +491,19 @@ public class CreateTankActivity extends AppCompatActivity {
         });*/
 
 
+    }
+
+    private void loadImageIntoImageView(){
+        tankpicUri = Uri.parse(s);
+        Glide.with(this)
+                .load(tankpicUri)
+                .apply(new RequestOptions()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .error(R.drawable.aquarium2))
+                .into(tankImage);
+        tankImage.setFocusable(true);
+        tankImage.setClickable(true);
     }
 
     int dy=0,mnth=0,yr=0;
@@ -627,29 +683,63 @@ public class CreateTankActivity extends AppCompatActivity {
 
         }
 
+    String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
 
-    private void verifyPermissions(){
+        private void checkPermissions(PermissionGranted permissionGranted){
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
-            if (ContextCompat.checkSelfPermission(this.getApplicationContext(), permissions[0]) == PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(this.getApplicationContext(), permissions[1]) == PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(this.getApplicationContext(), permissions[2]) == PackageManager.PERMISSION_GRANTED) {
-                selectImage();
+                if (ContextCompat.checkSelfPermission(this.getApplicationContext(), permissions[0]) == PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(this.getApplicationContext(), permissions[1]) == PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(this.getApplicationContext(), permissions[2]) == PackageManager.PERMISSION_GRANTED) {
+                    permissionGranted.onPermissionsAvailable();
 
-            } else {
+                } else {
 
-                ActivityCompat.requestPermissions(CreateTankActivity.this, permissions, 1);
+                    permissionGranted.onPermissionsNotAvailable();
+                }
             }
+
         }
-    }
+
+        private void requestPermissions(int req_code){
+            ActivityCompat.requestPermissions(CreateTankActivity.this, permissions, req_code);
+        }
+
+
+
+
+
+
+//    private void verifyPermissions(){
+//
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (ContextCompat.checkSelfPermission(this.getApplicationContext(), permissions[0]) == PackageManager.PERMISSION_GRANTED &&
+//                    ContextCompat.checkSelfPermission(this.getApplicationContext(), permissions[1]) == PackageManager.PERMISSION_GRANTED &&
+//                    ContextCompat.checkSelfPermission(this.getApplicationContext(), permissions[2]) == PackageManager.PERMISSION_GRANTED) {
+//
+//                requestPermissionButton.setVisibility(View.GONE);
+//                selectImage();
+//
+//            } else {
+//
+//                requestPermissions(REQ_CODE_TO_SELECT_IMAGE);
+//            }
+//        }
+//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2]==PackageManager.PERMISSION_GRANTED) {
-            selectImage();
+            if(requestCode == REQ_CODE_TO_SELECT_IMAGE) {
+
+                selectImage();
+            }
+            loadImageIntoImageView();
+            requestPermissionCard.setVisibility(View.GONE);
+
         }else {
             Toast.makeText(this,getResources().getString(R.string.PermRationale),Toast.LENGTH_LONG).show();
+            requestPermissionCard.setVisibility(View.VISIBLE);
         }
 
 
@@ -761,6 +851,11 @@ public class CreateTankActivity extends AppCompatActivity {
         }
     }
 
-
-
+    @Override
+    protected void onStop() {
+            if(spotsProgressDialog!=null){
+                spotsProgressDialog.dismiss();
+            }
+        super.onStop();
+    }
 }

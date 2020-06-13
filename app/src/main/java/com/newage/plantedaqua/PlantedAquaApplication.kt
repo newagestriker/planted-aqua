@@ -1,15 +1,14 @@
 package com.newage.plantedaqua
 
 import android.app.Application
-import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.core.CrashlyticsCore
+
 import com.facebook.ads.AudienceNetworkAds
 import com.google.firebase.auth.FirebaseAuth
 import com.newage.plantedaqua.di.dbModules
 import com.newage.plantedaqua.di.vModules
 import com.newage.plantedaqua.helpers.PlantedAquaNotificationOpenedHandler
 import com.onesignal.OneSignal
-import io.fabric.sdk.android.Fabric
+
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -23,11 +22,6 @@ class PlantedAquaApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        val core = CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()
-
-        //CrashlyticsCore core = new CrashlyticsCore.Builder().build();
-
-        Fabric.with(this, Crashlytics.Builder().core(core).build())
 
         AudienceNetworkAds.initialize(this)
 

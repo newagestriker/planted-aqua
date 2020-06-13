@@ -23,7 +23,6 @@ class PlantedAquaNotificationReceivedHandler(var context: Context) : OneSignal.N
 
         var msg: String? = ""
         var photoUrl: String? = ""
-        var to_user: String? = ""
         var DN: String? = ""
         var UID: String? = ""
         var msgCat: String? = ""
@@ -35,7 +34,6 @@ class PlantedAquaNotificationReceivedHandler(var context: Context) : OneSignal.N
             try {
                 msg = data.getString("msg")
                 photoUrl = data.getString("PU")
-                to_user = data.getString("to_user")
                 DN = data.getString("DN")
                 UID = data.getString("UID")
                 msgCat = data.getString("msg_cat")
@@ -84,12 +82,7 @@ class PlantedAquaNotificationReceivedHandler(var context: Context) : OneSignal.N
             chatUsers.chatUserName = displayName
             //endregion
 
-           //region INSERTING CHATS AND USERS IN DATABASE
-            val singleChatDB = SingleChatDB.getInstance(context)
 
-
-
-            //endregion
     }
 
 

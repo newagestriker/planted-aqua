@@ -17,10 +17,8 @@
     <application
         android:name=".PlantedAquaApplication"
         android:allowBackup="true"
-        android:hardwareAccelerated="false"
         android:icon="@drawable/pasquare"
         android:label="@string/app_name"
-        android:largeHeap="true"
         android:roundIcon="@drawable/plantedaqua"
         android:supportsRtl="true"
         tools:ignore="GoogleAppIndexingWarning">
@@ -54,7 +52,6 @@
             android:name=".activities.LightCalcActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <meta-data
             android:name="com.google.android.gms.ads.AD_MANAGER_APP"
             android:value="true" />
@@ -188,10 +185,6 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_maps"
             android:theme="@style/AppTheme" />
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="8a026524bd39a0b5aa614ff6ab2e60120c1ad6c4" />
 
         <activity
             android:name=".activities.ConditionsActivity"

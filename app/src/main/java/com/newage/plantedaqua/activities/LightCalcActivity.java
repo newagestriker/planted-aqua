@@ -6,7 +6,9 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -56,7 +58,8 @@ public class LightCalcActivity extends AppCompatActivity {
     private String lightZone;
     private String co2="";
     private String aquariumName="";
-    TextView lsiTextView;
+    private TextView lsiTextView;
+    private int position=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class LightCalcActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         aquariumID = getIntent().getStringExtra("AquariumID");
+        position = getIntent().getIntExtra("Position",-1);
 
 
         tankDBHelper = TankDBHelper.newInstance(this);
@@ -628,6 +632,10 @@ public class LightCalcActivity extends AppCompatActivity {
 
 
         Toast.makeText(this,"Data Refreshed",Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent();
+        intent.putExtra("Position",position);
+        setResult(Activity.RESULT_OK, new Intent());
 
 
     }
