@@ -139,7 +139,6 @@ public class A1Activity extends AppCompatActivity
 
 
         TinyDB rebootRequired = new TinyDB(this);
-
         tankDBHelper = TankDBHelper.newInstance(this);
         int currentVersionCode = BuildConfig.VERSION_CODE;
         int storedVersionCode = rebootRequired.getInt("STORED_VERSION_CODE");
