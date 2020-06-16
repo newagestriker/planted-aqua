@@ -10,10 +10,10 @@ val dbModules =  module{
 
     factory { PlantDB.getInstance(get()) }
     factory { get<PlantDB>().plantDao }
-    single { PlantDBRepository(get(), get()) }
+    single { PlantDBRepository(get()) }
 
 }
 
 val vModules = module {
-    viewModel { PlantDatabaseActivityViewModel(get()) }
+    viewModel { PlantDatabaseActivityViewModel(get(),get()) }
 }
