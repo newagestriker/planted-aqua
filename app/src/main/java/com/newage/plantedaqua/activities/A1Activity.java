@@ -140,9 +140,11 @@ public class A1Activity extends AppCompatActivity
 
         TinyDB rebootRequired = new TinyDB(this);
 
+        tankDBHelper = TankDBHelper.newInstance(this);
+
         int currentVersionCode = BuildConfig.VERSION_CODE;
         int storedVersionCode = rebootRequired.getInt("STORED_VERSION_CODE");
-        if(storedVersionCode <25){
+        if (storedVersionCode < 25) {
             modifyDBs();
         }
 
@@ -172,11 +174,10 @@ public class A1Activity extends AppCompatActivity
         instructionText = findViewById(R.id.InstructionText);
 
 
-
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
 
-        if(user!=null){
+        if (user != null) {
             loadUserTankImages();
         }
 
@@ -208,10 +209,10 @@ public class A1Activity extends AppCompatActivity
 
         headerview = navigationView.getHeaderView(0);
 
-            spotsProgressDialog = new SpotsDialog.Builder()
-                    .setContext(this)
-                    .setTheme(R.style.ProgressDotsStyle)
-                    .build();
+        spotsProgressDialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setTheme(R.style.ProgressDotsStyle)
+                .build();
 //        progressDialog = new ProgressDialog(this);
 //        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 //        progressDialog.setMessage(getResources().getString(R.string.PleaseWait));
@@ -220,7 +221,7 @@ public class A1Activity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 signIn();
-               // progressDialog.show();
+                // progressDialog.show();
                 spotsProgressDialog.show();
 
             }
@@ -230,8 +231,8 @@ public class A1Activity extends AppCompatActivity
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               FirebaseDatabase.getInstance().getReference("UI").child(user.getUid()).removeValue();
-               FirebaseDatabase.getInstance().getReference("UL").child(user.getUid()).removeValue();
+                FirebaseDatabase.getInstance().getReference("UI").child(user.getUid()).removeValue();
+                FirebaseDatabase.getInstance().getReference("UL").child(user.getUid()).removeValue();
                 mAuth.signOut();
                 SignOutUpdateUI();
                 drawer.closeDrawer(GravityCompat.START);
@@ -240,7 +241,7 @@ public class A1Activity extends AppCompatActivity
             }
         });
 
-       // insertTankRow();
+        // insertTankRow();
 
         final RatingDialog ratingDialog = new RatingDialog.Builder(this)
                 .session(7)
@@ -250,15 +251,14 @@ public class A1Activity extends AppCompatActivity
 
         setAlarmOn1stDay();
 
-        if(mAuth.getCurrentUser()!=null) {
+        if (mAuth.getCurrentUser() != null) {
 
-            if(mAuth.getCurrentUser().getEmail()!=null) {
+            if (mAuth.getCurrentUser().getEmail() != null) {
 
                 if (mAuth.getCurrentUser().getEmail().equals("skramiz@gmail.com") || mAuth.getCurrentUser().getEmail().equals("newagestriker@gmail.com")) {
 
                     writeDeveloperMessage();
                 }
-
 
 
             }
@@ -269,12 +269,10 @@ public class A1Activity extends AppCompatActivity
         }
 
 
-
         showDeveloperMessage();
 
 
-
-
+    }
 
     public void shortCutClick(View view){
 
@@ -1345,10 +1343,7 @@ public class A1Activity extends AppCompatActivity
         c1.close();
 
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> add_plant_database
 
 
     //region EACH TANK IN VIEWPAGER
