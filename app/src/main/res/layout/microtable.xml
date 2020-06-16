@@ -307,8 +307,8 @@
                 android:gravity="center"
                 android:text="Notify me"
                 android:enabled="false"
-                android:visibility="invisible"
-                android:textColor="@color/colorPrimaryDark"
+               android:visibility="invisible"
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:textSize="10sp"
                 android:textStyle="bold" />
 

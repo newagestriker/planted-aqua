@@ -25,6 +25,7 @@ import com.newage.plantedaqua.databinding.EachTankDetailLayoutBinding
 import com.newage.plantedaqua.models.LogData
 import com.newage.plantedaqua.models.TankAdviceInfo
 import com.newage.plantedaqua.models.TanksDetails
+import kotlinx.android.synthetic.main.each_tank_detail_layout.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -72,11 +73,6 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
             tanksPlaceholderFragment.arguments = args
             return tanksPlaceholderFragment
         }
-    }
-
-    fun updateRecoRecyclerView(){
-        if(this::recoAdapter.isInitialized)
-            recoAdapter.notifyDataSetChanged()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -131,24 +127,31 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
     private fun showTankOptions(){
 
         binding.apply {
-            tankOptionsImage.visibility = if (tankOptionsVisible) View.GONE else View.VISIBLE
-            resetImage.fadeAnimation()
-            deleteTank.fadeAnimation()
-            editImage.fadeAnimation()
+
+
+
+            resetImage.resetImageAnimation()
 
             if (tankOptionsVisible) {
                 scrollView2.smoothScrollTo(0, 0)
                 TankNameText.animate().translationY(-100f).duration = 300L
+                tankOptionsImage.fadeOutAnimation()
+                deleteTank.fadeInAnimation()
+                editImage.fadeInAnimation()
                 constraintLayoutEachTankOptions.apply {
                     alpha = 0f
                     scaleX = 0f
                     scaleY = 0f
                     visibility = View.VISIBLE
                     animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(500L).setListener(null)
+
                 }
             }
                  else {
                 TankNameText.animate().translationY(0f).duration = 300L
+                tankOptionsImage.fadeInAnimation()
+                deleteTank.fadeOutAnimation()
+                editImage.fadeOutAnimation()
                     constraintLayoutEachTankOptions.apply {
 
                         animate().alpha(0f).scaleX(0f).scaleY(0f).setDuration(500L).setListener(object : AnimatorListenerAdapter() {
@@ -170,17 +173,55 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
 
     }
 
+    //Animate reset image separately to ensure there is no overlapping during hide animation
+    private fun View.resetImageAnimation(){
+
+        if (tankOptionsVisible){
+
+                alpha = 0f
+                visibility = View.VISIBLE
+                animate().alpha(1f).setDuration(500L).setListener(null)
+
+        }
+        else {
+
+            resetImage.visibility = View.GONE
+        }
+
+    }
+
     private fun View.fadeAnimation(){
         if (tankOptionsVisible){
             alpha = 0f
             visibility = View.VISIBLE
-            animate().alpha(1f).setDuration(500L)
+            animate().alpha(1f).setDuration(500L).setListener(null)
+
         }
         else {
 
-                        visibility = View.GONE
+            animate().alpha(0f).setDuration(500L).setListener(object : AnimatorListenerAdapter(){
+                override fun onAnimationEnd(animation: Animator?) {
+                    visibility = View.GONE
+                }
+            })
+
+
 
         }
+    }
+
+    private fun View.fadeInAnimation(){
+        alpha = 0f
+        visibility = View.VISIBLE
+        animate().alpha(1f).setDuration(500L).setListener(null)
+    }
+
+    private fun View.fadeOutAnimation(){
+        animate().alpha(0f).setDuration(500L).setListener(object : AnimatorListenerAdapter(){
+            override fun onAnimationEnd(animation: Animator?) {
+                visibility = View.GONE
+            }
+        })
     }
     //endregion
 

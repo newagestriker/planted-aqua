@@ -86,11 +86,23 @@ public class CreateTankItemsActivity extends AppCompatActivity {
     private String mode="";
     private boolean newImageCreated=false;
     private TinyDB settingsDB;
-    private Button requestPermissionButton;
     private CardView requestPermissionCardView;
+    private ImageView clearStartDate, clearEndDate;
 
     private int REQ_CODE_TO_SELECT_IMAGE = 61;
     private int REQ_CODE_FOR_BUTTON_VISIBILITY=62;
+
+    public void removeDateFromCreateItems(View view) {
+        if(view.getTag().toString().equals("start")){
+            AcDate.setText("");
+            clearStartDate.setVisibility(View.GONE);
+        }
+        else{
+            ExpiryDate.setText("");
+            clearEndDate.setVisibility(View.GONE);
+        }
+
+    }
 
     private interface PermissionGranted{
         void onPermissionsAvailable();
@@ -115,22 +127,16 @@ public class CreateTankItemsActivity extends AppCompatActivity {
                 s = tankpicUri.toString();
             }
 
-            switch (category){
-
-                case "E":
-                    txt1=nameInput;
-                    txt2=quantityInput;
-                    txt3=acDate;
-                    txt4=expiryDate;
-                    break;
-
-                default:
-                    txt1=nameInput;
-                    txt2=quantityInput;
-                    txt3=sciName;
-                    txt4=acDate;
-                    break;
-
+            if ("E".equals(category)) {
+                txt1 = nameInput;
+                txt2 = quantityInput;
+                txt3 = acDate;
+                txt4 = expiryDate;
+            } else {
+                txt1 = nameInput;
+                txt2 = quantityInput;
+                txt3 = sciName;
+                txt4 = acDate;
             }
 
             if(Name) {
@@ -209,7 +215,7 @@ public class CreateTankItemsActivity extends AppCompatActivity {
         settingsDB = new TinyDB(this.getApplicationContext());
 
         linearLayout=findViewById(R.id.LinearTankItemDetails);
-        requestPermissionButton = findViewById(R.id.grantItemImagePermissionButton);
+        Button requestPermissionButton = findViewById(R.id.grantItemImagePermissionButton);
         requestPermissionCardView = findViewById(R.id.grantItemImagePermissionCard);
 
         NameInput=findViewById(R.id.NameInput);
@@ -224,6 +230,8 @@ public class CreateTankItemsActivity extends AppCompatActivity {
         eqImage=findViewById(R.id.EqImage);
         AcDate=findViewById(R.id.AcDateInput);
         ExpiryDate=findViewById(R.id.ExDateInput);
+        clearStartDate = findViewById(R.id.removeStartDateFromCreateItems);
+        clearEndDate = findViewById(R.id.removeEndDateFromCreateItems);
 
         ImageView loadImage = findViewById(R.id.loadImage);
 
@@ -375,9 +383,21 @@ public class CreateTankItemsActivity extends AppCompatActivity {
 
 
             AcDate.setText(c.getString(7));
+            if(c.getString(7).isEmpty()){
+                clearStartDate.setVisibility(View.GONE);
+            }
+            else {
+                clearStartDate.setVisibility(View.VISIBLE);
+            }
 
 
             ExpiryDate.setText(c.getString(8));
+        if(c.getString(8).isEmpty()){
+            clearEndDate.setVisibility(View.GONE);
+        }
+        else {
+            clearEndDate.setVisibility(View.VISIBLE);
+        }
 
         c.close();
 
@@ -466,6 +486,10 @@ public class CreateTankItemsActivity extends AppCompatActivity {
                     dy = dayOfMonth;
                     mnth = month + 1;
                     yr = year;
+                    clearStartDate.setVisibility(View.VISIBLE);
+                }
+                else {
+                    clearEndDate.setVisibility(View.VISIBLE);
                 }
 
             }

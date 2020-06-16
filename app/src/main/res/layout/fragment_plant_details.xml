@@ -138,7 +138,6 @@
                             android:text="Growth Rate"
                             android:textColor="@color/white"
                             android:textSize="16sp"
-                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@+id/TemperatureText"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/LightText" />
@@ -183,7 +182,6 @@
                             android:text="CO2 Demand"
                             android:textColor="@color/white"
                             android:textSize="16sp"
-                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@+id/DominantColorText"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/TemperatureText" />
@@ -199,7 +197,6 @@
                             android:text="Ph"
                             android:textColor="@color/white"
                             android:textSize="16sp"
-                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@+id/DifficultyText"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/LicenceName" />
@@ -227,10 +224,9 @@
                             android:layout_marginStart="16dp"
                             android:layout_marginLeft="16dp"
                             android:layout_marginBottom="8dp"
-                            android:text="Temperature"
+                            android:text="Temperature (F)"
                             android:textColor="@color/white"
                             android:textSize="16sp"
-                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@+id/CO2Text"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/GrowthRateText" />
@@ -257,10 +253,9 @@
                             android:layout_marginStart="16dp"
                             android:layout_marginLeft="16dp"
                             android:layout_marginBottom="16dp"
-                            android:text="Tanks Placement"
+                            android:text="Tank Placement"
                             android:textColor="@color/white"
                             android:textSize="16sp"
-                            android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/DominantColorText" />
@@ -275,7 +270,6 @@
                             android:text="Dominant Color"
                             android:textColor="@color/white"
                             android:textSize="16sp"
-                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@+id/TankPlacementText"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/CO2Text" />
@@ -321,7 +315,6 @@
                             android:text="Light Level"
                             android:textColor="@color/white"
                             android:textSize="16sp"
-                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@+id/GrowthRateText"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/CategoryText" />
@@ -351,7 +344,6 @@
                             android:text="Difficulty"
                             android:textColor="@color/white"
                             android:textSize="16sp"
-                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@+id/CategoryText"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/PhText" />
@@ -381,7 +373,6 @@
                             android:text="Category"
                             android:textColor="@color/white"
                             android:textSize="16sp"
-                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@+id/LightText"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/DifficultyText" />

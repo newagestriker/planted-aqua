@@ -25,7 +25,9 @@ import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,13 +72,11 @@ public class CreateTankActivity extends AppCompatActivity {
     private int SELECT_FILE=5;
     private ImageView tankImage;
     private Uri tankpicUri;
-    private Uri tankPicUriFromGallery;
     private File image;
     private String aquaname="";
     private String aquatype="";
     private String startupdate="00-00-0000";
     private String ID="";
-    private long rowid;
     private String s="";
     private String dt="";
     private int position;
@@ -90,18 +90,28 @@ public class CreateTankActivity extends AppCompatActivity {
     private String lighttype;
     private String wattage;
     private String lumensperwatt;
-    private ProgressBar progressBar;
     private LinearLayout linearLayout;
-    private String tempID="";
     boolean newImageCreated=false;
     private TinyDB settingsDB;
     private String lightZone="";
-    private Button requestPermissionButton;
     private CardView requestPermissionCard;
     private android.app.AlertDialog spotsProgressDialog;
+    private ImageView removeStartDate;
+    private ImageView removeEndDate;
 
     private int REQ_CODE_TO_SELECT_IMAGE = 1;
     private int REQ_CODE_FOR_BUTTON_VISIBILITY=2;
+
+    public void removeDate(View view) {
+        if(view.getTag().toString().equals("start")){
+            StartupDate.setText("");
+            removeStartDate.setVisibility(View.GONE);
+        }
+        else{
+            DismantleDate.setText("");
+            removeEndDate.setVisibility(View.GONE);
+        }
+    }
 
     private interface PermissionGranted{
         void onPermissionsAvailable();
@@ -147,7 +157,7 @@ public class CreateTankActivity extends AppCompatActivity {
                 if (mode.equals("creation")) {
 
 
-                    rowid = DatabaseUtils.queryNumEntries(DB, "TankDetails");
+                    long rowid = DatabaseUtils.queryNumEntries(DB, "TankDetails");
                     tankDBHelper.addData(DB, rowid, ID, aquaname, s, aquatype, price, currency, volume, volumemetric, currentstatus, startupdate, dismantledate, co2, lighttype, wattage, lumensperwatt, "");
                     expenseDBHelper.addDataExpense(expenseDBHelper.getWritableDatabase(),ID,aquaname,aquaname,dy,mnth,yr,startupdate,0L,1,numericPrice,numericPrice,"",ID);
                 }
@@ -199,11 +209,16 @@ public class CreateTankActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setTitle(getResources().getString(R.string.TankData));
         tankImage = findViewById(R.id.TankImage);
-        progressBar = findViewById(R.id.CTankProgressBar);
+        ProgressBar progressBar = findViewById(R.id.CTankProgressBar);
         linearLayout=findViewById(R.id.LinearTankDetails);
-        requestPermissionButton = findViewById(R.id.requestPermissionButton);
+        Button requestPermissionButton = findViewById(R.id.requestPermissionButton);
         requestPermissionCard = findViewById(R.id.requestPermissionCard);
+        removeStartDate = findViewById(R.id.removeStartDate);
+        removeEndDate = findViewById(R.id.removeEndDate);
+        StartupDate = findViewById(R.id.StartupDateInput);
 
+
+        DismantleDate = findViewById(R.id.DismantleDateInput);
 
         checkPermissions(new PermissionGranted() {
             @Override
@@ -303,12 +318,22 @@ public class CreateTankActivity extends AppCompatActivity {
         Currency.setText(settingsDB.getString("DefaultCurrencySymbol"));
     }
 
+    private EditText StartupDate,DismantleDate;
     private boolean getAllData()
     {
 
         EditText AquaName=findViewById(R.id.AquariumNameInput);
         if(!AquaName.getText().toString().isEmpty()) {
             aquaname = AquaName.getText().toString();
+
+
+
+
+            startupdate = TextUtils.isEmpty(StartupDate.getText().toString())?"0000-00-00":StartupDate.getText().toString();
+
+
+
+            dismantledate = DismantleDate.getText().toString();
 
 
             EditText Price = findViewById(R.id.AquariumPriceInput);
@@ -324,14 +349,8 @@ public class CreateTankActivity extends AppCompatActivity {
                 wattage = Wattage.getText().toString();
 
 
-            EditText StartupDate = findViewById(R.id.StartupDateInput);
-
-                startupdate = TextUtils.isEmpty(StartupDate.getText().toString())?"0000-00-00":StartupDate.getText().toString();
 
 
-            EditText DismantleDate = findViewById(R.id.DismantleDateInput);
-
-                dismantledate = DismantleDate.getText().toString();
 
 
             EditText LumensPerWatt = findViewById(R.id.LumensPerWatt);
@@ -387,6 +406,7 @@ public class CreateTankActivity extends AppCompatActivity {
 
     private void setAlldata(Cursor c){
 
+
         EditText AquaName=findViewById(R.id.AquariumNameInput);
         AquaName.setText(c.getString(2));
 
@@ -403,10 +423,22 @@ public class CreateTankActivity extends AppCompatActivity {
 
         EditText StartupDate=findViewById(R.id.StartupDateInput);
         StartupDate.setText(c.getString(10));
+        if(c.getString(10).equals("")){
+            removeStartDate.setVisibility(View.GONE);
+        }
+        else{
+            removeStartDate.setVisibility(View.VISIBLE);
+        }
 
 
         EditText DismantleDate=findViewById(R.id.DismantleDateInput);
         DismantleDate.setText(c.getString(11));
+        if(c.getString(11).equals("")){
+            removeEndDate.setVisibility(View.GONE);
+        }
+        else{
+            removeEndDate.setVisibility(View.VISIBLE);
+        }
 
 
         EditText LumensPerWatt=findViewById(R.id.LumensPerWatt);
@@ -451,7 +483,7 @@ public class CreateTankActivity extends AppCompatActivity {
 
         }
 
-        String volumemetric[]={"Litre","US Gallon","UK Gallon"};
+        String[] volumemetric ={"Litre","US Gallon","UK Gallon"};
         int pos=0;
         for (int i = 0; i < 3; i++) {
 
@@ -525,7 +557,10 @@ public class CreateTankActivity extends AppCompatActivity {
                     dy = dayOfMonth;
                     mnth = month+1;
                     yr = year;
-
+                    removeStartDate.setVisibility(View.VISIBLE);
+                }
+                else{
+                    removeEndDate.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -558,9 +593,9 @@ public class CreateTankActivity extends AppCompatActivity {
 
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HH_mm_ss", Locale.getDefault()).format(new Date());
             int rnd = new Random().nextInt(10000);
-            tempID = timeStamp + "_" + rnd;
+            String tempID = timeStamp + "_" + rnd;
 
-            image = new File(imagesFolder, "TankNo_"+tempID+"_Pic.jpg");
+            image = new File(imagesFolder, "TankNo_"+ tempID +"_Pic.jpg");
             if (Build.VERSION.SDK_INT >= 24) {
                 tankpicUri = FileProvider.getUriForFile(CreateTankActivity.this,
                         BuildConfig.APPLICATION_ID + ".provider",
@@ -623,7 +658,7 @@ public class CreateTankActivity extends AppCompatActivity {
 
             if (requestCode == SELECT_FILE) {
 
-                tankPicUriFromGallery=data.getData();
+                Uri tankPicUriFromGallery = data.getData();
                 try {
                     fileCreated = image.createNewFile();
                     if (fileCreated) {
@@ -793,7 +828,7 @@ public class CreateTankActivity extends AppCompatActivity {
         }
         c.close();
 
-        if(lightZone!=null) {
+        if(!TextUtils.isEmpty(lightZone)) {
 
             if (!lightZone.equals("Insufficient Data")) {
 

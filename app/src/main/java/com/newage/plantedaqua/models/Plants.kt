@@ -24,7 +24,7 @@ data class Plants(
         var plantPicLicenceName : String = "",
         var plantCategory : String = "",
         var plantGrowthRate : String = "",
-        var plantMaxSize : String = "",
+        var plantSize : String = "",
         var plantCO2Demand : String = "",
         var plantPh : String = "",
         var LightCategory: String = ""

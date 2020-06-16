@@ -21,8 +21,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
     private ArrayList<TaskItems>arrayList;
 
-    private String aquariumID;
-    private String AlarmType;
     Context context;
     private OnItemClickListener onItemClickListener;
 
@@ -30,8 +28,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
     public RecyclerAdapter(ArrayList<TaskItems> arrayList, String aquariumID, String AlarmType,OnItemClickListener onItemClickListener){
         this.arrayList=arrayList;
-        this.aquariumID=aquariumID;
-        this.AlarmType=AlarmType;
         this.onItemClickListener=onItemClickListener;
 
     }
@@ -40,9 +36,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout,parent,false);
-        RecyclerViewHolder recyclerViewHolder=new RecyclerViewHolder(view);
 
-        return recyclerViewHolder;
+        return new RecyclerViewHolder(view);
     }
 
     @Override

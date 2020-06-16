@@ -986,34 +986,20 @@ public class A1Activity extends AppCompatActivity
             if(requestCode==TANK_DETAILS_CREATION) {
 
                 setInstructionVisibility();
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        tanksSectionsPagerAdapter.notifyDataSetChanged();
-                        viewPager2.setCurrentItem(tanksDetailsArrayList.size()-1);
-                        currentFragmentInstance = (TanksPlaceholderFragment) tanksSectionsPagerAdapter.getItem(tanksDetailsArrayList.size()-1);
+                new Handler().post(() -> {
+                    tanksSectionsPagerAdapter.notifyDataSetChanged();
+                    viewPager2.setCurrentItem(tanksDetailsArrayList.size()-1);
 
-                            currentFragmentInstance.updateRecoRecyclerView();
-
-
-                    }
                 });
 
             }
           else if(requestCode==TANK_DETAILS_MODIFICATION){
 
-                int position=data.getIntExtra("Position",-1);
                 setInstructionVisibility();
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        tanksSectionsPagerAdapter.notifyDataSetChanged();
-                        viewPager2.setCurrentItem(position);
-                        currentFragmentInstance = (TanksPlaceholderFragment) tanksSectionsPagerAdapter.getItem(position);
+                new Handler().post(() -> {
+                    tanksSectionsPagerAdapter.notifyDataSetChanged();
 
-                            currentFragmentInstance.updateRecoRecyclerView();
 
-                    }
                 });
 
 
@@ -1022,17 +1008,11 @@ public class A1Activity extends AppCompatActivity
             }
 
           else if (requestCode == LIGHT_ACTIVITY_REQUEST_CODE) {
-                int position=data.getIntExtra("Position",-1);
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        tanksSectionsPagerAdapter.notifyDataSetChanged();
-                        viewPager2.setCurrentItem(position);
-                        currentFragmentInstance = (TanksPlaceholderFragment) tanksSectionsPagerAdapter.getItem(position);
-                        currentFragmentInstance.updateRecoRecyclerView();
+
+                new Handler().post(() -> {
+                    tanksSectionsPagerAdapter.notifyDataSetChanged();
 
 
-                    }
                 });
             }
         }
@@ -1401,7 +1381,7 @@ public class A1Activity extends AppCompatActivity
                     tanksDetails.setTankStartDate(cursor.getString(10));
                     tanksDetails.setTankEndDate(cursor.getString(11));
                     tanksDetails.setTankCO2Supply(cursor.getString(12));
-                    tanksDetails.setTankLightRegion(cursor.getString(16)==null?"Dark":cursor.getString(16));
+                    tanksDetails.setTankLightRegion(cursor.getString(16)==null?"":cursor.getString(16));
                     tanksDetails.setMicroDosageText(cursor.getString(20)==null?"":cursor.getString(20));
                     tanksDetails.setMacroDosageText(cursor.getString(21)==null?"":cursor.getString(21));
 
@@ -1491,7 +1471,7 @@ public class A1Activity extends AppCompatActivity
 
     private void removeTankFromPager(String aquariumID){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle("Delete Tank")
+        alertDialogBuilder.setTitle("Delete Tank "+tanksDetailsArrayList.get(viewPager2.getCurrentItem()).getTankName())
                 .setMessage("This action will delete your tank and all relevant data. Do you wish to continue?")
                 .setNegativeButton(getResources().getString(R.string.Cancel), new DialogInterface.OnClickListener() {
                     @Override

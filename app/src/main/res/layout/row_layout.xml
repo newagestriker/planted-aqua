@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -10,7 +11,7 @@
         android:elevation="12dp"
         android:layout_margin="5dp"
         app:cardCornerRadius="5dp"
-        app:cardBackgroundColor="@color/highlight">
+        app:cardBackgroundColor="@color/whiteGreen">
         
 <LinearLayout
     android:layout_width="match_parent"
@@ -33,12 +34,13 @@
             android:adjustViewBounds="true"
             android:clickable="true"
             android:focusable="true"
-            android:paddingLeft="3dp"
-            android:src="@drawable/tasks" />
+            android:paddingLeft="2dp"
+            android:paddingStart="2dp"
+            android:src="@drawable/log" />
 
         <Button
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_margin="5dp"
+            android:shadowColor="@color/customDarkBackground"
             android:id="@+id/TaskButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -47,7 +49,7 @@
 
             android:gravity="center"
             android:paddingLeft="@dimen/fab_margin"
-            android:text="Set alert"
+            tools:text="Set alert"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -60,12 +62,13 @@
 
             <ImageView
                 android:id="@+id/deleteImage"
+                android:padding="3dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/delete" />
+                android:src="@drawable/delete_values" />
         </LinearLayout>
 
 
@@ -88,8 +91,8 @@
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:layout_gravity="center"
-            android:textColor="@color/colorAccent"
-            android:text="Time"/>
+            android:textColor="@color/customDarkBackground"
+            tools:text="Time"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,8 +104,8 @@
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:layout_gravity="center"
-            android:textColor="@color/colorAccent"
-            android:text="Date"/>
+            android:textColor="@color/customDarkBackground"
+            tools:text="Date"/>
 
     </LinearLayout>
 </LinearLayout>

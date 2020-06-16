@@ -20,6 +20,7 @@ class PlantDBRepository(private val context: Context, private val plantDao: Plan
         val plantDBReference = FirebaseDatabase.getInstance().getReference("PDB")
         val plantDBVersionReference = FirebaseDatabase.getInstance().getReference("PDBVersion")
         var version: Int
+        var newVersion : Int
 
         plantDBVersionReference.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
@@ -29,23 +30,35 @@ class PlantDBRepository(private val context: Context, private val plantDao: Plan
             override fun onDataChange(p0: DataSnapshot) {
 
                 version = tinyDB.getInt("PLANT_DB_VERSION")
-                if(version < p0.getValue(Int::class.java)!!) {
-                    plantDBReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                newVersion = p0.getValue(Int::class.java)!!
+                if(version < newVersion) {
+
+                    val job = SupervisorJob()
+                    CoroutineScope(Dispatchers.IO+job).launch {
+                        plantDao.deleteAllPlantsData()
+
+                            plantDBReference.addListenerForSingleValueEvent(object : ValueEventListener {
 
 
-                        override fun onCancelled(p0: DatabaseError) {
-                            TODO("Not yet implemented")
+                                override fun onCancelled(p0: DatabaseError) {
+                                    TODO("Not yet implemented")
+                                }
+
+                                override fun onDataChange(p0: DataSnapshot) {
+                                    for (child in p0.children) {
+                                        plants = child.getValue(Plants::class.java)!!
+                                        storeDataInDB(plants)
+                                    }
+
+                                    tinyDB.putInt("PLANT_DB_VERSION",newVersion)
+
+                                }
+
+                            })
                         }
 
-                        override fun onDataChange(p0: DataSnapshot) {
-                            for (child in p0.children) {
-                                plants = child.getValue(Plants::class.java)!!
-                                storeDataInDB(plants)
-                            }
 
-                        }
 
-                    })
                 }
             }
         })

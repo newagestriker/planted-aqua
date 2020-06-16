@@ -8,7 +8,7 @@ import com.newage.plantedaqua.models.Plants
 @Dao
 interface PlantDao {
 
-    @Query("SELECT * FROM aquatic_plants_from_net")
+    @Query("SELECT * FROM aquatic_plants_from_net ORDER BY scientificName")
     fun getAquaticPlantsList() : LiveData<List<Plants>>
 
 
@@ -17,6 +17,9 @@ interface PlantDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAquaticPlant(plants: Plants)
+
+    @Query("DELETE FROM aquatic_plants_from_net")
+    fun deleteAllPlantsData()
 
 }
 

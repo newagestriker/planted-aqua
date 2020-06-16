@@ -74,6 +74,8 @@ public class LightCalcActivity extends AppCompatActivity {
         position = getIntent().getIntExtra("Position",-1);
 
 
+
+
         tankDBHelper = TankDBHelper.newInstance(this);
 
         Cursor c = tankDBHelper.getDataCondition("AquariumID", aquariumID);
@@ -555,7 +557,6 @@ public class LightCalcActivity extends AppCompatActivity {
         lightDetails.add(lightDetail);
         lightRecyclerAdapter.notifyItemInserted(lightDetails.size()-1);
 
-        Log.i("Lights",Long.toString(rowid));
 
 
 
@@ -633,19 +634,29 @@ public class LightCalcActivity extends AppCompatActivity {
 
         Toast.makeText(this,"Data Refreshed",Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent();
-        intent.putExtra("Position",position);
-        setResult(Activity.RESULT_OK, new Intent());
-
-
-    }
-
-    @Override
-    protected void onStop() {
         checkCO2level();
 
-        super.onStop();
+        Intent intent = new Intent();
+        intent.putExtra("Position",position);
+        setResult(Activity.RESULT_OK, intent);
+
+
+
     }
+
+//    @Override
+//    protected void onStop() {
+//
+//
+//        super.onStop();
+//    }
+
+//    @Override
+//    public void onBackPressed() {
+//
+//
+//        finish();
+//    }
 
     String recoString="";
 

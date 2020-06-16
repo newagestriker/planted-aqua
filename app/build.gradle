@@ -21,6 +21,7 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 
 repositories {
@@ -108,10 +109,12 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.parse.bolts:bolts-tasks:1.4.0'
     implementation 'com.parse:parse-android:1.13.0'
+
     implementation 'com.firebase:geofire-android:2.3.1'
     implementation 'com.google.firebase:firebase-database:19.3.0'
     implementation 'com.google.firebase:firebase-crashlytics:17.0.1'
     implementation 'com.google.firebase:firebase-analytics:17.4.3'
+    implementation 'com.google.firebase:firebase-perf:19.0.7'
 
     implementation('com.onesignal:OneSignal:3.8.3')
     implementation 'androidx.browser:browser:1.3.0-alpha01'

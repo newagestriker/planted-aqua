@@ -290,6 +290,7 @@
     <string name="update">update</string>
     <string name="grant_image_permission">You must grant permission to load images from your backup.</string>
     <string name="grant_permission">grant permission</string>
+    <string name="temperature">Temperature</string>
 
 
 </resources>

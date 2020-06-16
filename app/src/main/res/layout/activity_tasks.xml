@@ -5,7 +5,7 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient1"
+    android:background="@drawable/gradient_bar"
     android:fitsSystemWindows="true"
     tools:context=".activities.TasksActivity">
 
@@ -29,7 +29,10 @@
         </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout
+            app:tabSelectedTextColor="@color/highlight"
+            android:background="@color/colorPrimaryDark"
             android:id="@+id/tabs"
+            app:tabIndicatorColor="@color/highlight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabMode="scrollable">
@@ -40,7 +43,7 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

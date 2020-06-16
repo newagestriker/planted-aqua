@@ -239,14 +239,30 @@
                     android:layout_gravity="center"/>
 
                 <EditText
+                    android:background="@android:color/transparent"
                     android:clickable="false"
                     android:focusable="false"
-                    android:hint="Tap icon for date input"
+                    android:hint="Tap icon"
+                    android:textStyle="italic"
                     android:id="@+id/AcDateInput"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:padding="10dp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:visibility="gone"
+                    android:id="@+id/removeStartDateFromCreateItems"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="removeDateFromCreateItems"
+                    android:tag="start"
+                    app:srcCompat="@drawable/cross">
+
+                </androidx.appcompat.widget.AppCompatImageView>
 
             </LinearLayout>
             <LinearLayout
@@ -272,15 +288,31 @@
                     android:layout_gravity="center"/>
 
                 <EditText
+                    android:background="@android:color/transparent"
+                    android:textStyle="italic"
                     android:clickable="false"
                     android:focusable="false"
-                    android:hint="Tap icon for date input"
+                    android:hint="Tap icon"
                     android:id="@+id/ExDateInput"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:padding="10dp" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:visibility="gone"
+                    android:id="@+id/removeEndDateFromCreateItems"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="removeDateFromCreateItems"
+                    android:tag="end"
+                    app:srcCompat="@drawable/cross">
+
+                </androidx.appcompat.widget.AppCompatImageView>
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
