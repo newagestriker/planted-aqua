@@ -14,6 +14,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import androidx.annotation.NonNull;
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -24,6 +26,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -56,19 +59,18 @@ import java.util.Locale;
 
 public class CreateTankItemsActivity extends AppCompatActivity {
 
-    EditText NameInput,PriceInput,AcDate,ExpiryDate,Food,Care,Info,QuantityInput,catInput,SciInput;
-    ImageView eqImage,loadImage,acCalendar,expCalendar;
-    TextView CurInput;
-    LinearLayout linearLayout;
-    RadioGroup Gender;
-    String AquariumID;
-    MyDbHelper myDbHelper;
+    private EditText NameInput,PriceInput,AcDate,ExpiryDate,Food,Care,Info,QuantityInput,catInput,SciInput;
+    private ImageView eqImage;
+    private TextView CurInput;
+    private LinearLayout linearLayout;
+    private RadioGroup Gender;
+    private String AquariumID;
+    private MyDbHelper myDbHelper;
     private String category;
-    int REQUEST_CAMERA=23;
-    int SELECT_FILE=31;
-    Uri tankpicUri;
-    Uri tankPicUriFromGallery;
-    File image;
+    private int REQUEST_CAMERA=23;
+    private int SELECT_FILE=31;
+    private Uri tankpicUri;
+    private File image;
     private String s="",sciName="";
     private String dt="";
     private String nameInput="",quantityInput="1";
@@ -82,8 +84,30 @@ public class CreateTankItemsActivity extends AppCompatActivity {
     private String info="";
     private String ID="";
     private String mode="";
-    boolean newImageCreated=false;
-    TinyDB settingsDB;
+    private boolean newImageCreated=false;
+    private TinyDB settingsDB;
+    private CardView requestPermissionCardView;
+    private ImageView clearStartDate, clearEndDate;
+
+    private int REQ_CODE_TO_SELECT_IMAGE = 61;
+    private int REQ_CODE_FOR_BUTTON_VISIBILITY=62;
+
+    public void removeDateFromCreateItems(View view) {
+        if(view.getTag().toString().equals("start")){
+            AcDate.setText("");
+            clearStartDate.setVisibility(View.GONE);
+        }
+        else{
+            ExpiryDate.setText("");
+            clearEndDate.setVisibility(View.GONE);
+        }
+
+    }
+
+    private interface PermissionGranted{
+        void onPermissionsAvailable();
+        void onPermissionsNotAvailable();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,22 +127,16 @@ public class CreateTankItemsActivity extends AppCompatActivity {
                 s = tankpicUri.toString();
             }
 
-            switch (category){
-
-                case "E":
-                    txt1=nameInput;
-                    txt2=quantityInput;
-                    txt3=acDate;
-                    txt4=expiryDate;
-                    break;
-
-                default:
-                    txt1=nameInput;
-                    txt2=quantityInput;
-                    txt3=sciName;
-                    txt4=acDate;
-                    break;
-
+            if ("E".equals(category)) {
+                txt1 = nameInput;
+                txt2 = quantityInput;
+                txt3 = acDate;
+                txt4 = expiryDate;
+            } else {
+                txt1 = nameInput;
+                txt2 = quantityInput;
+                txt3 = sciName;
+                txt4 = acDate;
             }
 
             if(Name) {
@@ -197,6 +215,8 @@ public class CreateTankItemsActivity extends AppCompatActivity {
         settingsDB = new TinyDB(this.getApplicationContext());
 
         linearLayout=findViewById(R.id.LinearTankItemDetails);
+        Button requestPermissionButton = findViewById(R.id.grantItemImagePermissionButton);
+        requestPermissionCardView = findViewById(R.id.grantItemImagePermissionCard);
 
         NameInput=findViewById(R.id.NameInput);
         SciInput=findViewById(R.id.SciEdit);
@@ -210,27 +230,58 @@ public class CreateTankItemsActivity extends AppCompatActivity {
         eqImage=findViewById(R.id.EqImage);
         AcDate=findViewById(R.id.AcDateInput);
         ExpiryDate=findViewById(R.id.ExDateInput);
+        clearStartDate = findViewById(R.id.removeStartDateFromCreateItems);
+        clearEndDate = findViewById(R.id.removeEndDateFromCreateItems);
 
-        loadImage=findViewById(R.id.loadImage);
+        ImageView loadImage = findViewById(R.id.loadImage);
 
         CurInput.setText(settingsDB.getString("DefaultCurrencySymbol"));
+
+
 
         if(mode.equals("modification")) {
             ID = getIntent().getStringExtra("ItemID");
             setAllData();
         }
+
+        checkPermissions(new PermissionGranted() {
+            @Override
+            public void onPermissionsAvailable() {
+                requestPermissionCardView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onPermissionsNotAvailable() {
+                requestPermissionCardView.setVisibility(View.VISIBLE);
+            }
+        });
+
+        requestPermissionButton.setOnClickListener(v->{
+            requestPermissions(REQ_CODE_FOR_BUTTON_VISIBILITY);
+        });
         loadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    verifyPermissions();
+                    checkPermissions(new PermissionGranted() {
+                        @Override
+                        public void onPermissionsAvailable() {
+                            requestPermissionCardView.setVisibility(View.GONE);
+                            selectImage();
+                        }
+
+                        @Override
+                        public void onPermissionsNotAvailable() {
+                            requestPermissions(REQ_CODE_TO_SELECT_IMAGE);
+                        }
+                    });
                 }else{
                     selectImage();
                 }
             }
         });
 
-        acCalendar=findViewById(R.id.AcCalendar);
+        ImageView acCalendar = findViewById(R.id.AcCalendar);
         acCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -238,7 +289,7 @@ public class CreateTankItemsActivity extends AppCompatActivity {
             }
         });
 
-        expCalendar=findViewById(R.id.ExpCalendar);
+        ImageView expCalendar = findViewById(R.id.ExpCalendar);
         expCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -325,29 +376,45 @@ public class CreateTankItemsActivity extends AppCompatActivity {
             }
 
 
+        loadImageIntoImageView();
 
 
 
-            tankpicUri = Uri.parse(s);
-            Glide.with(this)
-                    .load(tankpicUri)
-                    .apply(new RequestOptions()
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .skipMemoryCache(true)
-                            .error(R.drawable.aquarium2))
-                    .into(eqImage);
 
 
             AcDate.setText(c.getString(7));
+            if(c.getString(7).isEmpty()){
+                clearStartDate.setVisibility(View.GONE);
+            }
+            else {
+                clearStartDate.setVisibility(View.VISIBLE);
+            }
 
 
             ExpiryDate.setText(c.getString(8));
+        if(c.getString(8).isEmpty()){
+            clearEndDate.setVisibility(View.GONE);
+        }
+        else {
+            clearEndDate.setVisibility(View.VISIBLE);
+        }
 
         c.close();
 
 
 
 
+    }
+
+    private void loadImageIntoImageView(){
+        tankpicUri = Uri.parse(s);
+        Glide.with(this)
+                .load(tankpicUri)
+                .apply(new RequestOptions()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .error(R.drawable.aquarium2))
+                .into(eqImage);
     }
     private boolean getAllData(){
 
@@ -419,6 +486,10 @@ public class CreateTankItemsActivity extends AppCompatActivity {
                     dy = dayOfMonth;
                     mnth = month + 1;
                     yr = year;
+                    clearStartDate.setVisibility(View.VISIBLE);
+                }
+                else {
+                    clearEndDate.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -522,7 +593,7 @@ public class CreateTankItemsActivity extends AppCompatActivity {
 
             if (requestCode == SELECT_FILE) {
 
-                tankPicUriFromGallery=data.getData();
+                Uri tankPicUriFromGallery = data.getData();
                 try {
                     fileCreated = image.createNewFile();
                     if (fileCreated) {
@@ -579,33 +650,47 @@ public class CreateTankItemsActivity extends AppCompatActivity {
 
     }
 
+    String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
 
-    public void verifyPermissions(){
-
+    private void checkPermissions(PermissionGranted permissionGranted){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+
             if (ContextCompat.checkSelfPermission(this.getApplicationContext(), permissions[0]) == PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(this.getApplicationContext(), permissions[1]) == PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(this.getApplicationContext(), permissions[2]) == PackageManager.PERMISSION_GRANTED) {
-                selectImage();
+                permissionGranted.onPermissionsAvailable();
 
             } else {
 
-                ActivityCompat.requestPermissions(CreateTankItemsActivity.this, permissions, 1);
+                permissionGranted.onPermissionsNotAvailable();
             }
         }
+
     }
+
+    private void requestPermissions(int req_code){
+        ActivityCompat.requestPermissions(this, permissions, req_code);
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2]==PackageManager.PERMISSION_GRANTED) {
-            selectImage();
+            if(requestCode == REQ_CODE_TO_SELECT_IMAGE) {
+
+                selectImage();
+            }
+            loadImageIntoImageView();
+            requestPermissionCardView.setVisibility(View.GONE);
+
         }else {
             Toast.makeText(this,getResources().getString(R.string.PermRationale),Toast.LENGTH_LONG).show();
+            requestPermissionCardView.setVisibility(View.VISIBLE);
         }
 
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
     }
     private void copyFile(File sourceFile, File destFile) throws IOException {
         if (!sourceFile.exists()) {

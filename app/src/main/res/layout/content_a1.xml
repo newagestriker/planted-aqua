@@ -21,8 +21,7 @@
         android:layout_height="match_parent">
 
 
-
-    <TextView
+        <TextView
         android:id="@+id/InstructionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -120,7 +119,7 @@
         android:id="@+id/tabbed_options"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:weightSum="4"
+        android:weightSum="5"
 
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
@@ -137,7 +136,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:contentDescription="TODO">
+            android:contentDescription="@string/converters">
 
         </ImageView>
         <ImageView
@@ -151,7 +150,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:contentDescription="TODO">
+            android:contentDescription="@string/Algae">
 
         </ImageView>
         <ImageView
@@ -164,7 +163,8 @@
             android:src="@drawable/table_bw"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:contentDescription="@string/macro_calculator">
 
         </ImageView>
         <ImageView
@@ -175,6 +175,20 @@
             android:focusable="true"
             android:padding="8dp"
             android:src="@drawable/expense"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/expense">
+
+        </ImageView>
+        <ImageView
+            android:tag="plantDB"
+            android:onClick="shortCutClick"
+            android:id="@+id/plantDBShortCut"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            app:srcCompat="@drawable/plant"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent">

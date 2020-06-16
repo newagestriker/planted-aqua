@@ -311,7 +311,8 @@
             android:text="Notify me"
             android:visibility="invisible"
             android:enabled="false"
-            android:textColor="@color/colorPrimaryDark"
+            style="@style/Widget.AppCompat.Button.Colored"
+
             android:textSize="10sp"
             android:textStyle="bold" />
 
@@ -1005,7 +1006,7 @@
                 android:gravity="center"
                 android:text="0"
                 android:textColor="@color/colorPrimary"
-                android:textSize="15sp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
 

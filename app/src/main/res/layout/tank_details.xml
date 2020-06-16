@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/LinearTankDetails"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -39,7 +40,7 @@
                     android:focusable="true"
                     android:adjustViewBounds="true"/>
                 <ImageView
-                    android:padding="7dp"
+                    android:padding="8dp"
                     android:id="@+id/loadImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -55,10 +56,44 @@
                     android:visibility="gone"/>
             </androidx.cardview.widget.CardView>
 
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/requestPermissionCard"
+                android:padding="3dp"
+                app:cardCornerRadius="5dp"
+                android:layout_margin="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+               <TextView
+                   android:textColor="@color/colorAccent"
+                   android:gravity="center"
+                   android:textStyle="bold"
+                   android:layout_width="match_parent"
+                   android:text="@string/grant_image_permission"
+                   android:layout_height="wrap_content">
+
+               </TextView>
+                <Button
+                    android:id="@+id/requestPermissionButton"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:text="@string/grant_permission"
+                    android:layout_height="wrap_content">
+
+                </Button>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.cardview.widget.CardView>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -79,6 +114,7 @@
                     android:layout_height="wrap_content"
                     />
             </LinearLayout>
+
 
 
             <LinearLayout
@@ -111,7 +147,7 @@
                             android:layout_height="wrap_content"
                             android:text="Planted"
                             android:layout_gravity="center"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorAccent"
                             android:textStyle="italic|bold"/>
 
                         <RadioButton
@@ -120,7 +156,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorAccent"
                             android:textStyle="italic|bold"
                             android:text="Non Planted" />
 
@@ -238,7 +274,7 @@
                             android:layout_height="wrap_content"
                             android:text="In Use"
                             android:layout_gravity="center"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorAccent"
                             android:textStyle="italic|bold"/>
 
                         <RadioButton
@@ -247,7 +283,7 @@
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorAccent"
                             android:textStyle="italic|bold"
                             android:text="Not In Use" />
 
@@ -283,17 +319,30 @@
                     android:layout_gravity="center"/>
 
                 <EditText
-
-                    android:hint="Tap icon for date input"
+                    android:background="@android:color/transparent"
+                    android:hint="Tap icon"
                     android:clickable="false"
                     android:focusable="false"
+                    android:textStyle="italic"
                     android:id="@+id/StartupDateInput"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:padding="10dp" />
 
+               <androidx.appcompat.widget.AppCompatImageView
+                   android:visibility="gone"
+                    android:id="@+id/removeStartDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="removeDate"
+                    android:tag="start"
+                    app:srcCompat="@drawable/cross">
 
+                </androidx.appcompat.widget.AppCompatImageView>
 
             </LinearLayout>
             <LinearLayout
@@ -319,15 +368,29 @@
                     android:layout_gravity="center"/>
 
                 <EditText
-
-                    android:hint="Tap icon for date input"
+                    android:background="@android:color/transparent"
+                    android:textStyle="italic"
+                    android:hint="Tap icon"
                     android:clickable="false"
                     android:focusable="false"
                     android:id="@+id/DismantleDateInput"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:padding="10dp" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:visibility="gone"
+                    android:onClick="removeDate"
+                    android:tag="end"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/removeEndDate"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/cross"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </androidx.appcompat.widget.AppCompatImageView>
             </LinearLayout>
 
             <LinearLayout
@@ -362,7 +425,7 @@
                         android:checked="true"
                         android:padding="10dp"
                         android:text="Pressurized"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorAccent"
                         android:textSize="15sp"
                         android:textStyle="italic|bold" />
 
@@ -373,7 +436,7 @@
                         android:layout_gravity="start"
                         android:padding="10dp"
                         android:text="DIY"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorAccent"
                         android:textSize="15sp"
                         android:textStyle="italic|bold" />
 
@@ -384,7 +447,7 @@
                         android:layout_gravity="start"
                         android:padding="10dp"
                         android:text="Liquid"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorAccent"
                         android:textSize="15sp"
                         android:textStyle="italic|bold" />
 
@@ -395,7 +458,7 @@
                         android:layout_gravity="start"
                         android:padding="10dp"
                         android:text="Air"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorAccent"
                         android:textSize="15sp"
                         android:textStyle="italic|bold" />
 
@@ -403,8 +466,6 @@
 
 
             </LinearLayout>
-
-
 
 
             <LinearLayout

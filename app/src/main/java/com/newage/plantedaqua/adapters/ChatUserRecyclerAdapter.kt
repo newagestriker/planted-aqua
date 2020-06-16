@@ -49,7 +49,7 @@ class ChatUserRecyclerAdapter(private val arrayList: ArrayList<ChatUsers>, var c
         override fun onClick(v: View?) {
 
             val intent = Intent(context,SingleChatActivity::class.java)
-            intent.putExtra("from_user",arrayList[adapterPosition].chatUserID)
+            intent.putExtra("from_user",arrayList[layoutPosition].chatUserID)
             intent.putExtra("carrier","user")
             context.startActivity(intent)
 

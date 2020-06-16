@@ -58,14 +58,12 @@ public class OnBootReceiver extends BroadcastReceiver {
                     calendar.set(Calendar.DAY_OF_WEEK, c.getInt(4));
                     if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
 
-                        //System.out.println(calendar.getTimeInMillis()+" Added 7 to it");
                         calendar.add(Calendar.DAY_OF_YEAR, 7);
 
 
                     }
 
                     alarmdbhelper1.updateTimeInMillis(db2, Long.toString(calendar.getTimeInMillis()), storedTimeInMillis);
-                    // Log.i("Time in millis 1", Long.toString(calendar.getTimeInMillis()));
 
 
                     Intent inn = new Intent(context, RamizAlarm.class);
@@ -74,11 +72,9 @@ public class OnBootReceiver extends BroadcastReceiver {
                     inn.putExtra("NotifyType", c.getString(7));
                     inn.putExtra("AquariumID", c1.getString(1));
                     inn.putExtra("KEY_TRIGGER_TIME", calendar.getTimeInMillis());
-                    //Log.i("Time_in_millis_1", Long.toString(calendar.getTimeInMillis()));
                     inn.putExtra("KEY_INTENT_ID", c.getInt(3));
                     inn.putExtra("AquariumName", AquariumName);
 
-                    // Toast.makeText(context,"I am in bootreceiver", Toast.LENGTH_SHORT).show();
                     pi = PendingIntent.getBroadcast(context, c.getInt(3), inn, PendingIntent.FLAG_UPDATE_CURRENT);
                     if (Build.VERSION.SDK_INT >= 23) {
                         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pi);

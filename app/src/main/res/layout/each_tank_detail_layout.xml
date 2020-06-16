@@ -29,6 +29,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:background="@color/colorPrimaryDark"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent">
 
@@ -41,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/white"
                     android:textSize="25sp"
                     android:textStyle="italic|bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -55,18 +56,17 @@
                     android:id="@+id/deleteTank"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginEnd="60dp"
+                    android:layout_marginRight="60dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:visibility="gone"
                     android:onClick="onTankDashBoardItemsClicked"
                     android:tag="@{boundTankDetails.tankID}"
-                    app:layout_constraintEnd_toStartOf="@+id/resetImage"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:srcCompat="@drawable/delete_values"
-                    tools:layout_editor_absoluteY="0dp" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/delete_values" />
 
                 <ImageView
                     android:id="@+id/tankOptionsImage"
@@ -77,7 +77,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/deleteTank"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/options_menu" />
 
@@ -92,16 +92,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/cross" />
+
                 <ImageView
                     android:id="@+id/editImage"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
-                    android:visibility="gone"
+                    android:layout_marginEnd="105dp"
+                    android:layout_marginRight="105dp"
                     android:onClick="onTankDashBoardItemsClicked"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/deleteTank"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/edit_tanks" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -224,7 +225,7 @@
                         <ImageView
 
                             android:id="@+id/imageView"
-                            android:layout_width="150dp"
+                            android:layout_width="130dp"
                             android:layout_height="100dp"
                             android:layout_margin="1dp"
                             android:adjustViewBounds="true"
@@ -253,13 +254,13 @@
                             android:id="@+id/statusText"
                             android:layout_width="wrap_content"
                             android:layout_height="17dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
                             android:text="@{boundTankDetails.tankStatus}"
                             android:textColor="@color/highlight"
                             android:textSize="12sp"
                             android:textStyle="italic"
                             app:layout_constraintBottom_toBottomOf="@+id/typeText"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toEndOf="@+id/lightZoneText"
                             app:layout_constraintTop_toTopOf="@+id/typeText"
                             app:visibleGone="@{boundTankDetails.tankStatus.empty}"
@@ -299,12 +300,13 @@
                             android:id="@+id/co2SupplyText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
                             android:text="@{boundTankDetails.tankCO2Supply +` CO2`}"
                             android:textColor="@color/highlight"
                             android:textSize="12sp"
                             android:textStyle="italic"
                             app:layout_constraintBottom_toBottomOf="@+id/tankVolumeMetric"
-                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/tankVolumeMetric"
                             app:layout_constraintTop_toTopOf="@+id/tankVolumeMetric"
                             app:visibleGone="@{boundTankDetails.tankCO2Supply.empty}"
@@ -314,6 +316,8 @@
                             android:id="@+id/lightZoneText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
                             android:text="@{boundTankDetails.tankLightRegion}"
                             android:textColor="@color/highlight"
                             android:textSize="12sp"

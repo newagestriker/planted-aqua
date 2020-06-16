@@ -32,6 +32,7 @@ public class LogsActivity extends AppCompatActivity {
     private String aquariumID="";
     private ArrayList<LogData> logData=new ArrayList <>();
     private RecyclerView.Adapter adapter;
+    private  String aquaName;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -46,14 +47,20 @@ public class LogsActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        CustomAlertDialog customAlertDialog = new CustomAlertDialog();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.ClearLog) {
 
             if(!logData.isEmpty()) {
-                logData.clear();
-                myDbHelper.deleteDataLogs();
-                adapter.notifyDataSetChanged();
+                customAlertDialog.showDialog(this,null,"Delete All Logs from "+aquaName,"Deleted Logs cannot be recovered",()->{
+                    logData.clear();
+                    myDbHelper.deleteDataLogs();
+                    adapter.notifyDataSetChanged();
+                    return null;
+                });
+
+
             }
 
             return true;
@@ -71,7 +78,7 @@ public class LogsActivity extends AppCompatActivity {
         CoordinatorLayout mainLayout = findViewById(R.id.LogsMainLayout);
         Intent intent=getIntent();
         aquariumID=intent.getStringExtra("AquariumID");
-        String aquaName=intent.getStringExtra("AquariumName");
+        aquaName=intent.getStringExtra("AquariumName");
         getSupportActionBar().setTitle(getResources().getString(R.string.Logs)+" : "+aquaName);
         myDbHelper=MyDbHelper.newInstance(this,aquariumID);
         LogData LD;
