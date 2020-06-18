@@ -65,42 +65,51 @@ public class UsersGalleryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        getSupportActionBar().setTitle("Users Gallery");
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_users_gallery);
-        ConnectionDetector connectionDetector = new ConnectionDetector(this,"google.com");
-        if (!connectionDetector.isInternetAvailable())
-            Toast.makeText(this,"No internet connection found",Toast.LENGTH_LONG).show();
         mAuth = FirebaseAuth.getInstance();
-        progressBarRelativeLayout = findViewById(R.id.ProgressBarRelativeLayout);
-        galleryItemLoadingProgressBar = findViewById(R.id.GalleryItemsLoadingProgessBar);
-        User_ID = getIntent().getStringExtra("UserID");
-        pos = getIntent().getIntExtra("Position",-1);
 
-        galleryItemRef = FirebaseDatabase.getInstance().getReference("GI");
-
-        galleryInfoArrayList = new ArrayList<>();
-
-        usersGalleryRecyclerView = findViewById(R.id.UsersGalleryRecyclerView);
-        adapter = new UsersGalleryRecyclerAdapter(this, galleryInfoArrayList,User_ID, new UsersGalleryRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(View view, int position) {
+        if(mAuth.getCurrentUser()!=null) {
 
 
-                if (galleryInfoArrayList.get(position).getFirebaseUserID().equals(User_ID)) {
-                    Intent intent = new Intent(UsersGalleryActivity.this, GalleryActivity.class);
-                    intent.putExtra("mode", "edit");
-                    intent.putExtra("UserID", galleryInfoArrayList.get(position).getUserID());
-                    startActivityForResult(intent, UPDATE_ITEM_CODE);
+            getSupportActionBar().setTitle("Users Gallery");
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_users_gallery);
+            ConnectionDetector connectionDetector = new ConnectionDetector(this, "google.com");
+            if (!connectionDetector.isInternetAvailable())
+                Toast.makeText(this, "No internet connection found", Toast.LENGTH_LONG).show();
+
+            progressBarRelativeLayout = findViewById(R.id.ProgressBarRelativeLayout);
+            galleryItemLoadingProgressBar = findViewById(R.id.GalleryItemsLoadingProgessBar);
+            User_ID = getIntent().getStringExtra("UserID");
+            pos = getIntent().getIntExtra("Position", -1);
+
+            galleryItemRef = FirebaseDatabase.getInstance().getReference("GI");
+
+            galleryInfoArrayList = new ArrayList<>();
+
+            usersGalleryRecyclerView = findViewById(R.id.UsersGalleryRecyclerView);
+            adapter = new UsersGalleryRecyclerAdapter(this, galleryInfoArrayList, User_ID, new UsersGalleryRecyclerAdapter.OnItemClickListener() {
+                @Override
+                public void onClick(View view, int position) {
+
+
+                    if (galleryInfoArrayList.get(position).getFirebaseUserID().equals(User_ID)) {
+                        Intent intent = new Intent(UsersGalleryActivity.this, GalleryActivity.class);
+                        intent.putExtra("mode", "edit");
+                        intent.putExtra("UserID", galleryInfoArrayList.get(position).getUserID());
+                        startActivityForResult(intent, UPDATE_ITEM_CODE);
+                    }
                 }
-            }
-        });
+            });
 
-        usersGalleryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        usersGalleryRecyclerView.setAdapter(adapter);
+            usersGalleryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            usersGalleryRecyclerView.setAdapter(adapter);
 
-        getDataFromRealtimeDatabase();
+            getDataFromRealtimeDatabase();
+        }
+        else{
+            Toast.makeText(this,"Sorry! You must be logged in to use this feature",Toast.LENGTH_SHORT).show();
+            finish();
+        }
 
     }
 

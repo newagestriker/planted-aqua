@@ -12,8 +12,10 @@ import com.newage.plantedaqua.helpers.ExpenseDBHelper;
 import com.newage.plantedaqua.helpers.MyDbHelper;
 import com.newage.plantedaqua.R;
 import com.newage.plantedaqua.adapters.RecyclerAdapterTankItems;
+import com.newage.plantedaqua.helpers.TanksPlaceholderFragment;
 import com.newage.plantedaqua.models.TankItems;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,29 +26,37 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Timer;
+
+import timber.log.Timber;
 
 public class TankItemListActivity extends AppCompatActivity {
 
-    private RecyclerView itemsRecyclerView;
     private RecyclerAdapterTankItems adapterTankItems;
-    private RecyclerView.LayoutManager layoutManager;
     private int ITEM_DETAILS_CREATION=45;
     private int ITEMS_DETAILS_MODIFICATION=43;
-    ArrayList<TankItems> tankItems=new ArrayList <>();
-    TankItems tankItems1=new TankItems();
+    private ArrayList<TankItems> tankItems=new ArrayList <>();
+    private TankItems tankItems1=new TankItems();
     private String aquariumID;
     private String category;
     boolean clicked=false;
     private ArrayList<String> TagList=new ArrayList <>();
     private TankItems temp;
     private Snackbar snackbar;
-    LinearLayout tankItemsLinear;
-    MyDbHelper myDbHelper;
+    private LinearLayout tankItemsLinear;
+    private MyDbHelper myDbHelper;
+    private HashMap<String, Integer> selectedItems;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -97,6 +107,7 @@ public class TankItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tank_item_list);
 
+
         String type;
 
         aquariumID=getIntent().getStringExtra("AquariumID");
@@ -122,7 +133,7 @@ public class TankItemListActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(type+" : " +aquaName);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
-
+        selectedItems = new HashMap<>();
         myDbHelper=MyDbHelper.newInstance(this,aquariumID);
         Cursor c=myDbHelper.getDataTICondition("I_Category",category);
         switch (category) {
@@ -162,27 +173,56 @@ public class TankItemListActivity extends AppCompatActivity {
         c.close();
 
         tankItemsLinear=findViewById(R.id.TankItemsLinear);
+        ImageView deleteTankItems = findViewById(R.id.deleteItemImageView);
+        deleteTankItems.setOnClickListener(v->{
+            operateOnSelectedItems(v.getId());
+        });
 
-        itemsRecyclerView = findViewById(R.id.ItemsRecyclerView);
-        layoutManager=new LinearLayoutManager(this);
+
+        RecyclerView itemsRecyclerView = findViewById(R.id.ItemsRecyclerView);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         itemsRecyclerView.setLayoutManager(layoutManager);
         adapterTankItems=new RecyclerAdapterTankItems(tankItems, category,this, new RecyclerAdapterTankItems.OnItemClickListener() {
             @Override
             public void onClick(View view, int position, String uri) {
 
-                quickNote(position);
+                if(view.getId()==R.id.tankItemCheckBox){
+                    if(((CheckBox)view).isChecked()){
+                        selectedItems.put(tankItems.get(position).getTag(),position);
+                    }
+                    else{
+                         selectedItems.remove(tankItems.get(position).getTag());
+                    }
+//                    Timber.d("---------NEW LIST-------");
+//                    for(Map.Entry<String,Integer> entry : selectedItems.entrySet()){
+//                        Timber.d(entry.getKey());
+//
+//                        }
+                    }
+
+
+
+                else {
+                    quickNote(position);
+                }
             }
+
 
             @Override
             public void onLongClick(View view, int position) {
 
-                Intent intent=new Intent(TankItemListActivity.this,CreateTankItemsActivity.class);
-                intent.putExtra("mode","modification");
-                intent.putExtra("ItemID",tankItems.get(position).getTag());
-                intent.putExtra("AquariumID",aquariumID);
-                intent.putExtra("ItemCategory",category);
-                intent.putExtra("position",position);
-                startActivityForResult(intent,ITEMS_DETAILS_MODIFICATION);
+                for(TankItems tankItem: tankItems){
+                    tankItem.setShown(true);
+                    adapterTankItems.notifyDataSetChanged();
+                }
+
+//                Intent intent=new Intent(TankItemListActivity.this,CreateTankItemsActivity.class);
+//                intent.putExtra("mode","modification");
+//                intent.putExtra("ItemID",tankItems.get(position).getTag());
+//                intent.putExtra("AquariumID",aquariumID);
+//                intent.putExtra("ItemCategory",category);
+//                intent.putExtra("position",position);
+//                startActivityForResult(intent,ITEMS_DETAILS_MODIFICATION);
 
             }
         });
@@ -263,6 +303,7 @@ public class TankItemListActivity extends AppCompatActivity {
                 tankItems1.setTxt4(data.getStringExtra("Txt4"));
                 tankItems1.setTag(data.getStringExtra("Tag"));
                 tankItems1.setQuickNote(data.getStringExtra("QuickNote"));
+                tankItems1.setShown(tankItems.get(tankItems.size()-1).getShown());
                 tankItems.add(tankItems1);
 
 
@@ -282,6 +323,20 @@ public class TankItemListActivity extends AppCompatActivity {
 
                 //System.out.println(tankItems.get(position).getTxt3());
 
+            }
+        }
+
+
+    }
+
+    private void operateOnSelectedItems(int id){
+        ExpenseDBHelper expenseDBHelper = ExpenseDBHelper.getInstance(TankItemListActivity.this);
+        for(Map.Entry<String,Integer> entry : selectedItems.entrySet()){
+            if(id==R.id.deleteItemImageView){
+                myDbHelper.deleteItemTI("I_ID", entry.getKey());
+                expenseDBHelper.deleteExpense("ItemID",entry.getKey());
+                tankItems.remove((int)entry.getValue());
+                adapterTankItems.notifyItemRemoved(entry.getValue());
             }
         }
 

@@ -180,7 +180,7 @@
     <string name="UserDeclined">User declined your request!!!</string>
     <string name="ViewRefreshed">View Refreshed</string>
     <string name="AppUpdated">We noticed some configuration changes in your app. It is recommended that you reboot your device for the app to function properly</string>
-    <string name="Version">Version 8.4.1</string>
+    <string name="Version">Version 9.0.0</string>
     <string name="Help">Help</string>
     <string name="Notifications">Notifications</string>
     <string name="CD">Image</string>
@@ -291,6 +291,9 @@
     <string name="grant_image_permission">You must grant permission to load images from your backup.</string>
     <string name="grant_permission">grant permission</string>
     <string name="temperature">Temperature</string>
+    <string name="make_me_a_seller">MAKE ME A SELLER</string>
+    <string name="must_be_seller">You must be a seller to allow potential buyers to identify you and visit your shop.</string>
+    <string name="delete_selected_tank_items">delete selected tank items</string>
 
 
 </resources>

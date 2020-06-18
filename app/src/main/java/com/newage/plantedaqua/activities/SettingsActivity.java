@@ -33,7 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(SettingsActivity.this);
-                final CharSequence items[] = {getResources().getString(R.string.Hobbyist), getResources().getString(R.string.Seller), getResources().getString(R.string.Cancel)};
+                final CharSequence[] items = {getResources().getString(R.string.Hobbyist), getResources().getString(R.string.Seller), getResources().getString(R.string.Cancel)};
                 builder.setTitle(getResources().getString(R.string.HorS))
                         .setItems(items, new DialogInterface.OnClickListener() {
                             @Override

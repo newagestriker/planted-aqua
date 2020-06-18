@@ -6,9 +6,10 @@
     <color name="highlight">#F1ED0F</color>
     <color name="duskYellow">#efc90c</color>
     <color name="lightGrey">#cacaca</color>
-    <color name="customDarkBackground">#052B00</color>
+    <color name="customDarkBackground">#042000</color>
     <color name="whiteGreen">#6AF16F</color>
     <color name="customWhite">#8BC34A</color>
+    <color name="customOrange">#F17600</color>
 
 
 </resources>

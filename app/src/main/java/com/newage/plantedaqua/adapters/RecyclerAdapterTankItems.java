@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -62,8 +63,7 @@ public class RecyclerAdapterTankItems extends RecyclerView.Adapter<RecyclerAdapt
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.tank_item_list_layout,parent,false);
-        RecyclerViewHolder recyclerViewHolder=new RecyclerViewHolder(view);
-        return recyclerViewHolder;
+        return new RecyclerViewHolder(view);
     }
 
     @Override
@@ -84,8 +84,12 @@ public class RecyclerAdapterTankItems extends RecyclerView.Adapter<RecyclerAdapt
 
         }
 
+        holder.tankItemCheckBox.setTag(arrayList.get(position).getTag());
+        holder.tankItemCheckBox.setChecked(arrayList.get(position).getChecked());
 
         holder.Text1.setText(arrayList.get(position).getTxt1());
+
+        holder.tankItemCheckBox.setVisibility(arrayList.get(position).getShown()?View.VISIBLE:GONE);
 
         if(TextUtils.isEmpty(arrayList.get(position).getTxt2())){
             holder.Text2.setVisibility(GONE);
@@ -152,6 +156,7 @@ public class RecyclerAdapterTankItems extends RecyclerView.Adapter<RecyclerAdapt
         TextView Text1,Text2,Text3,Text4;
         ImageView Pic,NoteImage;
         CardView cardView;
+        CheckBox tankItemCheckBox;
 
 
 
@@ -165,8 +170,10 @@ public class RecyclerAdapterTankItems extends RecyclerView.Adapter<RecyclerAdapt
             Text3=view.findViewById(R.id.txt3);
             Text4=view.findViewById(R.id.txt4);
             Pic=view.findViewById(R.id.image1);
+            tankItemCheckBox = view.findViewById(R.id.tankItemCheckBox);
             cardView.setOnClickListener(this);
             cardView.setOnLongClickListener(this);
+            tankItemCheckBox.setOnClickListener(this);
         }
 
         @Override

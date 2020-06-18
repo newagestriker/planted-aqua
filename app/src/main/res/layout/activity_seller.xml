@@ -195,13 +195,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="@color/colorAccent"
                 android:textStyle="italic"
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="You must be a seller to allow potential buyers to identify you and visit your shop.">
+                android:text="@string/must_be_seller">
 
             </TextView>
 
@@ -210,7 +210,7 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
-                android:text="MAKE ME A SELLER"
+                android:text="@string/make_me_a_seller"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">

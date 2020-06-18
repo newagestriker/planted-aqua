@@ -54,6 +54,7 @@ import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 
@@ -199,6 +200,8 @@ public class CreateTankItemsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    HashMap<String,Integer> selectedItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -216,35 +216,6 @@ public class SellerActivity extends AppCompatActivity {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference("Seller");
             final StorageReference itemImages = storageReference.child(User_ID + "/" + tempImageID);
             progressDialog.show();
-            /*itemImages.putFile(tankpicUri)
-                    .addOnSuccessListener(new OnSuccessListener <UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            itemImages.getDownloadUrl().addOnSuccessListener(new OnSuccessListener <Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    String u= uri.toString();
-                                    //Log.i("Image uri",u);
-                                    //Log.i("Image uri","Success");
-                                    sellerItemsDescription.setItemImage(u);
-                                    sellerItemsDescription.setItemImagePath(tempImageID);
-                                    image.delete();
-                                    uploadSellerJSONFile();
-                                    progressDialog.dismiss();
-                                }
-                            });
-                        }
-                    })
-
-
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            Toast.makeText(SellerActivity.this, "IMAGE UPLOAD ERROR!!", Toast.LENGTH_SHORT).show();
-                            image.delete();
-                            progressDialog.dismiss();
-                        }
-                    });*/
 
             itemImage.setDrawingCacheEnabled(true);
             itemImage.buildDrawingCache();
@@ -451,10 +422,9 @@ public class SellerActivity extends AppCompatActivity {
                     startActivityForResult(i, REQUEST_CAMERA);
                 }else if (items[which].equals("Gallery")) {
 
-                    Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                    i.setType("image/*");
-                    startActivityForResult(i.createChooser(i, "Select Image Using"), SELECT_FILE);
+                    Intent i = new Intent(Intent.ACTION_PICK);
+                    i.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
+                    startActivityForResult(Intent.createChooser(i, "Select Image Using"), SELECT_FILE);
                 }
 
                 else{

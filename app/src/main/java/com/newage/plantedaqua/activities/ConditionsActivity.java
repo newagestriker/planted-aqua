@@ -1,5 +1,6 @@
 package com.newage.plantedaqua.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ public class ConditionsActivity extends AppCompatActivity {
 
     private WebView webView;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,15 +32,7 @@ public class ConditionsActivity extends AppCompatActivity {
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         webView.loadUrl(websiteUrl);
 
-//        Handler handler = new Handler();
-//
-//        handler.postDelayed(new Runnable() {
-//            public void run() {
-//                finish();
-//            }
-//        }, 1000);
-       /* WebSettings webSettings=webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);*/
+
     }
 
     @Override

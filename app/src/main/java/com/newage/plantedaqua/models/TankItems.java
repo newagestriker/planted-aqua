@@ -8,7 +8,25 @@ public class TankItems {
    private String txt3;
    private String txt4;
    private String tag;
+   private Boolean isChecked = false;
    private String quickNote;
+   private Boolean isShown = false;
+
+    public Boolean getChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(Boolean checked) {
+        isChecked = checked;
+    }
+
+    public Boolean getShown() {
+        return isShown;
+    }
+
+    public void setShown(Boolean shown) {
+        isShown = shown;
+    }
 
     public String getQuickNote() {
         return quickNote;
