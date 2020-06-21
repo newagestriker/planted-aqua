@@ -42,6 +42,10 @@ class PlantList : Fragment() {
                 val action = PlantListDirections.actionPlantListToPlantDetails(plantsArrayList[pos])
                 Navigation.findNavController(mainView).navigate(action)
             }
+
+            override fun onItemLongClick(view: View?, pos: Int) {
+
+            }
         })
         mainView.plantsRecyclerView.adapter = recyclerAdapter
         plantDatabaseActivityViewModel.getPlantList().observe(viewLifecycleOwner, Observer {

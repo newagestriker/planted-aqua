@@ -11,11 +11,9 @@ public class MyDbHelper extends SQLiteOpenHelper {
 
     private static MyDbHelper mydbhelper = null;
     private String DB;
-    private Context context;
 
     private MyDbHelper(Context context, String DB) {
         super(context, DB, null, 2);
-        this.context=context;
         this.DB=DB;
     }
 

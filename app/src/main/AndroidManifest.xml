@@ -22,13 +22,21 @@
         android:roundIcon="@drawable/plantedaqua"
         android:supportsRtl="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.UserVideosActivity"></activity>
+        <activity android:name=".activities.TankItemsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".activities.UserVideosActivity">
+        </activity>
         <activity
             android:name=".activities.PlantDatabaseActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity
             android:name=".activities.TestActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme">
+
+        </activity>
         <activity
             android:name=".activities.ChatUsersActivity"
             android:theme="@style/AppTheme" />
@@ -52,6 +60,7 @@
             android:name=".activities.LightCalcActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <meta-data
             android:name="com.google.android.gms.ads.AD_MANAGER_APP"
             android:value="true" />
@@ -185,7 +194,6 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_maps"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".activities.ConditionsActivity"
             android:screenOrientation="portrait"

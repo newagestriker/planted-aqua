@@ -148,7 +148,7 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
                 }
             }
                  else {
-                TankNameText.animate().translationY(0f).duration = 300L
+                TankNameText.animate().translationY(0f).duration = 500L
                 tankOptionsImage.fadeInAnimation()
                 deleteTank.fadeOutAnimation()
                 editImage.fadeOutAnimation()

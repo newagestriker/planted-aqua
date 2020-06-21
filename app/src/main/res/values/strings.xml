@@ -294,6 +294,9 @@
     <string name="make_me_a_seller">MAKE ME A SELLER</string>
     <string name="must_be_seller">You must be a seller to allow potential buyers to identify you and visit your shop.</string>
     <string name="delete_selected_tank_items">delete selected tank items</string>
+    <string name="add_a_new_tank_item">Add a new tank item</string>
+    <string name="move_to_another_tank">Move to another tank</string>
+    <string name="save_tank_item_details">Save tank item details</string>
 
 
 </resources>

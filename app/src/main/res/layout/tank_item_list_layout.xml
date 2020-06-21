@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <variable
+            name="boundTankItems"
+            type="com.newage.plantedaqua.models.TankItems" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        >
 
     <CheckBox
-        android:visibility="gone"
+        app:visibleGoneCheckBox="@{boundTankItems.shown}"
         android:buttonTint="@color/customDarkBackground"
         android:id="@+id/tankItemCheckBox"
         android:layout_width="wrap_content"
@@ -37,7 +45,18 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/image1"
+                app:visibleGoneCheckBox="@{boundTankItems.shown}"
+                android:id="@+id/editTankImageItemView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/edit_tanks" />
+
+            <ImageView
+                android:id="@+id/tankItemImage"
                 android:layout_width="100dp"
                 android:layout_height="80dp"
                 android:layout_marginStart="4dp"
@@ -53,11 +72,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/note"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:visibleGone="@{boundTankItems.quickNote.empty}" />
 
             <TextView
                 android:id="@+id/txt1"
+                android:text="@{boundTankItems.txt1}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -65,12 +86,13 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/txt2"
-                app:layout_constraintStart_toEndOf="@+id/image1"
+                app:layout_constraintStart_toEndOf="@+id/tankItemImage"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="text1" />
 
             <TextView
                 android:id="@+id/txt2"
+                android:text="@{`Quantity `+boundTankItems.txt2}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryDark"
@@ -81,6 +103,7 @@
                 tools:text="text2" />
 
             <TextView
+                android:text="@{boundTankItems.txt3}"
                 android:id="@+id/txt3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -95,7 +118,7 @@
                 android:id="@+id/txt4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:text="@{boundTankItems.txt4}"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/txt3"
@@ -107,4 +130,4 @@
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+</layout>

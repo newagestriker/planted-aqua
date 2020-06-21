@@ -1,462 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/LinearTankItemDetails"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/gradient2"
-    tools:context=".activities.CreateTankItemsActivity">
+    android:background="@drawable/gradient1"
+    android:id="@+id/parentTankItemsLayout"
+    tools:context=".activities.TankItemsActivity">
 
-
-
-    <ScrollView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:theme="@style/Widget.AppCompat.Toolbar">
 
-            <androidx.cardview.widget.CardView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:elevation="20dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:id="@+id/EqImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/aquarium2"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:adjustViewBounds="true"/>
-                    <ImageView
-                        android:padding="8dp"
-                        android:id="@+id/loadImage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:src="@drawable/cam"/>
-                    <ImageView
-                        android:layout_below="@+id/loadImage"
-                        android:layout_margin="5dp"
-                        android:id="@+id/loadAlbum"
-                        android:layout_gravity="start"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:visibility="gone"
-                        android:src="@drawable/albuminput"/>
-                </RelativeLayout>
-                <ProgressBar
-                    android:id="@+id/CTankProgressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="gone"/>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/grantItemImagePermissionCard"
-                app:cardCornerRadius="5dp"
-                android:layout_margin="3dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:textColor="@color/colorAccent"
-                        android:gravity="center"
-                        android:textStyle="bold"
-                        android:layout_width="match_parent"
-                        android:text="@string/grant_image_permission"
-                        android:layout_height="wrap_content">
-
-                    </TextView>
-                    <Button
-                        android:id="@+id/grantItemImagePermissionButton"
-                        style="@style/Widget.AppCompat.Button.Colored"
-                        android:layout_width="wrap_content"
-                        android:text="@string/grant_permission"
-                        android:layout_height="wrap_content">
-
-                    </Button>
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.cardview.widget.CardView>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:padding="10dp"
-                    android:textSize="20sp"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="@string/Name"
-                    />
-
-                <EditText
-                    android:id="@+id/NameInput"
-                    android:layout_width="match_parent"
-                    android:padding="10dp"
-                    android:layout_gravity="bottom"
-                    android:layout_height="wrap_content"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/SciNameText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:padding="10dp"
-                    android:textSize="20sp"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="@string/Sciname" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/SciEdit"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginLeft="3dp"
-                    android:padding="10dp"
-                    />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:padding="10dp"
-                    android:textSize="20sp"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="@string/Quan"
-                    />
-
-                <EditText
-                    android:id="@+id/QuantityInput"
-                    android:layout_width="match_parent"
-                    android:padding="10dp"
-                    android:inputType="number"
-                    android:layout_gravity="bottom"
-                    android:layout_height="wrap_content"
-                    />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:text="@string/Price"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/EqCurrencyInput"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="10dp" />
-
-                <EditText
-                    android:id="@+id/EqPriceInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginStart="3dp"
-                    android:inputType="numberDecimal"
-                    android:padding="10dp" />
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="Acquisition \n Date"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/AcCalendar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/calendar"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:layout_gravity="center"/>
-
-                <EditText
-                    android:background="@android:color/transparent"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:hint="Tap icon"
-                    android:textStyle="italic"
-                    android:id="@+id/AcDateInput"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="10dp" />
-
-                <androidx.appcompat.widget.AppCompatImageView
                     android:visibility="gone"
-                    android:id="@+id/removeStartDateFromCreateItems"
+                    android:id="@+id/saveTankItemDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="removeDateFromCreateItems"
-                    android:tag="start"
-                    app:srcCompat="@drawable/cross">
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:contentDescription="@string/save_tank_item_details"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/save_values" />
 
-                </androidx.appcompat.widget.AppCompatImageView>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="@string/ExpiryDate"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
                 <ImageView
-                    android:id="@+id/ExpCalendar"
+                    android:id="@+id/helpItemImageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/calendar"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
                     android:clickable="true"
+                    android:contentDescription="@string/Help"
                     android:focusable="true"
-                    android:layout_gravity="center"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/addItemImageView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/help" />
 
-                <EditText
-                    android:background="@android:color/transparent"
-                    android:textStyle="italic"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:hint="Tap icon"
-                    android:id="@+id/ExDateInput"
+                <ImageView
+                    android:id="@+id/deleteItemImageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="10dp" />
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:visibility="gone"
-                    android:id="@+id/removeEndDateFromCreateItems"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
                     android:clickable="true"
+                    android:contentDescription="@string/delete_selected_tank_items"
                     android:focusable="true"
-                    android:onClick="removeDateFromCreateItems"
-                    android:tag="end"
-                    app:srcCompat="@drawable/cross">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/helpItemImageView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/delete_values" />
 
-                </androidx.appcompat.widget.AppCompatImageView>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/GenderText"
+                <ImageView
+                    android:id="@+id/changeTankImageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:padding="10dp"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20sp"
-                    android:text="@string/Gender"
-                    />
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:clickable="true"
+                    android:contentDescription="@string/move_to_another_tank"
+                    android:focusable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/deleteItemImageView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/swap" />
 
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/Gender"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/Male"
-                        android:padding="10dp"
-                        android:checked="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/Male"
-                        android:layout_gravity="center"
-                        android:textSize="8sp"
-                        android:textColor="@color/colorAccent"
-                        android:textStyle="italic|bold"/>
-
-                    <RadioButton
-                        android:id="@+id/Female"
-                        android:padding="10dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textColor="@color/colorAccent"
-                        android:textStyle="italic|bold"
-                        android:textSize="8sp"
-                        android:text="@string/Fmale" />
-
-                    <RadioButton
-                        android:id="@+id/Unknown"
-                        android:padding="10dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textColor="@color/colorAccent"
-                        android:textStyle="italic|bold"
-                        android:textSize="8sp"
-                        android:text="@string/Un" />
-
-                </RadioGroup>
-
-
-            </LinearLayout>
-
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/addItemImageView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:clickable="true"
+                    android:contentDescription="@string/add_a_new_tank_item"
+                    android:focusable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/addpic" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/FoodText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:padding="10dp"
-                        android:text="@string/Food"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+        </androidx.appcompat.widget.Toolbar>
 
-                    <EditText
-                        android:id="@+id/FoodInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:padding="10dp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+    </com.google.android.material.appbar.AppBarLayout>
 
-                    <TextView
-                        android:id="@+id/CareText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="@string/Care"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/CareInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:padding="10dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="@string/Info"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/Info"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:padding="10dp" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-    </ScrollView>
-
-
-
-</LinearLayout>
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/tankItemsNavHostFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:defaultNavHost="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:navGraph="@navigation/tank_items_nav" />
+</androidx.constraintlayout.widget.ConstraintLayout>

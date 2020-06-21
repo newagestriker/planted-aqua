@@ -3,6 +3,7 @@ package com.newage.plantedaqua.di
 import com.newage.plantedaqua.repositories.PlantDBRepository
 import com.newage.plantedaqua.room.PlantDB
 import com.newage.plantedaqua.viewmodels.PlantDatabaseActivityViewModel
+import com.newage.plantedaqua.viewmodels.TankItemListViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -16,4 +17,5 @@ val dbModules =  module{
 
 val vModules = module {
     viewModel { PlantDatabaseActivityViewModel(get(),get()) }
+    viewModel {(tankId: String,category:String) -> TankItemListViewModel(get(), tankId,category)}
 }

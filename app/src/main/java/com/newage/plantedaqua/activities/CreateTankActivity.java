@@ -130,7 +130,7 @@ public class CreateTankActivity extends AppCompatActivity {
         boolean TANK_NAME_PRESENT;
         if(item.getItemId()==R.id.Save){
 
-            spotsProgressDialog.show();
+
 
             if(tankpicUri!=null) {
                 s = tankpicUri.toString();
@@ -147,6 +147,7 @@ public class CreateTankActivity extends AppCompatActivity {
 
             if(TANK_NAME_PRESENT) {
 
+                spotsProgressDialog.show();
                 TankDBHelper tankDBHelper = TankDBHelper.newInstance(this);
                 SQLiteDatabase DB = tankDBHelper.getWritableDatabase();
                 ExpenseDBHelper expenseDBHelper = ExpenseDBHelper.getInstance(this);
@@ -209,7 +210,6 @@ public class CreateTankActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setTitle(getResources().getString(R.string.TankData));
         tankImage = findViewById(R.id.TankImage);
-        ProgressBar progressBar = findViewById(R.id.CTankProgressBar);
         linearLayout=findViewById(R.id.LinearTankDetails);
         Button requestPermissionButton = findViewById(R.id.requestPermissionButton);
         requestPermissionCard = findViewById(R.id.requestPermissionCard);

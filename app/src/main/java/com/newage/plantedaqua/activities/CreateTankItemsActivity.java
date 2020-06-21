@@ -207,7 +207,7 @@ public class CreateTankItemsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tank_items);
+        setContentView(R.layout.activity_create_tank_items);
 
         AquariumID=getIntent().getStringExtra("AquariumID");
         category=getIntent().getStringExtra("ItemCategory");

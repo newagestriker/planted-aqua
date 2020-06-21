@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tank_items_nav"
+    app:startDestination="@id/tankItemListFragment">
+    <fragment
+        android:id="@+id/tankItemListFragment"
+        android:name="com.newage.plantedaqua.fragments.tankitems.TankItemListFragment"
+        android:label="fragment_tank_item_list"
+        tools:layout="@layout/fragment_tank_item_list" >
+        <action
+            android:id="@+id/action_tankItemListFragment_to_createTankItemsFragment"
+            app:destination="@id/createTankItemsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/createTankItemsFragment"
+        android:name="com.newage.plantedaqua.fragments.tankitems.CreateTankItemsFragment"
+        android:label="fragment_create_tank_items"
+        tools:layout="@layout/fragment_create_tank_items" >
+        <action
+            android:id="@+id/action_createTankItemsFragment_to_tankItemListFragment"
+            app:destination="@id/tankItemListFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/tankItemListFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

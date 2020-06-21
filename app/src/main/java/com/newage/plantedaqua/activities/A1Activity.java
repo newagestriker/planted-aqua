@@ -1104,11 +1104,19 @@ public class A1Activity extends AppCompatActivity
 
 
 
-            ShowcaseRecyclerAdapter<GalleryInfo> showcaseAdapter = new ShowcaseRecyclerAdapter<GalleryInfo>(R.layout.showcase_recycler_view_item, (view, pos) -> {
-                Intent iUsersGallery = new Intent(A1Activity.this, UsersGalleryActivity.class);
-                iUsersGallery.putExtra("UserID", mAuth.getCurrentUser().getUid());
-                iUsersGallery.putExtra("Position", pos);
-                startActivity(iUsersGallery);
+            ShowcaseRecyclerAdapter<GalleryInfo> showcaseAdapter = new ShowcaseRecyclerAdapter<GalleryInfo>(R.layout.showcase_recycler_view_item, new ShowcaseRecyclerAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(@org.jetbrains.annotations.Nullable View view, int pos) {
+                    Intent iUsersGallery = new Intent(A1Activity.this, UsersGalleryActivity.class);
+                    iUsersGallery.putExtra("UserID", mAuth.getCurrentUser().getUid());
+                    iUsersGallery.putExtra("Position", pos);
+                    startActivity(iUsersGallery);
+                }
+
+                @Override
+                public void onItemLongClick(@org.jetbrains.annotations.Nullable View view, int pos) {
+
+                }
             });
             showcaseAdapter.submitList(galleryInfoArrayList);
             userTankImagesRecyclerView.setAdapter(showcaseAdapter);
@@ -1426,11 +1434,11 @@ public class A1Activity extends AppCompatActivity
             break;
             case R.id.imageNutrientOption : navigateToSelectedOption(new Intent(this,DosingGraphsActivity.class),viewPager2.getCurrentItem(),"");
                 break;
-            case R.id.imageFloraOption: navigateToSelectedOption(new Intent(this,TankItemListActivity.class),viewPager2.getCurrentItem(),"Fl");
+            case R.id.imageFloraOption: navigateToSelectedOption(new Intent(this,TankItemsActivity.class),viewPager2.getCurrentItem(),"Fl");
                 break;
-            case R.id.imageFaunaOption: navigateToSelectedOption(new Intent(this,TankItemListActivity.class),viewPager2.getCurrentItem(),"Fr");
+            case R.id.imageFaunaOption: navigateToSelectedOption(new Intent(this,TankItemsActivity.class),viewPager2.getCurrentItem(),"Fr");
                 break;
-            case R.id.imageTanksEquipmentOption: navigateToSelectedOption(new Intent(this,TankItemListActivity.class),viewPager2.getCurrentItem(),"E");
+            case R.id.imageTanksEquipmentOption: navigateToSelectedOption(new Intent(this,TankItemsActivity.class),viewPager2.getCurrentItem(),"E");
                 break;
             case R.id.imageLogOptions: navigateToSelectedOption(new Intent(this,LogsActivity.class),viewPager2.getCurrentItem(),"");
                 break;
