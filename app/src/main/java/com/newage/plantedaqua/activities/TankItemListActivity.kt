@@ -2,32 +2,21 @@ package com.newage.plantedaqua.activities
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Intent
-import android.database.Cursor
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.newage.plantedaqua.R
-import com.newage.plantedaqua.adapters.RecyclerAdapterTankItems
 import com.newage.plantedaqua.adapters.ShowcaseRecyclerAdapter
-import com.newage.plantedaqua.helpers.ExpenseDBHelper
-import com.newage.plantedaqua.helpers.MyDbHelper
+import com.newage.plantedaqua.dbhelpers.MyDbHelper
 import com.newage.plantedaqua.models.TankItems
 import com.newage.plantedaqua.viewmodels.TankItemListViewModel
-import kotlinx.android.synthetic.main.activity_tank_item_list.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
-import java.util.*
 import kotlin.collections.ArrayList
 
 class TankItemListActivity : AppCompatActivity() {
@@ -106,7 +95,7 @@ class TankItemListActivity : AppCompatActivity() {
             }
 
             override fun onItemLongClick(view: View?, pos: Int) {
-                tankItemListViewModel.makeCheckBoxVisible()
+                tankItemListViewModel.setEditMode(true)
             }
         })
         itemsRecyclerView.adapter = adapterTankItems

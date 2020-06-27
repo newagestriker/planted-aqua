@@ -1,6 +1,11 @@
 package com.newage.plantedaqua.adapters
 
+import android.content.ContentUris
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +27,11 @@ import com.newage.plantedaqua.databinding.TankItemListLayoutBinding
 import com.newage.plantedaqua.models.GalleryInfo
 import com.newage.plantedaqua.models.Plants
 import com.newage.plantedaqua.models.TankItems
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.io.InputStream
+import kotlin.coroutines.CoroutineContext
 
 
 class ShowcaseRecyclerAdapter<T>(private val layout_ID : Int, private val onItemClickListener: OnItemClickListener) : ListAdapter<T,ShowcaseRecyclerAdapter.ShowcaseViewHolder>(ShowcaseDiffCallBack<T>(layout_ID)) {
@@ -112,9 +121,9 @@ class ShowcaseRecyclerAdapter<T>(private val layout_ID : Int, private val onItem
 
                 R.layout.tank_item_list_layout ->{
 
-                    val tankpicUri: Uri = Uri.parse((item as TankItems).itemUri)
+
                     Glide.with(binding.root.context)
-                            .load(tankpicUri)
+                            .load((item as TankItems).itemUri )
                             .apply(RequestOptions()
                                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                                     .skipMemoryCache(true)
@@ -129,6 +138,8 @@ class ShowcaseRecyclerAdapter<T>(private val layout_ID : Int, private val onItem
             binding.executePendingBindings()
 
         }
+
+
 
     }
 
@@ -166,6 +177,8 @@ class ShowcaseRecyclerAdapter<T>(private val layout_ID : Int, private val onItem
             return (oldItem as Plants) == (newItem as Plants)
         }
         }
+
+
 
     }
 

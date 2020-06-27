@@ -3,6 +3,7 @@ package com.newage.plantedaqua.activities
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -10,12 +11,15 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 
 import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
 
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.Observer
 
 import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
 import com.newage.plantedaqua.R
+import com.newage.plantedaqua.models.TankItems
 
 import com.newage.plantedaqua.viewmodels.TankItemListViewModel
 import kotlinx.android.synthetic.main.activity_tank_items.*
@@ -36,42 +40,94 @@ class TankItemsActivity : AppCompatActivity() {
         aquariumID = intent.getStringExtra("AquariumID")
         category = intent.getStringExtra("ItemCategory")
         tankItemListViewModel = getViewModel { parametersOf(aquariumID,category) }
-        val deleteTankItems = findViewById<ImageView>(R.id.deleteItemImageView)
-        val parentLayout = findViewById<ConstraintLayout>(R.id.parentTankItemsLayout)
-        deleteTankItems.setOnClickListener {
+        deleteItemImageView.setOnClickListener {
 
             tankItemListViewModel.deleteSelectedItems()
 
         }
+        changeTankImageView.setOnClickListener{
 
-        val saveTankItemDetails = findViewById<ImageView>(R.id.saveTankItemDetails)
+            val alertDialog = AlertDialog.Builder(this@TankItemsActivity)
+            alertDialog.setItems(tankItemListViewModel.getTankNames().toArray(arrayOf(String()))) { _: DialogInterface, i: Int ->
+                tankItemListViewModel.moveItemToAnotherTank(i)
+            }
+                    .setNegativeButton(R.string.Cancel) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .setTitle("Select the tank to which you want to move the item(s)")
+                    .create().show()
+        }
+
+
         saveTankItemDetails.setOnClickListener{
             tankItemListViewModel.apply {
                 if(getEachTankItem().itemName.isBlank()){
-                    Snackbar.make(parentLayout,"Item name should not be blank",Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(parentTankItemsLayout,"Item name should not be blank",Snackbar.LENGTH_LONG).show()
                 }
                 else {
+
                     saveTankItemDetails()
-                    addItemImageView.showIconsAnimations()
-                    helpItemImageView.showIconsAnimations()
-                    changeTankImageView.showIconsAnimations()
-                    deleteTankItems.showIconsAnimations()
-                    saveTankItemDetails.hideIconsAnimations()
+                    tankItemListViewModel.hasGoneToFragmentB(false)
                     Navigation.findNavController(this@TankItemsActivity,R.id.tankItemsNavHostFragment).navigate(R.id.action_createTankItemsFragment_to_tankItemListFragment)
                 }
             }
         }
 
+        resetEditModeImage.setOnClickListener{
+            tankItemListViewModel.setEditMode(false)
+        }
 
-        val addItemImageView = findViewById<ImageView>(R.id.addItemImageView)
         addItemImageView.setOnClickListener {
-            addItemImageView.hideIconsAnimations()
-            helpItemImageView.hideIconsAnimations()
-            changeTankImageView.hideIconsAnimations()
-            deleteTankItems.hideIconsAnimations()
-            saveTankItemDetails.showIconsAnimations()
+            tankItemListViewModel.hasGoneToFragmentB(true)
+            tankItemListViewModel.setEachTankItemLiveDataValue(-1)
             Navigation.findNavController(this@TankItemsActivity,R.id.tankItemsNavHostFragment).navigate(R.id.action_tankItemListFragment_to_createTankItemsFragment)
         }
+
+        tankItemListViewModel.isEditModeActive().observe(this, Observer {
+            if(it) {
+                deleteItemImageView.showIconsAnimations()
+                changeTankImageView.showIconsAnimations()
+                resetEditModeImage.showIconsAnimations()
+                tankItemListViewModel.setCheckBoxVisibility(true)
+            }
+            else {
+                deleteItemImageView.hideIconsAnimations()
+                changeTankImageView.hideIconsAnimations()
+                resetEditModeImage.hideIconsAnimations()
+                tankItemListViewModel.setCheckBoxVisibility(false)
+            }
+        })
+
+        tankItemListViewModel.checkGoneToFragmentB().observe(this, androidx.lifecycle.Observer {
+            if(it) {
+                changeMenuOnMoveToEachItem()
+            }
+            else{
+                changeMenuOnMoveToItemList()
+            }
+        })
+    }
+
+    private fun changeMenuOnMoveToEachItem(){
+        addItemImageView.hideIconsAnimations()
+        helpItemImageView.hideIconsAnimations()
+        if(tankItemListViewModel.isCheckBoxVisible()) {
+            changeTankImageView.hideIconsAnimations()
+            deleteItemImageView.hideIconsAnimations()
+            resetEditModeImage.hideIconsAnimations()
+        }
+        saveTankItemDetails.showIconsAnimations()
+    }
+
+    private fun changeMenuOnMoveToItemList(){
+        addItemImageView.showIconsAnimations()
+        helpItemImageView.showIconsAnimations()
+        if(tankItemListViewModel.isCheckBoxVisible()) {
+            changeTankImageView.showIconsAnimations()
+            deleteItemImageView.showIconsAnimations()
+            resetEditModeImage.showIconsAnimations()
+        }
+        saveTankItemDetails.hideIconsAnimations()
     }
 
     private fun View.showIconsAnimations(){
@@ -93,18 +149,16 @@ class TankItemsActivity : AppCompatActivity() {
         })
     }
 
-
     override fun onBackPressed() {
+        if(saveTankItemDetails.visibility == VISIBLE){
+            tankItemListViewModel.apply{
+                hasGoneToFragmentB(false)
+                deleteImageFileIfExists()
+                restoreItemState()
+                //  tankItemListViewModel.hasGoneToFragmentB(false)
+            }
+        }
         super.onBackPressed()
-
-       tankItemListViewModel.getImageFile()?.let{
-           if(it.exists()){
-               it.delete()
-               tankItemListViewModel.getEachTankItem().itemUri = ""
-           }
-       }
-
-
     }
 
 }

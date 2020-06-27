@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.newage.plantedaqua.R;
-import com.newage.plantedaqua.helpers.TankDBHelper;
+import com.newage.plantedaqua.dbhelpers.TankDBHelper;
 
 public class OptionsActivity extends AppCompatActivity {
 

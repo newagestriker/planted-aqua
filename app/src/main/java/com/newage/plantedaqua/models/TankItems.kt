@@ -26,6 +26,7 @@ data class TankItems(
         var itemSeller : String ="",
         var itemScientificName : String = "",
         var mode : String = "creation"
+
 ){
 
 }

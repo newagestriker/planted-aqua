@@ -30,11 +30,11 @@ import java.util.Locale;
 import androidx.fragment.app.FragmentManager;
 
 import com.newage.plantedaqua.models.Chemical;
-import com.newage.plantedaqua.helpers.MyDbHelper;
+import com.newage.plantedaqua.dbhelpers.MyDbHelper;
 import com.newage.plantedaqua.fragments.NodayDialog;
-import com.newage.plantedaqua.helpers.NutrientDbHelper;
+import com.newage.plantedaqua.dbhelpers.NutrientDbHelper;
 import com.newage.plantedaqua.R;
-import com.newage.plantedaqua.helpers.TankDBHelper;
+import com.newage.plantedaqua.dbhelpers.TankDBHelper;
 import com.newage.plantedaqua.helpers.TinyDB;
 
 public class MacroNutrientTableActivity extends AppCompatActivity {

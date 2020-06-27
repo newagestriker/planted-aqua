@@ -14,12 +14,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.newage.plantedaqua.adapters.RecyclerAdapterLogs;
 import com.newage.plantedaqua.helpers.CustomAlertDialog;
-import com.newage.plantedaqua.helpers.MyDbHelper;
+import com.newage.plantedaqua.dbhelpers.MyDbHelper;
 import com.newage.plantedaqua.models.LogData;
 import com.newage.plantedaqua.R;
 

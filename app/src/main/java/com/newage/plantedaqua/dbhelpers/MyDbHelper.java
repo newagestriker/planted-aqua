@@ -1,10 +1,12 @@
-package com.newage.plantedaqua.helpers;
+package com.newage.plantedaqua.dbhelpers;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import timber.log.Timber;
 
 
 public class MyDbHelper extends SQLiteOpenHelper {
@@ -145,9 +147,8 @@ public class MyDbHelper extends SQLiteOpenHelper {
         contentValues.put("Notify_Type", item7);
         contentValues.put("Alarm_Slot", item8);
         try {
-            long row = db.insert("ATTable", null, contentValues);
             //System.out.println("row number is : "+row);
-            return row;
+            return db.insert("ATTable", null, contentValues);
         } catch (Exception e) {
             
             return 0;
@@ -648,7 +649,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
 
         } catch (Exception e) {
             
-
+            Timber.e(e);
         }
 
     }

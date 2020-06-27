@@ -16,10 +16,10 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.RemoteInput;
 import androidx.core.content.ContextCompat;
 
-import com.newage.plantedaqua.helpers.ExpenseDBHelper;
-import com.newage.plantedaqua.helpers.MyDbHelper;
+import com.newage.plantedaqua.dbhelpers.ExpenseDBHelper;
+import com.newage.plantedaqua.dbhelpers.MyDbHelper;
 import com.newage.plantedaqua.helpers.NotificationHelper;
-import com.newage.plantedaqua.helpers.TankDBHelper;
+import com.newage.plantedaqua.dbhelpers.TankDBHelper;
 import com.newage.plantedaqua.helpers.TinyDB;
 import com.newage.plantedaqua.helpers.NotificationReceiver;
 import com.newage.plantedaqua.R;

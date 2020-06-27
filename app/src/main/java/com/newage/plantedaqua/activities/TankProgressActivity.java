@@ -15,7 +15,7 @@ import android.provider.MediaStore;
 import androidx.annotation.NonNull;
 import com.google.android.material.snackbar.Snackbar;
 import com.newage.plantedaqua.BuildConfig;
-import com.newage.plantedaqua.helpers.MyDbHelper;
+import com.newage.plantedaqua.dbhelpers.MyDbHelper;
 import com.newage.plantedaqua.R;
 import com.newage.plantedaqua.adapters.RecyclerAdapterPicsInfo;
 

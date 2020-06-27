@@ -40,10 +40,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.newage.plantedaqua.BuildConfig;
-import com.newage.plantedaqua.helpers.ExpenseDBHelper;
-import com.newage.plantedaqua.helpers.MyDbHelper;
+import com.newage.plantedaqua.dbhelpers.ExpenseDBHelper;
+import com.newage.plantedaqua.dbhelpers.MyDbHelper;
 import com.newage.plantedaqua.R;
-import com.newage.plantedaqua.helpers.TankDBHelper;
+import com.newage.plantedaqua.dbhelpers.TankDBHelper;
 import com.newage.plantedaqua.helpers.TinyDB;
 
 import java.io.File;
@@ -533,7 +533,7 @@ public class CreateTankItemsActivity extends AppCompatActivity {
                 tankpicUri=Uri.fromFile(image);
             }
 
-            if (image.exists()) filedeleted=image.delete();
+            if (image.exists()) image.delete();
 
            // System.out.println("Uri : "+tankpicUri.toString());
 

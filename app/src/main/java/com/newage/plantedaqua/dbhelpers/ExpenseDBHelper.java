@@ -1,11 +1,12 @@
-package com.newage.plantedaqua.helpers;
+package com.newage.plantedaqua.dbhelpers;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
+
+import timber.log.Timber;
 
 public class ExpenseDBHelper extends SQLiteOpenHelper {
 
@@ -166,7 +167,7 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
 
         }
         catch (Exception e){
-            
+            Timber.e(e);
         }
     }
 

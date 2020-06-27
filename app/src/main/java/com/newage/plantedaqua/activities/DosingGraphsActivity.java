@@ -32,9 +32,9 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.snackbar.Snackbar;
-import com.newage.plantedaqua.helpers.MyDbHelper;
-import com.newage.plantedaqua.helpers.TankDBHelper;
-import com.newage.plantedaqua.helpers.NutrientDbHelper;
+import com.newage.plantedaqua.dbhelpers.MyDbHelper;
+import com.newage.plantedaqua.dbhelpers.TankDBHelper;
+import com.newage.plantedaqua.dbhelpers.NutrientDbHelper;
 import com.newage.plantedaqua.R;
 
 import java.util.ArrayList;

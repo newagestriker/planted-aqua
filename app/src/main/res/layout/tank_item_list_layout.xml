@@ -22,6 +22,7 @@
         android:id="@+id/tankItemCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:checked="@{boundTankItems.checked}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -78,7 +79,7 @@
 
             <TextView
                 android:id="@+id/txt1"
-                android:text="@{boundTankItems.txt1}"
+                android:text="@{boundTankItems.itemName}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -92,7 +93,7 @@
 
             <TextView
                 android:id="@+id/txt2"
-                android:text="@{`Quantity `+boundTankItems.txt2}"
+                android:text="@{`Quantity `+boundTankItems.itemQuantity}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryDark"

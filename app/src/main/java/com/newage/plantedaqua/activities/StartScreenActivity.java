@@ -8,7 +8,7 @@ import android.os.Bundle;
 import com.google.android.material.snackbar.Snackbar;
 import com.newage.plantedaqua.R;
 import com.newage.plantedaqua.adapters.RecyclerAdapterPicsInfo;
-import com.newage.plantedaqua.helpers.TankDBHelper;
+import com.newage.plantedaqua.dbhelpers.TankDBHelper;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;

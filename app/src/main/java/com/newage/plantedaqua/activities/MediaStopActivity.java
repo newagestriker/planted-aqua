@@ -23,8 +23,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.newage.plantedaqua.helpers.MyDbHelper;
-import com.newage.plantedaqua.helpers.NutrientDbHelper;
+import com.newage.plantedaqua.dbhelpers.MyDbHelper;
+import com.newage.plantedaqua.dbhelpers.NutrientDbHelper;
 import com.newage.plantedaqua.R;
 
 

@@ -4,11 +4,14 @@ import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
+import android.app.Dialog
 import android.content.ContentResolver
 import android.content.ContentValues
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -34,8 +37,8 @@ import com.newage.plantedaqua.databinding.FragmentCreateTankItemsBinding
 import com.newage.plantedaqua.viewmodels.TankItemListViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 import java.io.File
@@ -56,8 +59,8 @@ class CreateTankItemsFragment : Fragment(), View.OnClickListener {
    private val REQ_CODE_FOR_ITEM_BUTTON_VISIBILITY = 62
    private val REQUEST_CAMERA = 23
    private val SELECT_FILE = 31
-
-
+    private var alertDialog : DialogInterface? = null
+    private var arePermissionAvailable = false
     override fun onClick(v: View?) {
         binding.apply {
 
@@ -97,10 +100,15 @@ class CreateTankItemsFragment : Fragment(), View.OnClickListener {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
-
+        Timber.d("OnCreate Called for CreateTankItems")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_create_tank_items, container, false)
 
         binding.lifecycleOwner = this
+
+        binding.boundDetailedTankItem = tankItemListViewModel
+
+
+
 
 
 //            if (mode == "modification") {
@@ -112,12 +120,17 @@ class CreateTankItemsFragment : Fragment(), View.OnClickListener {
             checkPermissions(object : PermissionGranted {
                 override fun onPermissionsAvailable() {
                     grantItemImagePermissionCard.visibility = View.GONE
+                    arePermissionAvailable = true
+
                 }
 
                 override fun onPermissionsNotAvailable() {
                     grantItemImagePermissionCard.visibility = View.VISIBLE
+                    arePermissionAvailable = false
                 }
             })
+
+
 
             grantItemImagePermissionButton.setOnClickListener { requestForPermissions(REQ_CODE_FOR_ITEM_BUTTON_VISIBILITY) }
             loadImage.setOnClickListener {
@@ -147,6 +160,27 @@ class CreateTankItemsFragment : Fragment(), View.OnClickListener {
            removeEndDateFromCreateItems.setOnClickListener(this@CreateTankItemsFragment)
         }
 
+        tankItemListViewModel.getEachTankItemLiveData().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+
+            binding.invalidateAll()
+
+        })
+
+
+        tankItemListViewModel.getDisplayImageUri().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            if(arePermissionAvailable) {
+
+                it?.loadImageIntoImageView()
+            }
+
+//            it.let { uri->{
+//                Timber.d("Uri changed : $uri")
+//                if(arePermissionAvailable){
+//                    uri.loadImageIntoImageView()
+//                }
+//            } }
+        })
+
 //            when (category) {
 //                "Fl" -> {
 //                    findViewById<View>(R.id.GenderText).visibility = View.GONE
@@ -168,28 +202,22 @@ class CreateTankItemsFragment : Fragment(), View.OnClickListener {
 //                }
 //            }
 
-        binding.boundDetailedTankItem = tankItemListViewModel
 
-        tankItemListViewModel.getEachTankItemLiveData().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            Timber.d("Changed")
-
-            binding.invalidateAll()
-
-        })
         return binding.root
     }
 
 
 
-    private fun loadImageIntoImageView() {
-        tankpicUri = Uri.parse(binding.boundDetailedTankItem!!.getEachTankItem().itemUri)
-        Glide.with(this)
-                .load(tankpicUri)
-                .apply(RequestOptions()
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .error(R.drawable.aquarium2))
-                .into(binding.EqImage)
+    private fun Uri.loadImageIntoImageView() {
+        if(this.toString().isNotBlank()) {
+            Glide.with(requireContext())
+                    .load(this)
+                    .apply(RequestOptions()
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
+                            .error(R.drawable.aquarium2))
+                    .into(binding.EqImage)
+        }
     }
 
 
@@ -214,18 +242,22 @@ class CreateTankItemsFragment : Fragment(), View.OnClickListener {
         return if (num < 10) "0$num" else num.toString()
     }
 
+    private var imageFileName : String = ""
 
     fun selectImage() {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        imageFileName = tankItemListViewModel.category + "_" + timeStamp + "_Pic.jpg"
         val items = arrayOf<CharSequence>("Camera", "Gallery", "Cancel")
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.Q){
             val resolver: ContentResolver = requireContext().contentResolver
             val contentValues = ContentValues()
-            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, tankItemListViewModel.category + "_" + timeStamp + "_Pic.jpg")
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, imageFileName)
             contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
             contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
             tankpicUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)!!
-            tankItemListViewModel.setImageFile(File(tankpicUri.path!!))
+            Timber.d("initial URI Q : $tankpicUri")
+            tankItemListViewModel.setNewFile(File(tankpicUri.path!!))
+
         }
         else {
             val imagesFolder = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "JPT_images")
@@ -233,36 +265,37 @@ class CreateTankItemsFragment : Fragment(), View.OnClickListener {
                 imagesFolder.mkdirs()
             }
             if (imagesFolder.isDirectory) {
-
-                tankItemListViewModel.setImageFile(File(imagesFolder, tankItemListViewModel.category + "_" + timeStamp + "_Pic.jpg"))
+                tankItemListViewModel.setNewFile(File(imagesFolder,imageFileName))
                 tankpicUri = if (Build.VERSION.SDK_INT >= 24) {
                     FileProvider.getUriForFile(requireContext().applicationContext,
                             BuildConfig.APPLICATION_ID + ".provider",
-                            tankItemListViewModel.getImageFile()!!)
+                            tankItemListViewModel.getNewFile()!!)
                 } else {
-                    Uri.fromFile(tankItemListViewModel.getImageFile())
+                    Uri.fromFile(tankItemListViewModel.getNewFile())
                 }
-                if (tankItemListViewModel.getImageFile()!!.exists()) tankItemListViewModel.getImageFile()!!.delete()
+
+                Timber.d("initial URI <Q : $tankpicUri")
 
                 // System.out.println("Uri : "+tankpicUri.toString());
             }
+
+
         }
+        tankItemListViewModel.setNewUri(tankpicUri)
+        Timber.d("Result stored Uri Start Intent : ${tankItemListViewModel.getNewUri()}")
 
 
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Get Image from")
         builder.setItems(items) { dialog, which ->
+            alertDialog = dialog
             if (items[which] == "Camera") {
                 val i = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 i.putExtra(MediaStore.EXTRA_OUTPUT, tankpicUri)
                 startActivityForResult(i,REQUEST_CAMERA)
             } else if (items[which] == "Gallery") {
 
-                val action: String = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    Intent.ACTION_OPEN_DOCUMENT
-                } else {
-                    Intent.ACTION_PICK
-                }
+
                 val i = Intent(Intent.ACTION_PICK)
                 i.addFlags(FLAG_GRANT_READ_URI_PERMISSION)
                 i.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
@@ -270,11 +303,127 @@ class CreateTankItemsFragment : Fragment(), View.OnClickListener {
                     startActivityForResult(Intent.createChooser(i, "Select Image Using"), SELECT_FILE)
 
             } else {
+                tankItemListViewModel.setNewUri(null)
                 dialog.dismiss()
             }
         }
         builder.show()
+
+
     }
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, data)
+
+        /* if(data==null){
+            System.out.println("Null data");
+        }*/
+       // var fileCreated: Boolean
+        if (resultCode == Activity.RESULT_OK) {
+
+            tankItemListViewModel.setImageFile(tankItemListViewModel.getNewFile()!!) // Checking whether image file exists is done inside this function itself in viewModel
+
+            if (requestCode == SELECT_FILE) {
+
+                try {
+
+                    Timber.d("Uri from gallery : ${data!!.data}")
+                    tankItemListViewModel.setDisplayImageUri(data.data!!)
+                    tankItemListViewModel.setTankPicUriFromGallery(data.data)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        tankItemListViewModel.deleteImageFileIfExists()
+                   }
+
+                } catch (e: Exception) {
+                    val msg = if (TextUtils.isEmpty(e.message)) getString(R.string.unknown_error) else e.message!!
+                    Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+                    Timber.d(msg)
+                }
+
+            }
+            else if(requestCode == REQUEST_CAMERA){
+                tankItemListViewModel.setTankPicUriFromGallery(null)
+
+                tankItemListViewModel.apply {
+                    getNewUri()?.let {
+
+                        setDisplayImageUri(it)
+                    }
+                }
+            }
+
+            Timber.d("Result stored  Uri on Activity result : ${tankItemListViewModel.getNewUri()}")
+
+
+            if(Build.VERSION.SDK_INT<Build.VERSION_CODES.Q) {
+                val scanFileIntent = Intent(
+                        Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, tankItemListViewModel.getNewUri())
+                requireActivity().sendBroadcast(scanFileIntent)
+            }
+//            val job = SupervisorJob()
+//            CoroutineScope(job).launch {
+//                Timber.d("Real URI : ${getLocalUri(imageFileName)}")
+//            }
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun copyFile(sourceFile: File, destFile: File) {
+
+
+            if (sourceFile.exists()) {
+
+
+                val source: FileChannel? = FileInputStream(sourceFile).channel
+                val destination: FileChannel = FileOutputStream(destFile).channel
+                if (source != null) {
+                    destination.transferFrom(source, 0, source.size())
+                }
+                source?.close()
+                destination.close()
+            }
+
+    }
+
+    private fun getRealPathFromURI(contentUri: Uri): String? {
+        var res: String? = null
+        val proj = arrayOf(MediaStore.Video.Media.DATA)
+        val cursor: Cursor? = requireActivity().contentResolver.query(contentUri, proj, null, null, null)
+        if (cursor?.moveToFirst()!!) {
+            val column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            res = cursor.getString(column_index)
+        }
+        cursor.close()
+        return res
+    }
+
+
+//    private val collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+//
+//
+//    private val PROJECTION = arrayOf(MediaStore.Images.Media._ID)
+//    private val QUERY = MediaStore.MediaColumns.DISPLAY_NAME + " = ?"
+//
+//    suspend fun getLocalUri(filename: String): Uri? =
+//            withContext(Dispatchers.IO) {
+//                val resolver = requireContext().contentResolver
+//
+//                resolver?.query(collection, PROJECTION, QUERY, arrayOf(filename), null)
+//                        ?.use { cursor ->
+//                            if (cursor.count > 0) {
+//                                cursor.moveToFirst()
+//                                return@withContext ContentUris.withAppendedId(
+//                                        collection,
+//                                        cursor.getLong(0)
+//                                )
+//                            }
+//                        }
+//
+//                null
+//            }
 
 
 
@@ -303,63 +452,25 @@ class CreateTankItemsFragment : Fragment(), View.OnClickListener {
                 selectImage()
             }
             binding.grantItemImagePermissionCard.visibility = View.GONE
-            loadImageIntoImageView()
+            arePermissionAvailable = true
+          //  tankItemListViewModel.getNewUri()?.loadImageIntoImageView()
 
         } else {
             Toast.makeText(requireContext(), resources.getString(R.string.PermRationale), Toast.LENGTH_LONG).show()
             binding.grantItemImagePermissionCard.visibility = View.VISIBLE
+            arePermissionAvailable = false
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
     //endregion
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        super.onActivityResult(requestCode, resultCode, data)
-
-        /* if(data==null){
-            System.out.println("Null data");
-        }*/
-        val fileCreated: Boolean
-        if (resultCode == Activity.RESULT_OK) {
-            Timber.d("Result OK")
-            Timber.d("Request code : $requestCode")
-            if (requestCode == REQUEST_CAMERA) {
-
-                tankItemListViewModel.getEachTankItem().itemUri = tankpicUri.toString()
-                loadImageIntoImageView()
-
-            }
-
-            else if (requestCode == SELECT_FILE) {
-                val tankPicUriFromGallery = data!!.data
-                try {
-
-                    tankItemListViewModel.copyFileWithUri(tankPicUriFromGallery!!,tankpicUri)
-                } catch (e: Exception) {
-                    val msg = if (TextUtils.isEmpty(e.message)) getString(R.string.unknown_error) else e.message!!
-                    Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
-                    Timber.d(msg)
-                }
-
-                //Setting the tankPicUri to the Uri received from gallery
-                //Timber.d(tankPicUriFromGallery.toString())
-                tankItemListViewModel.getEachTankItem().itemUri = tankpicUri.toString()
-                loadImageIntoImageView()
-
-
-            }
-            if(Build.VERSION.SDK_INT<Build.VERSION_CODES.Q) {
-                val scanFileIntent = Intent(
-                        Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, (tankItemListViewModel.getEachTankItem().itemUri).toUri())
-                requireActivity().sendBroadcast(scanFileIntent)
-            }
-        }
+    override fun onDestroy() {
+        alertDialog?.dismiss()
+        super.onDestroy()
     }
 
 
-  
 
 
 }

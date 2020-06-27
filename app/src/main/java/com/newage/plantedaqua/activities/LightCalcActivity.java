@@ -25,7 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.newage.plantedaqua.adapters.LightRecyclerAdapter;
-import com.newage.plantedaqua.helpers.TankDBHelper;
+import com.newage.plantedaqua.dbhelpers.TankDBHelper;
 import com.newage.plantedaqua.models.LightDetails;
 import com.newage.plantedaqua.R;
 

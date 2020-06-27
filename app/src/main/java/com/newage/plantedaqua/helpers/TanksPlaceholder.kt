@@ -22,17 +22,23 @@ import com.newage.plantedaqua.R
 import com.newage.plantedaqua.adapters.RecyclerAdapterInfo
 import com.newage.plantedaqua.adapters.RecyclerAdapterLogs
 import com.newage.plantedaqua.databinding.EachTankDetailLayoutBinding
+import com.newage.plantedaqua.dbhelpers.MyDbHelper
+import com.newage.plantedaqua.dbhelpers.TankDBHelper
 import com.newage.plantedaqua.models.LogData
 import com.newage.plantedaqua.models.TankAdviceInfo
 import com.newage.plantedaqua.models.TanksDetails
+import com.newage.plantedaqua.viewmodels.A1ViewModel
 import kotlinx.android.synthetic.main.each_tank_detail_layout.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment(),View.OnClickListener{
+class TanksPlaceholderFragment : Fragment(),View.OnClickListener{
 
+    val a1ViewModel by sharedViewModel<A1ViewModel>()
+   // private lateinit var tanksDetails: ArrayList<TanksDetails>
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.tankOptionsImage -> showTankOptions()
@@ -43,7 +49,7 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
 
     private val logData2 = java.util.ArrayList<LogData>()
     private val logData1 = java.util.ArrayList<LogData>()
-    private lateinit var myDbHelper:MyDbHelper
+    private lateinit var myDbHelper: MyDbHelper
     private var tankOptionsVisible = true
     private var dosageInfoVisible = false
     private lateinit var adapter2: RecyclerAdapterLogs
@@ -66,8 +72,8 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
     companion object{
        private const val TANKS_FRAGMENT_SECTION_NUMBER = "tank_section_number"
         @JvmStatic
-        fun newInstance(tankDetails:TanksDetails,sectionNumber : Int):TanksPlaceholderFragment{
-            val tanksPlaceholderFragment = TanksPlaceholderFragment(tankDetails)
+        fun newInstance(sectionNumber : Int):TanksPlaceholderFragment{
+            val tanksPlaceholderFragment = TanksPlaceholderFragment()
             val args = Bundle()
             args.putInt(TANKS_FRAGMENT_SECTION_NUMBER,sectionNumber)
             tanksPlaceholderFragment.arguments = args
@@ -76,13 +82,15 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        binding.boundTankDetails=tanksDetails
+
+
+        binding.boundTankDetails = a1ViewModel.getTankDetailsArrayList()!![requireArguments().getInt(TANKS_FRAGMENT_SECTION_NUMBER)]
         Glide.with(this)
-                .load(tanksDetails.tankPicUri)
+                .load(binding.boundTankDetails!!.tankPicUri)
                 .placeholder(R.drawable.aquarium2)
                 .into(binding.imageView)
 
-        myDbHelper = MyDbHelper.newInstance(activity, tanksDetails.tankID)
+        myDbHelper = MyDbHelper.newInstance(activity, binding.boundTankDetails!!.tankID)
 
 
         addDosageText()
@@ -232,12 +240,12 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
 
         binding.apply {
 
-                if (!tanksDetails.microDosageText.isBlank()) {
-                    DosageMicro.text = tanksDetails.microDosageText
+                if (!boundTankDetails!!.microDosageText.isBlank()) {
+                    DosageMicro.text = boundTankDetails!!.microDosageText
                     DosageMicro.setTextColor(ContextCompat.getColor(requireActivity(),R.color.colorAccent))
                 } else DosageMicro.text = requireActivity().resources.getString(R.string.no_data_for_micro_dosage)
-                if (!tanksDetails.macroDosageText.isBlank()) {
-                    DosageMacro.text = tanksDetails.macroDosageText
+                if (!boundTankDetails!!.macroDosageText.isBlank()) {
+                    DosageMacro.text = boundTankDetails!!.macroDosageText
                     DosageMacro.setTextColor(ContextCompat.getColor(requireActivity(),R.color.colorAccent))
                 } else DosageMacro.text = requireActivity().resources.getString(R.string.no_data_for_macro_dose)
             }
@@ -431,7 +439,7 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
         var tankAdviceInfo: TankAdviceInfo
 
         val tankDBHelper = TankDBHelper.newInstance(activity)
-        val c = tankDBHelper.getDataRecoCondition(tankDBHelper.readableDatabase, tanksDetails.tankID)
+        val c = tankDBHelper.getDataRecoCondition(tankDBHelper.readableDatabase, binding.boundTankDetails!!.tankID)
         if (c != null) {
             if (c.moveToFirst()) {
                 do {
@@ -477,14 +485,14 @@ class TanksPlaceholderFragment(private val tanksDetails:TanksDetails) : Fragment
 
 }
 
-class TanksSectionsPagerAdapter(private val tanksDetailsList: ArrayList<TanksDetails>, fm:FragmentManager): FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
+class TanksSectionsPagerAdapter(private val size:Int, fm:FragmentManager): FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
 
     override fun getCount(): Int {
-        return tanksDetailsList.size
+        return size
     }
 
     override fun getItem(position: Int): Fragment {
-        return TanksPlaceholderFragment.newInstance(tanksDetailsList[position],position)
+        return TanksPlaceholderFragment.newInstance(position)
     }
 
     override fun getItemPosition(`object`: Any): Int {

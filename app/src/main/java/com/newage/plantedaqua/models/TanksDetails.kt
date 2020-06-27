@@ -1,6 +1,9 @@
 package com.newage.plantedaqua.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class TanksDetails(
         var tankID : String = "",
         var tankName : String = "",
@@ -18,7 +21,7 @@ data class TanksDetails(
         var tankVolumeMetric : String = "",
         var tankPrice : String = "",
         var currency: String = ""
-) {
+) : Parcelable {
 
 
 }

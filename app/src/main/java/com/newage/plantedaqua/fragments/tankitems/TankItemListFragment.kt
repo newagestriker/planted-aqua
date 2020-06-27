@@ -36,6 +36,7 @@ class TankItemListFragment : Fragment() {
                     tankItemListViewModel.addItemsToAddOrRemove((view as CheckBox).isChecked,pos)
                 }
                 else if(view.id == R.id.editTankImageItemView){
+                    tankItemListViewModel.hasGoneToFragmentB(true)
                     tankItemListViewModel.setEachTankItemLiveDataValue(pos)
                     Navigation.findNavController(view).navigate(R.id.action_tankItemListFragment_to_createTankItemsFragment)
                 }
@@ -43,7 +44,8 @@ class TankItemListFragment : Fragment() {
             }
 
             override fun onItemLongClick(view: View?, pos: Int) {
-                tankItemListViewModel.makeCheckBoxVisible()
+                tankItemListViewModel.setEditMode(true)
+
             }
         })
         itemsRecyclerView.adapter = adapterTankItems
@@ -53,7 +55,6 @@ class TankItemListFragment : Fragment() {
             // val tempArrayList = ArrayList(it)
             val newList = mutableListOf<TankItems>()
             it.forEach { item -> newList.add(item.copy()) }
-
             adapterTankItems.submitList(newList)
         })
 

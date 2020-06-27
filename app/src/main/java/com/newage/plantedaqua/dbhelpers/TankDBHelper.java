@@ -1,4 +1,4 @@
-package com.newage.plantedaqua.helpers;
+package com.newage.plantedaqua.dbhelpers;
 
 import android.content.ContentValues;
 import android.content.Context;

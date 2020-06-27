@@ -25,9 +25,7 @@ import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,7 +34,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -47,10 +44,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.newage.plantedaqua.BuildConfig;
-import com.newage.plantedaqua.helpers.ExpenseDBHelper;
+import com.newage.plantedaqua.dbhelpers.ExpenseDBHelper;
 import com.newage.plantedaqua.R;
-import com.newage.plantedaqua.helpers.TankDBHelper;
+import com.newage.plantedaqua.dbhelpers.TankDBHelper;
 import com.newage.plantedaqua.helpers.TinyDB;
+import com.newage.plantedaqua.models.TanksDetails;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -64,6 +62,7 @@ import java.util.Locale;
 import java.util.Random;
 
 import dmax.dialog.SpotsDialog;
+import timber.log.Timber;
 
 
 public class CreateTankActivity extends AppCompatActivity {
@@ -147,13 +146,27 @@ public class CreateTankActivity extends AppCompatActivity {
 
             if(TANK_NAME_PRESENT) {
 
+
+
                 spotsProgressDialog.show();
                 TankDBHelper tankDBHelper = TankDBHelper.newInstance(this);
                 SQLiteDatabase DB = tankDBHelper.getWritableDatabase();
                 ExpenseDBHelper expenseDBHelper = ExpenseDBHelper.getInstance(this);
                 float numericPrice = Float.parseFloat(price.replace(",","."));
 
-
+                TanksDetails tanksDetails = new TanksDetails();
+                tanksDetails.setTankID(ID);
+                tanksDetails.setTankName(aquaname);
+                tanksDetails.setTankType(aquatype);
+                tanksDetails.setTankPrice(price);
+                tanksDetails.setCurrency(currency);
+                tanksDetails.setTankVolume(volume);
+                tanksDetails.setTankVolumeMetric(volumemetric);
+                tanksDetails.setTankStatus(currentstatus);
+                tanksDetails.setTankStartDate(startupdate);
+                tanksDetails.setTankEndDate(dismantledate);
+                tanksDetails.setTankCO2Supply(co2);
+                tanksDetails.setTankPicUri(s);
 
                 if (mode.equals("creation")) {
 
@@ -189,6 +202,7 @@ public class CreateTankActivity extends AppCompatActivity {
                 intent.putExtra("StartupDate", startupdate);
                 intent.putExtra("Tag", ID);
                 intent.putExtra("Position", position);
+                intent.putExtra("TankItemsObject",tanksDetails);
 
                 setResult(Activity.RESULT_OK, intent);
                 finish();
@@ -606,6 +620,8 @@ public class CreateTankActivity extends AppCompatActivity {
 
             if (image.exists()) filedeleted=image.delete();
 
+            Timber.d("Create Tank Uri%s", tankpicUri.toString());
+
 
         }
 
@@ -658,7 +674,6 @@ public class CreateTankActivity extends AppCompatActivity {
 
             if (requestCode == SELECT_FILE) {
 
-                Uri tankPicUriFromGallery = data.getData();
                 try {
                     fileCreated = image.createNewFile();
                     if (fileCreated) {
@@ -790,15 +805,13 @@ public class CreateTankActivity extends AppCompatActivity {
         FileChannel destination;
         source = new FileInputStream(sourceFile).getChannel();
         destination = new FileOutputStream(destFile).getChannel();
-        if (destination != null && source != null) {
+        if (source != null) {
             destination.transferFrom(source, 0, source.size());
         }
         if (source != null) {
             source.close();
         }
-        if (destination != null) {
-            destination.close();
-        }
+        destination.close();
 
 
     }

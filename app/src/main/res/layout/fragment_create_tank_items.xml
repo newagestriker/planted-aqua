@@ -123,13 +123,12 @@
                         />
 
                     <EditText
-                        android:text="@={boundDetailedTankItem.getEachTankItem().itemName}"
                         android:id="@+id/NameInput"
                         android:layout_width="match_parent"
-                        android:padding="10dp"
-                        android:layout_gravity="bottom"
                         android:layout_height="wrap_content"
-                        />
+                        android:layout_gravity="bottom"
+                        android:padding="10dp"
+                        android:text="@={boundDetailedTankItem.getEachTankItem().itemName}" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -138,6 +137,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        app:visibleGone="@{boundDetailedTankItem.getEachTankItem().itemCategory==`E`}"
                         android:id="@+id/SciNameText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -149,6 +149,7 @@
                         android:text="@string/Sciname" />
 
                     <EditText
+                        app:visibleGone="@{boundDetailedTankItem.getEachTankItem().itemCategory==`E`}"
                         android:text="@={boundDetailedTankItem.getEachTankItem().itemScientificName}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

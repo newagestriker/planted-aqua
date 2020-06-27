@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
@@ -34,7 +33,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.newage.plantedaqua.helpers.ExpenseDBHelper;
+import com.newage.plantedaqua.dbhelpers.ExpenseDBHelper;
 import com.newage.plantedaqua.models.ExpenseItems;
 import com.newage.plantedaqua.adapters.ExpenseTableRecyclerView;
 import com.newage.plantedaqua.R;

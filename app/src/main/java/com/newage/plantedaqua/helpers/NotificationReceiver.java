@@ -20,6 +20,8 @@ import androidx.core.app.RemoteInput;
 import androidx.core.content.ContextCompat;
 
 import com.newage.plantedaqua.R;
+import com.newage.plantedaqua.dbhelpers.MyDbHelper;
+import com.newage.plantedaqua.dbhelpers.NutrientDbHelper;
 
 import static com.newage.plantedaqua.helpers.NotificationHelper.channel1ID;
 import static com.newage.plantedaqua.activities.RamizAlarm.KEY_TEXT_REPLY;
