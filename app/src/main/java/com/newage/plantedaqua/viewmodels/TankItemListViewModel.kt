@@ -36,6 +36,7 @@ class TankItemListViewModel(application: Application,private val tankId: String,
     private var editModeLiveData = MutableLiveData<Boolean>()
     private var checkBoxVisibility = false
     private val settingsDB = TinyDB(application)
+    private val defaultCurrency: String = settingsDB.getString("DefaultCurrencySymbol")
     private var tankPicUriFromGallery : Uri? = null
     private var newUri : Uri? = null
     private var newFile : File? = null
@@ -47,7 +48,7 @@ class TankItemListViewModel(application: Application,private val tankId: String,
 
     init {
 
-        val defaultCurrency = settingsDB.getString("DefaultCurrencySymbol")
+
         var tankItems1 = TankItems()
                val c = myDbHelper!!.getDataTICondition("I_Category", category)
 
@@ -104,9 +105,6 @@ class TankItemListViewModel(application: Application,private val tankId: String,
 
     fun getTankNames() = tankNames
 
-    fun getTankIDFromPosition(pos: Int){
-        Timber.d("Tank ID clicked ${tankIds[pos]}")
-    }
 
     fun setGender(gender:String){
             tankItem.itemGender = gender
@@ -173,6 +171,7 @@ class TankItemListViewModel(application: Application,private val tankId: String,
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
             tankItem.tag = category + "_" + timeStamp
             tankItem.mode = "creation"
+            tankItem.Currency = defaultCurrency
             setNewUri(null)
             setDisplayImageUri(null)
         } else {

@@ -206,7 +206,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:text="@{boundDetailedTankItem.getEachTankItem().currency}"
+                        android:text="@{boundDetailedTankItem.getEachTankItem().Currency}"
                         android:id="@+id/EqCurrencyInput"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
