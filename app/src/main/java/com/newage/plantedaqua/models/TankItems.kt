@@ -1,4 +1,7 @@
 package com.newage.plantedaqua.models
+
+import java.util.*
+
 //TankItems(I_ID text,I_Name text,I_Category text,I_URI text,I_Currency text,I_Price real,I_Quantity integer,I_BuyDate text,I_ExpDate text,I_Gender text,I_Food text,I_Care text,I_Quality text,I_Remarks text,I_Sci_Name text,I_Seller text)");
 data class TankItems(
 
@@ -27,6 +30,13 @@ data class TankItems(
         var itemScientificName : String = "",
         var mode : String = "creation"
 
+
 ){
 
+    fun getNumericPrice() = (if(itemPrice.isBlank()) 0.0f else itemPrice.replace(",",".").toFloat())
+    fun getNumericQuantity() = (if(itemQuantity.isBlank()) 1 else itemQuantity.toInt())
+    fun String.returnOneIfBlank() = if(this.isBlank()) "1" else this
+    fun String.returnZeroIfBlank() = if(this.isBlank()) "0.0" else this
+
+    fun getTotalPrice(quantity : Int, price : Float) = String.format(Locale.getDefault(),"%.2f",(quantity*price))
 }

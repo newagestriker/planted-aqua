@@ -16,11 +16,9 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
-import java.text.FieldPosition
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class TankItemListViewModel(application: Application,private val tankId: String,val category:String) : AndroidViewModel(application) {
 
@@ -49,7 +47,7 @@ class TankItemListViewModel(application: Application,private val tankId: String,
 
     init {
 
-        tankItem.Currency = settingsDB.getString("DefaultCurrencySymbol")
+        val defaultCurrency = settingsDB.getString("DefaultCurrencySymbol")
         var tankItems1 = TankItems()
                val c = myDbHelper!!.getDataTICondition("I_Category", category)
 
@@ -62,7 +60,7 @@ class TankItemListViewModel(application: Application,private val tankId: String,
                     tankItems1 = TankItems()
                     tankItems1.itemName = c.getString(1)?:""
                     tankItems1.itemCategory = c.getString(2)?:""
-                    tankItems1.Currency = c.getString(4)?:""
+                    tankItems1.Currency =  defaultCurrency
                     tankItems1.itemPrice = String.format(Locale.getDefault(),"%.2f", c.getFloat(5))
                     tankItems1.itemQuantity = c.getString(6)?:""
                     tankItems1.itemPurchaseDate = c.getString(7)?:""
@@ -75,30 +73,7 @@ class TankItemListViewModel(application: Application,private val tankId: String,
                     tankItems1.itemSeller = c.getString(15)?:""
                     tankItems1.quickNote = c.getString(13)?:""
                     tankItems1.itemUri = c.getString(3)?:""
-
-                    when (category) {
-                        "E" -> {
-
-
-                                tankItems1.tag = c.getString(0)?:""
-                                tankItems1.txt1 = c.getString(1)?:""
-                                tankItems1.txt2 = c.getInt(6).toString()
-                                tankItems1.txt3 = c.getString(7)?:""
-                                tankItems1.txt4 = c.getString(8)?:""
-
-
-
-                        }
-                        else -> {
-                                tankItems1.tag = c.getString(0)?:""
-                                tankItems1.txt1 = c.getString(1)?:""
-                                tankItems1.txt2 = c.getInt(6).toString()
-                                tankItems1.txt3 = c.getString(13)?:""
-                                tankItems1.txt4 = c.getString(7)?:""
-
-
-                        }
-                    }
+                    tankItems1.tag = c.getString(0)?:""
                     tankItems.add(tankItems1)
                 }while (c.moveToNext())
             }
@@ -131,6 +106,10 @@ class TankItemListViewModel(application: Application,private val tankId: String,
 
     fun getTankIDFromPosition(pos: Int){
         Timber.d("Tank ID clicked ${tankIds[pos]}")
+    }
+
+    fun setGender(gender:String){
+            tankItem.itemGender = gender
     }
 
     fun moveItemToAnotherTank(selectedPosition: Int) {
@@ -190,6 +169,7 @@ class TankItemListViewModel(application: Application,private val tankId: String,
         if(pos ==-1) {
 
            tankItem= TankItems()
+            tankItem.itemCategory = category
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
             tankItem.tag = category + "_" + timeStamp
             tankItem.mode = "creation"
@@ -376,8 +356,11 @@ class TankItemListViewModel(application: Application,private val tankId: String,
                 copyFileWithUri(it,Uri.parse(itemUri))
             }
 
-            val numericPrice = itemPrice.replace(",", ".").toFloat()
-            val numericQuantity = itemQuantity.toInt()
+            itemPrice = itemPrice.returnZeroIfBlank()
+            itemQuantity = itemQuantity.returnOneIfBlank()
+
+            val numericPrice = getNumericPrice()
+            val numericQuantity = getNumericQuantity()
             if(itemPurchaseDate.isBlank()){
                 itemPurchaseDate = "0000-00-00"
             }
@@ -398,11 +381,6 @@ class TankItemListViewModel(application: Application,private val tankId: String,
                     expenseDBHelper.addDataExpense(expenseDBHelper.writableDatabase, tag, aquaname, itemName, dy, mnth, yr, itemPurchaseDate, 0L, numericQuantity, numericPrice, numericPrice * numericQuantity, "", tankId)
                 }
 
-//                Timber.d("Position to modify : $pos")
-//                tankItems[pos] = tankItem
-//                Timber.d("Name at postion : ${tankItems[pos].itemName}")
-//
-//                tankItemsLiveData.value = tankItems
             }
         }
 

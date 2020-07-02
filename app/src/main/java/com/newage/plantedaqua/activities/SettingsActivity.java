@@ -77,5 +77,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
+
+        setResult(RESULT_OK);
     }
 }

@@ -23,6 +23,7 @@ class A1ViewModel(application: Application) : AndroidViewModel(application) {
     private var expenseDBHelper = ExpenseDBHelper.getInstance(application)
     private var tankDBHelper = TankDBHelper.newInstance(application)
     private var tankDetailArrayListLiveData = MutableLiveData<ArrayList<TanksDetails>>()
+    var defaultCurrency : String = tinyDB.getString("DefaultCurrencySymbol")
 
     init {
         tanksDetailsArrayList = ArrayList()
@@ -104,5 +105,8 @@ class A1ViewModel(application: Application) : AndroidViewModel(application) {
             expenseDBHelper!!.deleteExpense("AquariumID", aquariumID)
             nutrientDbHelper.deleteNutrientTables()
         }
+    }
+    fun setDefaultCurrency(){
+        defaultCurrency = tinyDB.getString("DefaultCurrencySymbol")
     }
 }

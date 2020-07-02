@@ -7,6 +7,9 @@
         <variable
             name="boundTankDetails"
             type="com.newage.plantedaqua.models.TanksDetails" />
+        <variable
+            name="a1ViewModel"
+            type="com.newage.plantedaqua.viewmodels.A1ViewModel" />
 
     </data>
 
@@ -146,7 +149,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginLeft="8dp"
-                            android:text="@{boundTankDetails.currency}"
+                            android:text="@{a1ViewModel.defaultCurrency}"
                             android:textColor="@color/highlight"
                             android:textSize="12sp"
                             app:layout_constraintBottom_toBottomOf="@+id/priceText"
@@ -161,7 +164,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginLeft="8dp"
-                            android:text="@{boundTankDetails.currency}"
+                            android:text="@{a1ViewModel.defaultCurrency}"
                             android:textColor="@color/highlight"
                             android:textSize="12sp"
                             app:layout_constraintBottom_toBottomOf="@+id/totalExpenseText"

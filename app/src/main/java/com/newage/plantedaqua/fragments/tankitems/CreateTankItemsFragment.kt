@@ -107,14 +107,9 @@ class CreateTankItemsFragment : Fragment(), View.OnClickListener {
 
         binding.boundDetailedTankItem = tankItemListViewModel
 
+        Timber.d("Category : ${binding.boundDetailedTankItem!!.getEachTankItem().itemCategory}")
 
 
-
-
-//            if (mode == "modification") {
-//                ID = getIntent().getStringExtra("ItemID")
-//                setAllData()
-//            }
 
         binding.apply {
             checkPermissions(object : PermissionGranted {
@@ -172,36 +167,7 @@ class CreateTankItemsFragment : Fragment(), View.OnClickListener {
 
                 it?.loadImageIntoImageView()
             }
-
-//            it.let { uri->{
-//                Timber.d("Uri changed : $uri")
-//                if(arePermissionAvailable){
-//                    uri.loadImageIntoImageView()
-//                }
-//            } }
         })
-
-//            when (category) {
-//                "Fl" -> {
-//                    findViewById<View>(R.id.GenderText).visibility = View.GONE
-//                    findViewById<View>(R.id.FoodText).visibility = View.GONE
-//                    Gender.setVisibility(View.GONE)
-//                    Food.setVisibility(View.GONE)
-//                }
-//                "E" -> {
-//                    findViewById<View>(R.id.GenderText).visibility = View.GONE
-//                    findViewById<View>(R.id.FoodText).visibility = View.GONE
-//                    findViewById<View>(R.id.CareText).visibility = View.GONE
-//                    findViewById<View>(R.id.SciNameText).visibility = View.GONE
-//                    SciInput.setVisibility(View.GONE)
-//                    Gender.setVisibility(View.GONE)
-//                    Food.setVisibility(View.GONE)
-//                    Care.setVisibility(View.GONE)
-//                }
-//                else -> {
-//                }
-//            }
-
 
         return binding.root
     }
@@ -363,67 +329,9 @@ class CreateTankItemsFragment : Fragment(), View.OnClickListener {
                         Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, tankItemListViewModel.getNewUri())
                 requireActivity().sendBroadcast(scanFileIntent)
             }
-//            val job = SupervisorJob()
-//            CoroutineScope(job).launch {
-//                Timber.d("Real URI : ${getLocalUri(imageFileName)}")
-//            }
+
         }
     }
-
-    @Throws(IOException::class)
-    private fun copyFile(sourceFile: File, destFile: File) {
-
-
-            if (sourceFile.exists()) {
-
-
-                val source: FileChannel? = FileInputStream(sourceFile).channel
-                val destination: FileChannel = FileOutputStream(destFile).channel
-                if (source != null) {
-                    destination.transferFrom(source, 0, source.size())
-                }
-                source?.close()
-                destination.close()
-            }
-
-    }
-
-    private fun getRealPathFromURI(contentUri: Uri): String? {
-        var res: String? = null
-        val proj = arrayOf(MediaStore.Video.Media.DATA)
-        val cursor: Cursor? = requireActivity().contentResolver.query(contentUri, proj, null, null, null)
-        if (cursor?.moveToFirst()!!) {
-            val column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            res = cursor.getString(column_index)
-        }
-        cursor.close()
-        return res
-    }
-
-
-//    private val collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-//
-//
-//    private val PROJECTION = arrayOf(MediaStore.Images.Media._ID)
-//    private val QUERY = MediaStore.MediaColumns.DISPLAY_NAME + " = ?"
-//
-//    suspend fun getLocalUri(filename: String): Uri? =
-//            withContext(Dispatchers.IO) {
-//                val resolver = requireContext().contentResolver
-//
-//                resolver?.query(collection, PROJECTION, QUERY, arrayOf(filename), null)
-//                        ?.use { cursor ->
-//                            if (cursor.count > 0) {
-//                                cursor.moveToFirst()
-//                                return@withContext ContentUris.withAppendedId(
-//                                        collection,
-//                                        cursor.getLong(0)
-//                                )
-//                            }
-//                        }
-//
-//                null
-//            }
 
 
 

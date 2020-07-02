@@ -57,6 +57,7 @@ import java.util.*
 class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private val TANK_DETAILS_CREATION = 1
     private val TANK_DETAILS_MODIFICATION = 2
+    private val SETTINGS_REQUEST_CODE = 30
     private var tankDBHelper: TankDBHelper? = null
     private var headerview: View? = null
     private var mGoogleSignInClient: GoogleSignInClient? = null
@@ -446,7 +447,7 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
             startShopActivty()
         } else if (id == R.id.nav_settings) {
             val iSettings = Intent(this, SettingsActivity::class.java)
-            startActivity(iSettings)
+            startActivityForResult(iSettings,SETTINGS_REQUEST_CODE)
         } else if (id == R.id.nav_users_gallery) {
             if (mAuth!!.currentUser != null) {
                 val iUsersGallery = Intent(this, UsersGalleryActivity::class.java)
@@ -623,6 +624,12 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
             } else if (requestCode == LIGHT_ACTIVITY_REQUEST_CODE) {
                 Handler().post { tanksSectionsPagerAdapter!!.notifyDataSetChanged() }
             }
+            else if(requestCode == SETTINGS_REQUEST_CODE)
+                {
+                    a1ViewModel.setDefaultCurrency()
+                    Handler().post { tanksSectionsPagerAdapter!!.notifyDataSetChanged() }
+                }
+
         }
     }
 

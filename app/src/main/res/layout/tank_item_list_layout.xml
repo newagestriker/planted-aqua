@@ -42,11 +42,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@color/customDarkBackground"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/customDarkBackground">
 
             <ImageView
-                app:visibleGoneCheckBox="@{boundTankItems.shown}"
                 android:id="@+id/editTankImageItemView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,7 +53,8 @@
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/edit_tanks" />
+                app:srcCompat="@drawable/edit_tanks"
+                app:visibleGoneCheckBox="@{boundTankItems.shown}" />
 
             <ImageView
                 android:id="@+id/tankItemImage"
@@ -79,53 +79,67 @@
 
             <TextView
                 android:id="@+id/txt1"
-                android:text="@{boundTankItems.itemName}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
+                android:text="@{boundTankItems.itemName}"
                 android:textColor="@color/colorAccent"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/txt2"
                 app:layout_constraintStart_toEndOf="@+id/tankItemImage"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="text1" />
+                tools:text="Name" />
 
             <TextView
                 android:id="@+id/txt2"
-                android:text="@{`Quantity `+boundTankItems.itemQuantity}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{boundTankItems.itemPurchaseDate}"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/txt4"
                 app:layout_constraintStart_toStartOf="@+id/txt1"
                 app:layout_constraintTop_toBottomOf="@+id/txt1"
-                tools:text="text2" />
+                tools:text="2009-12-02" />
 
             <TextView
-                android:text="@{boundTankItems.txt3}"
                 android:id="@+id/txt3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{boundTankItems.currency}"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/txt1"
                 app:layout_constraintTop_toBottomOf="@+id/txt4"
-                tools:text="text3" />
+                tools:text="$" />
 
             <TextView
                 android:id="@+id/txt4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{boundTankItems.txt4}"
+                android:text="@{`Quantity `+boundTankItems.itemQuantity}"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/txt3"
                 app:layout_constraintStart_toStartOf="@+id/txt1"
                 app:layout_constraintTop_toBottomOf="@+id/txt2"
-                tools:text="text4" />
+                tools:text="Quantity" />
+
+            <TextView
+                android:text="@{boundTankItems.getTotalPrice(boundTankItems.getNumericQuantity(),boundTankItems.getNumericPrice())}"
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/txt3"
+                app:layout_constraintStart_toEndOf="@+id/txt3"
+                app:layout_constraintTop_toTopOf="@+id/txt3"
+                tools:text="Total price" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

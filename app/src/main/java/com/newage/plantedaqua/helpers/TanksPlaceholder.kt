@@ -85,6 +85,7 @@ class TanksPlaceholderFragment : Fragment(),View.OnClickListener{
 
 
         binding.boundTankDetails = a1ViewModel.getTankDetailsArrayList()!![requireArguments().getInt(TANKS_FRAGMENT_SECTION_NUMBER)]
+        binding.a1ViewModel = a1ViewModel
         Glide.with(this)
                 .load(binding.boundTankDetails!!.tankPicUri)
                 .placeholder(R.drawable.aquarium2)
@@ -92,7 +93,7 @@ class TanksPlaceholderFragment : Fragment(),View.OnClickListener{
 
         myDbHelper = MyDbHelper.newInstance(activity, binding.boundTankDetails!!.tankID)
 
-
+        a1ViewModel.calcCumExpense(requireArguments().getInt(TANKS_FRAGMENT_SECTION_NUMBER))
         addDosageText()
         upcomingTasks()
         pendingTasks()
