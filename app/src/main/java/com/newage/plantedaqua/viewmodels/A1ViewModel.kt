@@ -72,6 +72,46 @@ class A1ViewModel(application: Application) : AndroidViewModel(application) {
         tankDetailArrayListLiveData.value = tanksDetailsArrayList
     }
 
+    fun updateMicroDetails(selectedFragmentNumber : Int){
+
+        val cursor = tankDBHelper!!.getDataCondition("AquariumID", tanksDetailsArrayList!![selectedFragmentNumber].tankID)
+        cursor?.let {
+            if(it.moveToFirst()){
+                tanksDetailsArrayList!![selectedFragmentNumber].microDosageText = if (cursor.getString(20) == null) "" else cursor.getString(20)
+
+            }
+            it.close()
+        }
+
+    }
+
+    fun updateMacroDetails(selectedFragmentNumber : Int){
+
+        val cursor = tankDBHelper!!.getDataCondition("AquariumID", tanksDetailsArrayList!![selectedFragmentNumber].tankID)
+        cursor?.let {
+            if(it.moveToFirst()){
+                tanksDetailsArrayList!![selectedFragmentNumber].macroDosageText = if (cursor.getString(21) == null) "" else cursor.getString(21)
+
+            }
+            it.close()
+        }
+
+    }
+
+    fun updateTankGallons(selectedFragmentNumber : Int){
+        val cursor = tankDBHelper!!.getDataCondition("AquariumID", tanksDetailsArrayList!![selectedFragmentNumber].tankID)
+        cursor?.let {
+            if(it.moveToFirst()){
+                tanksDetailsArrayList!![selectedFragmentNumber].tankVolume = cursor.getString(7)
+                tanksDetailsArrayList!![selectedFragmentNumber].tankVolumeMetric = cursor.getString(8)
+                tanksDetailsArrayList!![selectedFragmentNumber].tankLightRegion = if (cursor.getString(16) == null) "" else cursor.getString(16)
+            }
+            it.close()
+        }
+
+    }
+
+
     fun calcCumExpense(pos:Int){
 
         var sum = 0f

@@ -622,6 +622,16 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
                 a1ViewModel.calcCumExpense(position)
                 Handler().post { tanksSectionsPagerAdapter!!.notifyDataSetChanged() }
             } else if (requestCode == LIGHT_ACTIVITY_REQUEST_CODE) {
+                val position = data!!.getIntExtra("Position",-1)
+                a1ViewModel.updateTankGallons(position)
+                Handler().post { tanksSectionsPagerAdapter!!.notifyDataSetChanged() }
+            }
+            else if (requestCode == MICRO_ACTIVITY_REQUEST_CODE) {
+                a1ViewModel.updateMicroDetails(viewPager2!!.currentItem)
+                Handler().post { tanksSectionsPagerAdapter!!.notifyDataSetChanged() }
+            }
+            else if (requestCode == MACRO_ACTIVITY_REQUEST_CODE) {
+                a1ViewModel.updateMacroDetails(viewPager2!!.currentItem)
                 Handler().post { tanksSectionsPagerAdapter!!.notifyDataSetChanged() }
             }
             else if(requestCode == SETTINGS_REQUEST_CODE)
@@ -854,8 +864,8 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
             R.id.imageLogOptions -> navigateToSelectedOption(Intent(this, LogsActivity::class.java), viewPager2!!.currentItem, "")
             R.id.imageTaskOptions -> navigateToSelectedOption(Intent(this, TasksActivity::class.java), viewPager2!!.currentItem, "")
             R.id.imageLightOption -> navigateToSelectedOption(Intent(this, LightCalcActivity::class.java), viewPager2!!.currentItem, "Light")
-            R.id.imageMacroOption, R.id.SetMacroValue -> navigateToSelectedOption(Intent(this, MacroNutrientTableActivity::class.java), viewPager2!!.currentItem, "")
-            R.id.imageMicroOption, R.id.SetMicroValue -> navigateToSelectedOption(Intent(this, MicroNutrientTableActivity::class.java), viewPager2!!.currentItem, "")
+            R.id.imageMacroOption, R.id.SetMacroValue -> navigateToSelectedOption(Intent(this, MacroNutrientTableActivity::class.java), viewPager2!!.currentItem, "Macro")
+            R.id.imageMicroOption, R.id.SetMicroValue -> navigateToSelectedOption(Intent(this, MicroNutrientTableActivity::class.java), viewPager2!!.currentItem, "Micro")
             R.id.imageTPAOptions -> navigateToSelectedOption(Intent(this, TankProgressActivity::class.java), viewPager2!!.currentItem, "")
             else -> editTankDetails()
         }
@@ -888,13 +898,21 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
     }
 
     private val LIGHT_ACTIVITY_REQUEST_CODE = 81
+    private val MICRO_ACTIVITY_REQUEST_CODE = 82
+    private val MACRO_ACTIVITY_REQUEST_CODE = 83
     private fun navigateToSelectedOption(intent: Intent, position: Int, itemCategory: String) {
         intent.putExtra("AquariumID", a1ViewModel.getTankDetailsArrayList()!![position].tankID)
         intent.putExtra("AquariumName", a1ViewModel.getTankDetailsArrayList()!![position].tankName)
         intent.putExtra("ItemCategory", itemCategory)
         intent.putExtra("Position", position)
-        if (itemCategory == "Light") {
-            startActivityForResult(intent, LIGHT_ACTIVITY_REQUEST_CODE)
+        val rq = when(itemCategory){
+            "Light" ->  LIGHT_ACTIVITY_REQUEST_CODE
+            "Micro" -> MICRO_ACTIVITY_REQUEST_CODE
+            "Macro" -> MACRO_ACTIVITY_REQUEST_CODE
+            else -> 0
+        }
+        if (itemCategory == "Light" || itemCategory == "Macro" || itemCategory == "Micro") {
+            startActivityForResult(intent, rq)
         } else {
             startActivity(intent)
         }

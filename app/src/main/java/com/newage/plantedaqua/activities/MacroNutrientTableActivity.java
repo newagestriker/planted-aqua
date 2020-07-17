@@ -320,6 +320,8 @@ public class MacroNutrientTableActivity extends AppCompatActivity {
                 Calculate();
             }
         });
+
+        setResult(RESULT_OK);
     }
 
     private void addSets() {

@@ -73,8 +73,6 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
         // TODO : Increase minimum position to make delete button visible as new values are added here
 
     }
-    private double volume = 0d;
-    private String volumeMetric = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,8 +99,8 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
             c = tankDBHelper.getDataCondition("AquariumID", aquariumid);
             if (c.moveToFirst()) {
 
-                volume = c.getString(7).equals("")?0 : Double.parseDouble(c.getString(7));
-                volumeMetric = c.getString(8);
+                double volume = c.getString(7).equals("") ? 0 : Double.parseDouble(c.getString(7));
+                String volumeMetric = c.getString(8);
                 c.close();
 
 
@@ -111,14 +109,14 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
                 } else {
                     VolumeUnit.check(R.id.GallonBox);
                     if (volumeMetric.equals("UK Gallon")) {
-                        volume = Math.round(volume*120d)/100d;
+                        volume = Math.round(volume *120d)/100d;
 
                     }
 
 
                 }
 
-                tankvolume.setText(String.format(Locale.getDefault(),"%.2f",volume));
+                tankvolume.setText(String.format(Locale.getDefault(),"%.2f", volume));
             }
         }
 
@@ -242,6 +240,7 @@ public class MicroNutrientTableActivity extends AppCompatActivity {
                 Calculate();
             }
         });
+        setResult(RESULT_OK);
     }
 
     public void Calculate() {
