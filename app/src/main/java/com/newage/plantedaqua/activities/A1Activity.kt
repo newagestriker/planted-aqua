@@ -17,8 +17,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -36,21 +39,16 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.*
 import com.newage.plantedaqua.BuildConfig
 import com.newage.plantedaqua.R
-import com.newage.plantedaqua.activities.A1Activity
 import com.newage.plantedaqua.adapters.ShowcaseRecyclerAdapter
 import com.newage.plantedaqua.dbhelpers.ExpenseDBHelper
 import com.newage.plantedaqua.dbhelpers.MyDbHelper
-import com.newage.plantedaqua.dbhelpers.NutrientDbHelper
 import com.newage.plantedaqua.dbhelpers.TankDBHelper
-import com.newage.plantedaqua.helpers.TanksPlaceholderFragment
-import com.newage.plantedaqua.helpers.TanksSectionsPagerAdapter
 import com.newage.plantedaqua.helpers.TinyDB
 import com.newage.plantedaqua.models.GalleryInfo
 import com.newage.plantedaqua.models.TanksDetails
 import com.newage.plantedaqua.viewmodels.A1ViewModel
 import com.onesignal.OneSignal
 import dmax.dialog.SpotsDialog
-import org.koin.androidx.viewmodel.compat.ScopeCompat.viewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -844,12 +842,12 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
     }
 
     //region EACH TANK IN VIEWPAGER
-    private var tanksSectionsPagerAdapter: TanksSectionsPagerAdapter? = null
-    private var viewPager2: ViewPager? = null
-    private var expenseDBHelper: ExpenseDBHelper? = null
+
+    private var tanksSectionsPagerAdapter: FragmentStateAdapter? = null
+    private var viewPager2: ViewPager2? = null
     private fun loadViewPagerTankDetails() {
         viewPager2 = findViewById(R.id.TanksViewPager)
-        tanksSectionsPagerAdapter = TanksSectionsPagerAdapter(a1ViewModel.getTankDetailsArrayList()!!.size, supportFragmentManager)
+        tanksSectionsPagerAdapter = a1ViewModel.getTankSectionPagerAdapter(supportFragmentManager,lifecycle)
         viewPager2!!.adapter = tanksSectionsPagerAdapter
     }
 

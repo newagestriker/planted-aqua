@@ -2,12 +2,19 @@ package com.newage.plantedaqua.viewmodels
 
 import android.app.Application
 import android.database.Cursor
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.newage.plantedaqua.dbhelpers.ExpenseDBHelper
 import com.newage.plantedaqua.dbhelpers.NutrientDbHelper
 import com.newage.plantedaqua.dbhelpers.TankDBHelper
-
+import com.newage.plantedaqua.helpers.TanksPlaceholderFragment
 import com.newage.plantedaqua.helpers.TinyDB
 import com.newage.plantedaqua.models.TanksDetails
 import kotlinx.coroutines.CoroutineScope
@@ -27,9 +34,9 @@ class A1ViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         tanksDetailsArrayList = ArrayList()
-        var tanksDetails = TanksDetails()
+        var tanksDetails: TanksDetails
         var c: Cursor?
-        var sum = 0f
+        var sum: Float
         val cursor = tankDBHelper!!.getData(tankDBHelper!!.readableDatabase)
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -71,6 +78,8 @@ class A1ViewModel(application: Application) : AndroidViewModel(application) {
         }
         tankDetailArrayListLiveData.value = tanksDetailsArrayList
     }
+
+    fun getTankSectionPagerAdapter(fm: FragmentManager,lifecycle: Lifecycle) = TanksSectionsPagerAdapter(fm,lifecycle)
 
     fun updateMicroDetails(selectedFragmentNumber : Int){
 
@@ -149,4 +158,21 @@ class A1ViewModel(application: Application) : AndroidViewModel(application) {
     fun setDefaultCurrency(){
         defaultCurrency = tinyDB.getString("DefaultCurrencySymbol")
     }
+
+    fun getTankDetailsArrayListLength()=tanksDetailsArrayList!!.size
+
+
+    inner class TanksSectionsPagerAdapter( fm: FragmentManager,lifecycle: Lifecycle): FragmentStateAdapter(fm,lifecycle){
+
+
+        override fun getItemCount(): Int {
+            return tanksDetailsArrayList!!.size
+        }
+
+        override fun createFragment(position: Int): Fragment {
+           return TanksPlaceholderFragment.newInstance(position)
+        }
+    }
+
+
 }

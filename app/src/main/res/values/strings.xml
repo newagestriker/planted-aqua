@@ -180,7 +180,7 @@
     <string name="UserDeclined">User declined your request!!!</string>
     <string name="ViewRefreshed">View Refreshed</string>
     <string name="AppUpdated">We noticed some configuration changes in your app. It is recommended that you reboot your device for the app to function properly</string>
-    <string name="Version">Version 9.1.0</string>
+    <string name="Version">Version 9.1.1</string>
     <string name="Help">Help</string>
     <string name="Notifications">Notifications</string>
     <string name="CD">Image</string>

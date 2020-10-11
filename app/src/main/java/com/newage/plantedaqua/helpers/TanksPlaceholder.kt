@@ -12,11 +12,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.newage.plantedaqua.R
 import com.newage.plantedaqua.adapters.RecyclerAdapterInfo
@@ -26,7 +23,6 @@ import com.newage.plantedaqua.dbhelpers.MyDbHelper
 import com.newage.plantedaqua.dbhelpers.TankDBHelper
 import com.newage.plantedaqua.models.LogData
 import com.newage.plantedaqua.models.TankAdviceInfo
-import com.newage.plantedaqua.models.TanksDetails
 import com.newage.plantedaqua.viewmodels.A1ViewModel
 import kotlinx.android.synthetic.main.each_tank_detail_layout.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -37,8 +33,7 @@ import kotlin.collections.ArrayList
 
 class TanksPlaceholderFragment : Fragment(),View.OnClickListener{
 
-    val a1ViewModel by sharedViewModel<A1ViewModel>()
-   // private lateinit var tanksDetails: ArrayList<TanksDetails>
+    private val a1ViewModel by sharedViewModel<A1ViewModel>()
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.tankOptionsImage -> showTankOptions()
@@ -486,18 +481,4 @@ class TanksPlaceholderFragment : Fragment(),View.OnClickListener{
 
 }
 
-class TanksSectionsPagerAdapter(private val size:Int, fm:FragmentManager): FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
-
-    override fun getCount(): Int {
-        return size
-    }
-
-    override fun getItem(position: Int): Fragment {
-        return TanksPlaceholderFragment.newInstance(position)
-    }
-
-    override fun getItemPosition(`object`: Any): Int {
-        return PagerAdapter.POSITION_NONE
-    }
-}
 
