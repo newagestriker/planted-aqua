@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.newage.plantedaqua.di.dbModules
 import com.newage.plantedaqua.di.vModules
 import com.newage.plantedaqua.helpers.PlantedAquaNotificationOpenedHandler
+import com.newage.plantedaqua.helpers.TinyDB
 import com.onesignal.OneSignal
 
 import org.koin.android.ext.koin.androidContext
@@ -33,6 +34,7 @@ class PlantedAquaApplication : Application() {
             modules(listOf(vModules, dbModules))
         }
 
+
         val plantedAquaNotificationOpenedHandler = PlantedAquaNotificationOpenedHandler(applicationContext)
         OneSignal.startInit(applicationContext) //   .setNotificationReceivedHandler(new PlantedAquaNotificationReceivedHandler(getApplicationContext()))
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
@@ -40,6 +42,10 @@ class PlantedAquaApplication : Application() {
                 .setNotificationOpenedHandler(plantedAquaNotificationOpenedHandler)
                 .init()
         if (FirebaseAuth.getInstance().currentUser != null) OneSignal.sendTag("User_ID", FirebaseAuth.getInstance().currentUser!!.uid)
+        val userOptedForChatNotification: TinyDB? = TinyDB(this)
+        val isChecked = userOptedForChatNotification?.getBoolean(Constants.userOptedForChatNotification)
+        OneSignal.sendTag("Opted",(if (isChecked!!) "Y" else "N"))
+
     }
 
 

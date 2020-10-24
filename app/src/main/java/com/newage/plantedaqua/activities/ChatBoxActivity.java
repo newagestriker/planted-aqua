@@ -2,6 +2,7 @@ package com.newage.plantedaqua.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,11 +11,15 @@ import android.os.Bundle;
 
 import android.text.TextUtils;
 
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,23 +28,25 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.newage.plantedaqua.Constants;
 import com.newage.plantedaqua.adapters.ChatRecyclerAdapter;
 import com.newage.plantedaqua.helpers.CloudNotificationHelper;
 import com.newage.plantedaqua.models.ChatBoxObject;
 import com.newage.plantedaqua.R;
 import com.newage.plantedaqua.helpers.TinyDB;
+import com.onesignal.OneSignal;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import timber.log.Timber;
 
 
 public class ChatBoxActivity extends AppCompatActivity {
 
-    private ImageView sendImageView;
     private EditText messageTextView;
     private FirebaseAuth firebaseAuth;
-    private String displayName="";
+    private String displayName = "";
     private DatabaseReference chatDatabase;
     private String userID;
     private String sequenceNumber;
@@ -48,7 +55,25 @@ public class ChatBoxActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private TinyDB tinyDB;
+    private TinyDB userOptedForChatNotification;
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toggle, menu);
+        MenuItem menuItem = menu.findItem(R.id.toggle_notification_switch);
+        SwitchCompat toggleNotificationSwitch = (SwitchCompat) menuItem.getActionView();
+        toggleNotificationSwitch.setText(R.string.notify_me);
+
+        userOptedForChatNotification = new TinyDB(this.getApplicationContext());
+        toggleNotificationSwitch.setChecked(userOptedForChatNotification.getBoolean(Constants.userOptedForChatNotification));
+        toggleNotificationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            userOptedForChatNotification.putBoolean(Constants.userOptedForChatNotification,isChecked);
+            OneSignal.sendTag("Opted",isChecked?"Y":"N");
+            Timber.d(Boolean.toString(isChecked));
+    });
+        return super.onCreateOptionsMenu(menu);
+    }
 
 
     @Override
@@ -61,18 +86,15 @@ public class ChatBoxActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        if(firebaseAuth.getCurrentUser()==null){
-            Toast.makeText(this,"Sorry!! You must be logged in to see all chats..",Toast.LENGTH_LONG).show();
+        if (firebaseAuth.getCurrentUser() == null) {
+            Toast.makeText(this, "Sorry!! You must be logged in to see all chats..", Toast.LENGTH_LONG).show();
             finish();
-        }
-        else {
+        } else {
 
-            sendImageView = findViewById(R.id.SendChatMessage);
+            ImageView sendImageView = findViewById(R.id.SendChatMessage);
             messageTextView = findViewById(R.id.MessageText);
             chatRecyclerView = findViewById(R.id.ChatRecyclerView);
             final LinearLayout chatBannerLayout = findViewById(R.id.ChatBannerlayout);
-
-
 
 
             tinyDB = new TinyDB(getApplicationContext());
@@ -135,53 +157,7 @@ public class ChatBoxActivity extends AppCompatActivity {
     }
 
 
-    private void getAllChats(){
-
-        /*Cursor cursor = chatDBHelper.getData(chatDBHelper.getReadableDatabase());
-        //ChatDB(id integer primary key,SN integer,DN text,MSG text,PU text,TS text)");
-
-        long lastSNinDB=1L;
-        if(cursor.moveToFirst()){
-            do{
-
-                chatBoxObject = new ChatBoxObject();
-                chatBoxObject.setSN(Long.toString(cursor.getLong(1)));
-                chatBoxObject.setDN(cursor.getString(2));
-                chatBoxObject.setMSG(cursor.getString(3));
-                chatBoxObject.setPU(cursor.getString(4));
-                chatBoxObject.setTS(cursor.getString(5));
-                chatBoxObject.setUID(cursor.getString(6));
-
-
-                chatBoxObjects.add(chatBoxObject);
-                adapter.notifyItemInserted(chatBoxObjects.size()-1);
-                lastSNinDB = cursor.getLong(1);
-
-
-            }while (cursor.moveToNext());
-
-
-        }
-        cursor.close();
-
-        FirebaseDatabase.getInstance().getReference("MSN").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-              finalSN = TextUtils.isEmpty(dataSnapshot.getValue(String.class))?1L:Long.parseLong(dataSnapshot.getValue(String.class));
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        while (lastSNinDB<finalSN){
-
-            getEachChatFromDatabase(lastSNinDB++);
-        }*/
+    private void getAllChats() {
 
 
         chatDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -192,16 +168,13 @@ public class ChatBoxActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                     chatBoxObjects.add(snapshot.getValue(ChatBoxObject.class));
-                    adapter.notifyItemInserted(chatBoxObjects.size()-1);
+                    adapter.notifyItemInserted(chatBoxObjects.size() - 1);
                     layoutManager.scrollToPosition(chatBoxObjects.size() - 1);
-//                    Log.i("Adapter_size",Integer.toString(chatBoxObjects.size()));
+
 
                 }
 
 
-
-
-
             }
 
             @Override
@@ -209,42 +182,20 @@ public class ChatBoxActivity extends AppCompatActivity {
 
             }
         });
-
 
 
     }
 
-    /*private void getEachChatFromDatabase(long seqNum){
-
-        chatDatabase.child(Long.toString(seqNum)).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                chatBoxObjects.add(dataSnapshot.getValue(ChatBoxObject.class));
-                adapter.notifyItemInserted(chatBoxObjects.size()-1);
-                Log.i("Adapter_size",Integer.toString(chatBoxObjects.size()));
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-    }*/
 
     ChatBoxObject chatBoxObject;
 
-    private void sendMessage(final String send_msg, final String PU){
-
+    private void sendMessage(final String send_msg, final String PU) {
 
 
         final Calendar calendar = Calendar.getInstance();
 
 
-        messageTextView .setText("");
+        messageTextView.setText("");
 
         final String timeStamp = Long.toString(calendar.getTimeInMillis());
 
@@ -257,11 +208,10 @@ public class ChatBoxActivity extends AppCompatActivity {
         chatBoxObject.setUID(userID);
 
         chatBoxObjects.add(chatBoxObject);
-        adapter.notifyItemInserted(chatBoxObjects.size()-1);
-        layoutManager.scrollToPosition(chatBoxObjects.size()-1);
+        adapter.notifyItemInserted(chatBoxObjects.size() - 1);
+        layoutManager.scrollToPosition(chatBoxObjects.size() - 1);
 
-       // notifyAllUsers(PU,send_msg);
-
+        // notifyAllUsers(PU,send_msg);
 
 
         FirebaseDatabase.getInstance().getReference("MSN").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -272,53 +222,34 @@ public class ChatBoxActivity extends AppCompatActivity {
 
                 sequenceNumber = dataSnapshot.getValue(String.class);
 
-                if(TextUtils.isEmpty(sequenceNumber)){
-                    sn=1L;
-                }
-                else if (Long.parseLong(sequenceNumber)>1000L){
+                if (TextUtils.isEmpty(sequenceNumber)) {
+                    sn = 1L;
+                } else if (Long.parseLong(sequenceNumber) > 1000L) {
 
-                    long deleteSn = Long.parseLong(sequenceNumber)-1000L;
-
+                    long deleteSn = Long.parseLong(sequenceNumber) - 1000L;
 
 
                     FirebaseDatabase.getInstance().getReference("CH").child(Long.toString(deleteSn)).removeValue();
 
-                    sn = Long.parseLong(sequenceNumber)+1;
+                    sn = Long.parseLong(sequenceNumber) + 1;
 
+
+                } else {
+
+                    sn = Long.parseLong(sequenceNumber) + 1;
 
                 }
-                else{
-
-                    sn = Long.parseLong(sequenceNumber)+1;
-
-                }
-
-
 
 
                 FirebaseDatabase.getInstance().getReference("MSN").setValue(Long.toString(sn));
 
-                notifyAllUsers(PU,send_msg);
+                notifyAllUsers(PU, send_msg);
 
-
-/*
-                chatDatabase.child(userID+"_"+timeStamp).child("SN").setValue(Long.toString(sn));
-                chatDatabase.child(userID+"_"+timeStamp).child("DN").setValue(displayName);
-                chatDatabase.child(userID+"_"+timeStamp).child("MSG").setValue(send_msg);
-                chatDatabase.child(userID+"_"+timeStamp).child("PU").setValue(PU);
-
-                chatDatabase.child(userID+"_"+timeStamp).child("TS").setValue(timeStamp);*/
 
                 chatBoxObject.setSN(Long.toString(sn));
 
 
                 chatDatabase.child(Long.toString(sn)).setValue(chatBoxObject);
-
-
-
-
-
-
 
 
             }
@@ -332,20 +263,12 @@ public class ChatBoxActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
     }
 
-    private void notifyAllUsers(final String PU, final String send_msg){
+    private void notifyAllUsers(final String PU, final String send_msg) {
 
         CloudNotificationHelper cloudNotificationHelper = new CloudNotificationHelper(this);
-        cloudNotificationHelper.sendCloudNotification(send_msg,PU, CloudNotificationHelper.MsgType.allUsers,firebaseAuth.getCurrentUser().getUid(),"All",displayName+" says",displayName,"all_users");
-
-
-
+        cloudNotificationHelper.sendCloudNotification(send_msg, PU, CloudNotificationHelper.MsgType.allUsers, firebaseAuth.getCurrentUser().getUid(), "All", displayName + " says", displayName, "all_users");
 
 
     }

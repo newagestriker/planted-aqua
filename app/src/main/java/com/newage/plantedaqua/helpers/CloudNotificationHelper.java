@@ -13,6 +13,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+import timber.log.Timber;
+
 public class CloudNotificationHelper {
 
     public enum MsgType{
@@ -85,6 +87,8 @@ public class CloudNotificationHelper {
 
                                         + "\"large_icon\": \"" + photoUrl + "\","
 
+                                        + "\"filters\": [{\"field\": \"tag\", \"key\": \"Opted\", \"relation\": \"=\", \"value\": \"Y\"}],"
+
                                         + "\"data\": {\"msg\": \"" + msg + "\",\"PU\": \"" + photoUrl + "\",\"msg_cat\": \""+msgCat+"\",\"DN\": \"" + displayName + "\",\"UID\": \"" + from_user + "\",\"to_user\":\""+to_user +"\"},"
                                         + "\"contents\": {\"en\": \"" + msg + "\"}"
                                         + "}";
@@ -94,7 +98,7 @@ public class CloudNotificationHelper {
 
                         }
 
-                        Log.i("JSON_RESPONSE",strJsonBody);
+                        Timber.i(strJsonBody);
 
 
                         // System.out.println("strJsonBody:\n" + strJsonBody);

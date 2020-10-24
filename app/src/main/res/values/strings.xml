@@ -299,6 +299,7 @@
     <string name="save_tank_item_details">Save tank item details</string>
     <string name="cancel_edit_mode">cancel edit mode</string>
     <string name="fish_food_hint">Bloodworms, Pellets,etc</string>
+    <string name="notify_me">NOTIFY ME</string>
 
 
 </resources>

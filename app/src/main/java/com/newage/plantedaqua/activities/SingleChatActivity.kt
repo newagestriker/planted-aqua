@@ -57,7 +57,6 @@ class SingleChatActivity : AppCompatActivity() {
 
 
     private var other_party: String? = null
-    private var DN: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
 
         SINGLE_CHAT_ACTIVITY_RUNNING = true
@@ -85,8 +84,8 @@ class SingleChatActivity : AppCompatActivity() {
             val PU = if (TextUtils.isEmpty(firebaseAuth!!.currentUser!!.photoUrl.toString())) "" else firebaseAuth!!.currentUser!!.photoUrl.toString()
             sendImageView.setOnClickListener(View.OnClickListener {
                 val send_msg: String
-                if (!TextUtils.isEmpty(messageTextView.getText().toString())) {
-                    send_msg = messageTextView.getText().toString()
+                if (!TextUtils.isEmpty(messageTextView.text.toString())) {
+                    send_msg = messageTextView.text.toString()
                     sendMessage(send_msg, PU)
                 }
             })
@@ -172,32 +171,6 @@ class SingleChatActivity : AppCompatActivity() {
         chatRecyclerView.adapter = (singleChatAdapter)
         layoutManager.scrollToPosition(singleChatObjects!!.size - 1)
         messageTextView.setOnClickListener(View.OnClickListener { layoutManager.scrollToPosition(singleChatObjects!!.size - 1) })
-
-
-//        val calendar = Calendar.getInstance()
-//        val timeStamp = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(Date())
-
-
-//        if(intent.getStringExtra("carrier").equals("Notification")) {
-//
-//            singleChatObject = SingleChatObject()
-//            singleChatObject!!.chatMsg = intent.getStringExtra("Msg")
-//            singleChatObject!!.chatPhotoURL = intent.getStringExtra("PU")
-//            other_party = intent.getStringExtra("from_user")
-//            DN = if (TextUtils.isEmpty(intent.getStringExtra("DN"))) "Unknown User" else intent.getStringExtra("DN")
-//            singleChatObject!!.chatDisplayName = DN!!
-//            singleChatObject!!.chatUserType = "other_party"
-//            singleChatObject!!.chatID = calendar.timeInMillis
-//            singleChatObject!!.chatTime = timeStamp
-//            singleChatObject!!.chatUserID = other_party!!
-//
-//            singleChatObjects!!.add(singleChatObject!!)
-//            singleChatAdapter!!.notifyItemInserted(singleChatObjects!!.size - 1)
-//
-//            layoutManager.scrollToPosition(singleChatObjects!!.size - 1)
-//        }
-
-
     }
 
 

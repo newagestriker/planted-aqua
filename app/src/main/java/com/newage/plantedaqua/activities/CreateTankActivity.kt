@@ -178,11 +178,11 @@ class CreateTankActivity : AppCompatActivity() {
         DismantleDate = findViewById(R.id.DismantleDateInput)
         checkPermissions(object : PermissionGranted {
             override fun onPermissionsAvailable() {
-                requestPermissionCard!!.setVisibility(View.GONE)
+                requestPermissionCard!!.visibility = View.GONE
             }
 
             override fun onPermissionsNotAvailable() {
-                requestPermissionCard!!.setVisibility(View.VISIBLE)
+                requestPermissionCard!!.visibility = View.VISIBLE
             }
         })
         requestPermissionButton.setOnClickListener { v: View? -> requestPermissions(REQ_CODE_FOR_BUTTON_VISIBILITY) }
@@ -506,10 +506,8 @@ class CreateTankActivity : AppCompatActivity() {
         if (!sourceFile.exists()) {
             return
         }
-        val source: FileChannel?
-        val destination: FileChannel
-        source = FileInputStream(sourceFile).channel
-        destination = FileOutputStream(destFile).channel
+        val source: FileChannel? = FileInputStream(sourceFile).channel
+        val destination: FileChannel = FileOutputStream(destFile).channel
         if (source != null) {
             destination.transferFrom(source, 0, source.size())
         }
