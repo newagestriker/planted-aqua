@@ -1,7 +1,18 @@
 package com.newage.plantedaqua.services.localfileservices
 
-interface ILocalFileService {
-    fun createFile(onSuccess: () -> Unit, onFailure: () -> Unit, onError: () -> Unit);
-    fun deleteFile(onSuccess: () -> Unit, onFailure: () -> Unit, onError: () -> Unit);
-    fun updateFile(onSuccess: () -> Unit, onFailure: () -> Unit, onError: () -> Unit);
+import android.content.Context
+
+interface ILocalFileCGService {
+    fun createFile(
+        context: Context,
+        onSuccess: () -> Unit,
+        onError: (e:Exception) -> Unit
+    );
+
+    fun getFile(
+        context: Context,
+        onSuccess: () -> Unit,
+        onError: (e:Exception) -> Unit
+    );
+
 }

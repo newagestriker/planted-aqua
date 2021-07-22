@@ -14,7 +14,7 @@ import com.newage.plantedaqua.adapters.ShowcaseRecyclerAdapter
 import com.newage.plantedaqua.dbhelpers.MyDbHelper
 import com.newage.plantedaqua.models.TankItems
 import com.newage.plantedaqua.viewmodels.TankItemListViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 import kotlin.collections.ArrayList

@@ -1,4 +1,13 @@
 package com.newage.plantedaqua.services.permissionservices
 
-class ILocalPermissionService {
+interface ILocalPermissionService {
+    val permissions: Array<String>
+    fun requestPermissions()
+    fun onRequestPermissionResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray,
+        onPermissionsGranted: () -> Unit,
+        onPermissionsNotGranted: () -> Unit
+    )
 }

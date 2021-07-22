@@ -25,7 +25,7 @@ import com.newage.plantedaqua.models.LogData
 import com.newage.plantedaqua.models.TankAdviceInfo
 import com.newage.plantedaqua.viewmodels.A1ViewModel
 import kotlinx.android.synthetic.main.each_tank_detail_layout.*
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList

@@ -16,7 +16,7 @@ import com.newage.plantedaqua.models.Plants
 import com.newage.plantedaqua.viewmodels.PlantDatabaseActivityViewModel
 
 import kotlinx.android.synthetic.main.fragment_plant_list.view.*
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 
 class PlantList : Fragment() {

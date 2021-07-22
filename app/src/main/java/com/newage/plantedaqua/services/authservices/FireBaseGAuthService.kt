@@ -1,15 +1,16 @@
-package com.newage.plantedaqua.helpers
+package com.newage.plantedaqua.services.authservices
 
 
 import android.app.Activity
-import android.util.Log
+import android.content.Intent
 import android.widget.Toast
-import androidx.core.view.GravityCompat
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -18,15 +19,20 @@ import timber.log.Timber
 import java.util.*
 
 
-class FireBaseGAuthHelper(private val activity: Activity) {
+class FireBaseGAuthService(private val activity: Activity) : IAuthService<FirebaseUser> {
 
     companion object {
         private const val RC_SIGN_IN = 47
     }
 
+    override var user: FirebaseUser? = null
+    override fun hasLoggedOut(): LiveData<Boolean> = hasLoggedOut
+    private var firebaseError = MutableLiveData<String?>()
+    override var error: LiveData<String?> = firebaseError
+
     private var mGoogleSignInClient: GoogleSignInClient
-    private var userLiveData = MutableLiveData<FirebaseUser?>()
-    private val mAuth = FirebaseAuth.getInstance()
+    private var hasLoggedOut = MutableLiveData<Boolean>()
+    val mAuth = FirebaseAuth.getInstance()
 
     init {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -35,13 +41,11 @@ class FireBaseGAuthHelper(private val activity: Activity) {
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(activity, gso)
 
-        val user = mAuth.currentUser
-        user?.let {
-            userLiveData.value = it
-        }
+        user = mAuth.currentUser // To add user data if user is already logged in
+
     }
 
-    private fun signIn() {
+    override fun signIn() {
         val signInIntent = mGoogleSignInClient.signInIntent
         activity.startActivityForResult(signInIntent, RC_SIGN_IN)
     }
@@ -53,23 +57,45 @@ class FireBaseGAuthHelper(private val activity: Activity) {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     mAuth.currentUser?.let {
-                        userLiveData.value = it
+                        user = it
+                        hasLoggedOut.value = false
                     }
                     // progressDialog.dismiss();
-
+                    firebaseError.value = null
                 } else {
                     // If sign in fails, display a message to the user.
-                    Timber.e("Firebase Error " + task.exception?.message!!);
+                    Timber.e("Firebase Error %s", task.exception?.message!!);
+                    firebaseError.value = task.exception?.message!!
                     try {
                         throw Objects.requireNonNull(task.exception)!!
                     } catch (e: Exception) {
-                        Timber.e("Firebase Error " + e.message!!);
+                        Timber.e("Firebase Error %s", e.message!!);
+                        firebaseError.value = e.message
                     }
-                    userLiveData.value = null
+
+                    user = null
                 }
 
                 // ...
             }
+    }
+
+    override fun signOut() {
+        mAuth.signOut()
+        hasLoggedOut.value = true
+    }
+
+    override fun onSignInSuccess(data:Intent?) {
+        val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+        try {
+            // Google Sign In was successful, authenticate with Firebase
+            val account = task.getResult(ApiException::class.java)
+            firebaseAuthWithGoogle(account)
+
+        } catch (e: ApiException) {
+            firebaseError.value = e.message
+            // progressDialog.cancel();
+        }
     }
 
 

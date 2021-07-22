@@ -13,7 +13,9 @@ import com.newage.plantedaqua.R
 import com.newage.plantedaqua.adapters.ShowcaseRecyclerAdapter
 import com.newage.plantedaqua.models.TankItems
 import com.newage.plantedaqua.viewmodels.TankItemListViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
+
+
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 

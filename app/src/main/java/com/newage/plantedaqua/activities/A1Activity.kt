@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -46,10 +47,14 @@ import com.newage.plantedaqua.dbhelpers.TankDBHelper
 import com.newage.plantedaqua.helpers.TinyDB
 import com.newage.plantedaqua.models.GalleryInfo
 import com.newage.plantedaqua.models.TanksDetails
+import com.newage.plantedaqua.services.authservices.IAuthService
 import com.newage.plantedaqua.viewmodels.A1ViewModel
 import com.onesignal.OneSignal
 import dmax.dialog.SpotsDialog
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
+import org.koin.java.KoinJavaComponent
 import java.util.*
 
 class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -58,16 +63,14 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
     private val SETTINGS_REQUEST_CODE = 30
     private var tankDBHelper: TankDBHelper? = null
     private var headerview: View? = null
-    private var mGoogleSignInClient: GoogleSignInClient? = null
-    private var mAuth: FirebaseAuth? = null
-    private var user: FirebaseUser? = null
     private var userGSignIn: View? = null
     private var drawer: DrawerLayout? = null
     private var instructionText: TextView? = null
     private var devRef: DatabaseReference? = null
     private var spotsProgressDialog: android.app.AlertDialog? = null
-    private val a1ViewModel : A1ViewModel by viewModel()
-    private var tinyDB : TinyDB? = null
+    private val a1ViewModel: A1ViewModel by viewModel()
+    private var tinyDB: TinyDB? = null
+    private val authService: IAuthService<FirebaseUser> by inject { parametersOf(this@A1Activity) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val rebootRequired = TinyDB(this)
@@ -82,72 +85,107 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         setAlarmForNewVersion()
         if (storedVersionCode > 0 && storedVersionCode != currentVersionCode) {
             builder.setTitle(resources.getString(R.string.Attention))
-                    .setMessage(resources.getString(R.string.AppUpdated))
-                    .setNeutralButton(resources.getString(R.string.OK)) { dialog, which -> dialog.dismiss() }.create().show()
+                .setMessage(resources.getString(R.string.AppUpdated))
+                .setNeutralButton(resources.getString(R.string.OK)) { dialog, which -> dialog.dismiss() }
+                .create().show()
         }
         rebootRequired.putInt("STORED_VERSION_CODE", currentVersionCode)
         setContentView(R.layout.activity_a1)
         userTankImagesRecyclerView = findViewById(R.id.ShowcaseTankRecyclerView)
         loadBannerAd()
         instructionText = findViewById(R.id.InstructionText)
-        mAuth = FirebaseAuth.getInstance()
-        user = mAuth!!.currentUser
-        if (user != null) {
+
+        if (authService.user != null) {
             loadUserTankImages()
+
         }
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build()
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        authService.hasLoggedOut().observe(this, {
+
+            if (it) {
+
+                FirebaseDatabase.getInstance().getReference("UI").child(authService.user!!.uid)
+                    .removeValue()
+                FirebaseDatabase.getInstance().getReference("UL").child(authService.user!!.uid)
+                    .removeValue()
+                SignOutUpdateUI()
+                drawer!!.closeDrawer(GravityCompat.START)
+                Toast.makeText(
+                    this@A1Activity,
+                    resources.getString(R.string.Loggedout),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+
+            } else {
+                Toast.makeText(this@A1Activity, "User Signed in", Toast.LENGTH_SHORT).show()
+                // progressDialog.dismiss();
+                spotsProgressDialog!!.dismiss()
+                SignInUpdateUI()
+                drawer!!.closeDrawer(GravityCompat.START)
+
+            }
+        })
+
+        authService.error.observe(this,{
+            if(it !=null){
+                Toast.makeText(this@A1Activity, "Authentication Failed.", Toast.LENGTH_SHORT)
+                    .show()
+                spotsProgressDialog!!.dismiss()
+                SignOutUpdateUI()
+                drawer!!.closeDrawer(GravityCompat.START)
+            }
+            else{
+                loadUserTankImages()
+            }
+        })
+
         devRef = FirebaseDatabase.getInstance().getReference("Dev")
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         toolbar.setTitle(R.string.StartTitle)
         drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         val toggle = ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
         drawer!!.addDrawerListener(toggle)
         toggle.syncState()
         val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
         headerview = navigationView.getHeaderView(0)
         spotsProgressDialog = SpotsDialog.Builder()
-                .setContext(this)
-                .setTheme(R.style.ProgressDotsStyle)
-                .build()
+            .setContext(this)
+            .setTheme(R.style.ProgressDotsStyle)
+            .build()
         //        progressDialog = new ProgressDialog(this);
 //        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 //        progressDialog.setMessage(getResources().getString(R.string.PleaseWait));
         userGSignIn = headerview!!.findViewById(R.id.sign_in_button)
         userGSignIn!!.setOnClickListener(View.OnClickListener {
-            signIn()
+           authService.signIn()
             // progressDialog.show();
             spotsProgressDialog!!.show()
         })
         val logout = headerview!!.findViewById<TextView>(R.id.Logout)
         logout.setOnClickListener {
-            FirebaseDatabase.getInstance().getReference("UI").child(user!!.uid).removeValue()
-            FirebaseDatabase.getInstance().getReference("UL").child(user!!.uid).removeValue()
-            mAuth!!.signOut()
-            SignOutUpdateUI()
-            drawer!!.closeDrawer(GravityCompat.START)
-            Toast.makeText(this@A1Activity, resources.getString(R.string.Loggedout), Toast.LENGTH_SHORT).show()
+
+            authService.signOut()
+
         }
 
         // insertTankRow();
         val ratingDialog = RatingDialog.Builder(this)
-                .session(7)
-                .build()
+            .session(7)
+            .build()
         ratingDialog.show()
         setAlarmOn1stDay()
-        if (mAuth!!.currentUser != null) {
-            if (mAuth!!.currentUser!!.email != null) {
-                if (mAuth!!.currentUser!!.email == "skramiz@gmail.com" || mAuth!!.currentUser!!.email == "newagestriker@gmail.com") {
+        if (authService.user != null) {
+            if (authService.user!!.email != null) {
+                if (authService.user!!.email == "skramiz@gmail.com" || authService.user!!.email == "newagestriker@gmail.com") {
                     writeDeveloperMessage()
                 }
             }
-            OneSignal.sendTag("User_ID", mAuth!!.currentUser!!.uid)
+            OneSignal.sendTag("User_ID", authService.user!!.uid)
         }
         showDeveloperMessage()
 
@@ -215,8 +253,25 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
                     }
                     finaldt = formatDate(year) + "-" + formatDate(mnth) + "-" + formatDate(dy)
                     tankDBHelper!!.updateSingleItem("AquariumID", aquaID, "StartupDate", finaldt)
-                    numericPrice = if (TextUtils.isEmpty(cTanks.getString(5))) 0.0f else cTanks.getString(5).replace(",", ".").toFloat()
-                    expenseDBHelper.addDataExpense(expenseDBHelper.writableDatabase, aquaID, aquaName, cTanks.getString(2), dy, mnth, year, finaldt, 0L, 1, numericPrice, numericPrice, "", aquaID)
+                    numericPrice =
+                        if (TextUtils.isEmpty(cTanks.getString(5))) 0.0f else cTanks.getString(5)
+                            .replace(",", ".").toFloat()
+                    expenseDBHelper.addDataExpense(
+                        expenseDBHelper.writableDatabase,
+                        aquaID,
+                        aquaName,
+                        cTanks.getString(2),
+                        dy,
+                        mnth,
+                        year,
+                        finaldt,
+                        0L,
+                        1,
+                        numericPrice,
+                        numericPrice,
+                        "",
+                        aquaID
+                    )
                     myDbHelper = MyDbHelper.newInstance(applicationContext, aquaID)
                     cMyDB = myDbHelper.getDataTI(myDbHelper.writableDatabase)
                     if (cMyDB != null) {
@@ -233,11 +288,30 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
                                     mnth = dtparts[1].toInt()
                                     year = dtparts[2].toInt()
                                 }
-                                finaldt = formatDate(year) + "-" + formatDate(mnth) + "-" + formatDate(dy)
+                                finaldt =
+                                    formatDate(year) + "-" + formatDate(mnth) + "-" + formatDate(dy)
                                 numericQuantity = cMyDB.getString(6).toInt()
-                                numericPrice = if (TextUtils.isEmpty(cMyDB.getString(5))) 0.0f else cMyDB.getString(5).replace(",", ".").toFloat()
+                                numericPrice =
+                                    if (TextUtils.isEmpty(cMyDB.getString(5))) 0.0f else cMyDB.getString(
+                                        5
+                                    ).replace(",", ".").toFloat()
                                 myDbHelper.updateItemTISingleItem(TID, "I_BuyDate", finaldt)
-                                expenseDBHelper.addDataExpense(expenseDBHelper.writableDatabase, TID, aquaName, cMyDB.getString(1), dy, mnth, year, finaldt, 0L, numericQuantity, numericPrice, numericPrice * numericQuantity, "", aquaID)
+                                expenseDBHelper.addDataExpense(
+                                    expenseDBHelper.writableDatabase,
+                                    TID,
+                                    aquaName,
+                                    cMyDB.getString(1),
+                                    dy,
+                                    mnth,
+                                    year,
+                                    finaldt,
+                                    0L,
+                                    numericQuantity,
+                                    numericPrice,
+                                    numericPrice * numericQuantity,
+                                    "",
+                                    aquaID
+                                )
                             } while (cMyDB.moveToNext())
                         }
                         cMyDB.close()
@@ -258,7 +332,8 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         val dev_msg_editText = findViewById<EditText>(R.id.addDevMessage)
         val updateDevMessage = findViewById<ImageView>(R.id.updateDevMessage)
         updateDevMessage.setOnClickListener {
-            val msg = if (TextUtils.isEmpty(dev_msg_editText.text.toString())) "" else dev_msg_editText.text.toString()
+            val msg =
+                if (TextUtils.isEmpty(dev_msg_editText.text.toString())) "" else dev_msg_editText.text.toString()
             val timeStamp = java.lang.Long.toString(Calendar.getInstance().timeInMillis)
             devRef!!.child("M").setValue(msg)
             devRef!!.child("T").setValue(timeStamp)
@@ -307,7 +382,7 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         super.onStart()
         checkConsent()
         setDefaultSymbol()
-        if (mAuth!!.currentUser != null) {
+        if (authService.user != null) {
             SignInUpdateUI()
         } else {
             SignOutUpdateUI()
@@ -332,14 +407,14 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
             textView.movementMethod = LinkMovementMethod.getInstance()
             val consentDialog = android.app.AlertDialog.Builder(this)
             consentDialog.setIcon(R.drawable.plantedaqua)
-                    .setCancelable(false)
-                    .setView(consentView)
-                    .setNegativeButton(resources.getString(R.string.Decline)) { _, _ -> finish() }
-                    .setPositiveButton(resources.getString(R.string.Agree)) { dialog, _ ->
-                        userAcceptance!!.putBoolean("UserAccepted", true)
-                        dialog.dismiss()
-                    }
-                    .create().show()
+                .setCancelable(false)
+                .setView(consentView)
+                .setNegativeButton(resources.getString(R.string.Decline)) { _, _ -> finish() }
+                .setPositiveButton(resources.getString(R.string.Agree)) { dialog, _ ->
+                    userAcceptance!!.putBoolean("UserAccepted", true)
+                    dialog.dismiss()
+                }
+                .create().show()
         }
     }
 
@@ -350,25 +425,27 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         headerview!!.findViewById<View>(R.id.UserName).visibility = View.VISIBLE
         headerview!!.findViewById<View>(R.id.NavEmailView).visibility = View.VISIBLE
         headerview!!.findViewById<View>(R.id.Logout).visibility = View.VISIBLE
-        if (user!!.photoUrl != null) {
+        if (authService.user!!.photoUrl != null) {
             Glide.with(this)
-                    .load(user!!.photoUrl)
-                    .apply(RequestOptions()
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .skipMemoryCache(true)
-                            .error(R.drawable.profle))
-                    .into((headerview!!.findViewById<View>(R.id.NavImageView) as ImageView))
+                .load(authService.user!!.photoUrl)
+                .apply(
+                    RequestOptions()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .error(R.drawable.profle)
+                )
+                .into((headerview!!.findViewById<View>(R.id.NavImageView) as ImageView))
         }
-        (headerview!!.findViewById<View>(R.id.UserName) as TextView).text = user!!.displayName
-        (headerview!!.findViewById<View>(R.id.NavEmailView) as TextView).text = user!!.email
+        (headerview!!.findViewById<View>(R.id.UserName) as TextView).text = authService.user!!.displayName
+        (headerview!!.findViewById<View>(R.id.NavEmailView) as TextView).text = authService.user!!.email
     }
 
     private fun SignOutUpdateUI() {
 
         //OneSignal.setSubscription(false);
         Glide.with(this)
-                .load(R.drawable.profile2)
-                .into((headerview!!.findViewById<View>(R.id.NavImageView) as ImageView))
+            .load(R.drawable.profile2)
+            .into((headerview!!.findViewById<View>(R.id.NavImageView) as ImageView))
         userGSignIn!!.visibility = View.VISIBLE
         headerview!!.findViewById<View>(R.id.UserName).visibility = View.GONE
         headerview!!.findViewById<View>(R.id.NavEmailView).visibility = View.GONE
@@ -435,7 +512,10 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
             startActivity(i4)
         } else if (id == R.id.nav_help) {
             val i4 = Intent(this, ConditionsActivity::class.java)
-            i4.putExtra("URL", "https://plantedaquaapp.blogspot.com/2018/09/get-started-with-planted-aqua.html")
+            i4.putExtra(
+                "URL",
+                "https://plantedaquaapp.blogspot.com/2018/09/get-started-with-planted-aqua.html"
+            )
             startActivity(i4)
         } else if (id == R.id.nav_icons8) {
             val i4 = Intent(this, ConditionsActivity::class.java)
@@ -445,25 +525,33 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
             startShopActivty()
         } else if (id == R.id.nav_settings) {
             val iSettings = Intent(this, SettingsActivity::class.java)
-            startActivityForResult(iSettings,SETTINGS_REQUEST_CODE)
+            startActivityForResult(iSettings, SETTINGS_REQUEST_CODE)
         } else if (id == R.id.nav_users_gallery) {
-            if (mAuth!!.currentUser != null) {
+            if (authService.user != null) {
                 val iUsersGallery = Intent(this, UsersGalleryActivity::class.java)
-                iUsersGallery.putExtra("UserID", mAuth!!.currentUser!!.uid)
+                iUsersGallery.putExtra("UserID", authService.user!!.uid)
                 startActivity(iUsersGallery)
             } else {
-                Toast.makeText(this, "Sorry! You must be logged in to use this feature", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Sorry! You must be logged in to use this feature",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         } else if (id == R.id.nav_micro_calc) {
             val iExpense = Intent(this, MicroNutrientTableActivity::class.java)
             startActivity(iExpense)
         } else if (id == R.id.nav_chatbox) {
-            if (mAuth!!.currentUser != null) {
+            if (authService.user != null) {
                 val iChatBox = Intent(this, ChatBoxActivity::class.java)
-                iChatBox.putExtra("UserID", mAuth!!.currentUser!!.uid)
+                iChatBox.putExtra("UserID", authService.user!!.uid)
                 startActivity(iChatBox)
             } else {
-                Toast.makeText(this, "Sorry! You must be logged in to use this feature", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Sorry! You must be logged in to use this feature",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         } else if (id == R.id.nav_my_chats) {
             val iChats = Intent(this, ChatUsersActivity::class.java)
@@ -474,11 +562,12 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
     }
 
     private fun startMapsActivty() {
-        if (mAuth!!.currentUser == null) {
+        if (authService.user == null) {
             val builder = android.app.AlertDialog.Builder(this)
             builder.setTitle(resources.getString(R.string.Attention))
-                    .setMessage(resources.getString(R.string.NotLoggedInMsg))
-                    .setNeutralButton(resources.getString(R.string.OK)) { dialogInterface, i -> dialogInterface.dismiss() }.create().show()
+                .setMessage(resources.getString(R.string.NotLoggedInMsg))
+                .setNeutralButton(resources.getString(R.string.OK)) { dialogInterface, i -> dialogInterface.dismiss() }
+                .create().show()
         } else {
             // String userID = "ma";
             validateAndProceed()
@@ -486,11 +575,12 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
     }
 
     private fun startShopActivty() {
-        if (mAuth!!.currentUser == null) {
+        if (authService.user == null) {
             val builder = android.app.AlertDialog.Builder(this)
             builder.setTitle(resources.getString(R.string.Attention))
-                    .setMessage(resources.getString(R.string.NotLoggedInMsg))
-                    .setNeutralButton(resources.getString(R.string.OK)) { dialogInterface, i -> dialogInterface.dismiss() }.create().show()
+                .setMessage(resources.getString(R.string.NotLoggedInMsg))
+                .setNeutralButton(resources.getString(R.string.OK)) { dialogInterface, i -> dialogInterface.dismiss() }
+                .create().show()
         } else {
             // String userID = "ma";
             val iShop = Intent(this, SellerActivity::class.java)
@@ -505,14 +595,14 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         val settingsDB = TinyDB(this.applicationContext)
         val messageDialog = android.app.AlertDialog.Builder(this)
         messageDialog.setMessage(R.string.SellerShopMsg)
-                .setCancelable(false)
-                .setIcon(R.drawable.attention)
-                .setPositiveButton(resources.getString(R.string.OK)) { dialog, which ->
-                    val `in` = Intent(this@A1Activity, MapsActivity::class.java)
-                    `in`.putExtra("UserType", settingsDB.getString("UserType"))
-                    startActivity(`in`)
-                }
-                .setNegativeButton(resources.getString(R.string.Cancel)) { dialog, which -> dialog.dismiss() }
+            .setCancelable(false)
+            .setIcon(R.drawable.attention)
+            .setPositiveButton(resources.getString(R.string.OK)) { dialog, which ->
+                val `in` = Intent(this@A1Activity, MapsActivity::class.java)
+                `in`.putExtra("UserType", settingsDB.getString("UserType"))
+                startActivity(`in`)
+            }
+            .setNegativeButton(resources.getString(R.string.Cancel)) { dialog, which -> dialog.dismiss() }
 
         // settingsDB.putBoolean("RememberSorH",false);
         if (settingsDB.getBoolean("RememberSorH")) {
@@ -524,82 +614,41 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
                 startActivity(`in`)
             }
         } else {
-            val items = arrayOf<CharSequence>(resources.getString(R.string.Hobbyist), resources.getString(R.string.Seller), resources.getString(R.string.Cancel))
+            val items = arrayOf<CharSequence>(
+                resources.getString(R.string.Hobbyist),
+                resources.getString(R.string.Seller),
+                resources.getString(R.string.Cancel)
+            )
             val builder = AlertDialog.Builder(this)
             builder.setTitle(resources.getString(R.string.HorS))
-                    .setView(checkView)
-                    .setItems(items) { dialogInterface, i ->
-                        if (items[i] == resources.getString(R.string.Cancel)) {
-                            dialogInterface.dismiss()
-                        } else {
-                            userType = items[i].toString()
-                            var rememberChecked = false
-                            val checkBox = checkView.findViewById<CheckBox>(R.id.RememberCheckbox)
-                            if (checkBox.isChecked) rememberChecked = true
-                            settingsDB.putBoolean("RememberSorH", rememberChecked)
-                            settingsDB.putString("UserType", userType)
-                            if (userType == "Seller") {
-                                messageDialog.create().show()
-                            } else {
-                                val `in` = Intent(this@A1Activity, MapsActivity::class.java)
-                                `in`.putExtra("UserType", userType)
-                                startActivity(`in`)
-                            }
-                        }
-                    }.create().show()
-        }
-    }
-
-    private fun signIn() {
-        val signInIntent = mGoogleSignInClient!!.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
-    }
-
-    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount?) {
-        val credential = GoogleAuthProvider.getCredential(acct!!.idToken, null)
-        mAuth!!.signInWithCredential(credential)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Toast.makeText(this@A1Activity, "User Signed in", Toast.LENGTH_SHORT).show()
-                        user = mAuth!!.currentUser
-                        // progressDialog.dismiss();
-                        spotsProgressDialog!!.dismiss()
-                        SignInUpdateUI()
-                        drawer!!.closeDrawer(GravityCompat.START)
+                .setView(checkView)
+                .setItems(items) { dialogInterface, i ->
+                    if (items[i] == resources.getString(R.string.Cancel)) {
+                        dialogInterface.dismiss()
                     } else {
-                        // If sign in fails, display a message to the user.
-                        try {
-                            throw Objects.requireNonNull(task.exception)!!
-                        } catch (e: Exception) {
-                            //Log.e(TAG, e.getMessage());
+                        userType = items[i].toString()
+                        var rememberChecked = false
+                        val checkBox = checkView.findViewById<CheckBox>(R.id.RememberCheckbox)
+                        if (checkBox.isChecked) rememberChecked = true
+                        settingsDB.putBoolean("RememberSorH", rememberChecked)
+                        settingsDB.putString("UserType", userType)
+                        if (userType == "Seller") {
+                            messageDialog.create().show()
+                        } else {
+                            val `in` = Intent(this@A1Activity, MapsActivity::class.java)
+                            `in`.putExtra("UserType", userType)
+                            startActivity(`in`)
                         }
-                        Toast.makeText(this@A1Activity, "Authentication Failed.", Toast.LENGTH_SHORT).show()
-                        spotsProgressDialog!!.dismiss()
-                        // progressDialog.dismiss();
-                        SignOutUpdateUI()
-                        drawer!!.closeDrawer(GravityCompat.START)
                     }
-
-                    // ...
-                }
+                }.create().show()
+        }
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)
-                firebaseAuthWithGoogle(account)
-                loadUserTankImages()
-            } catch (e: ApiException) {
-                Toast.makeText(this@A1Activity, e.message, Toast.LENGTH_SHORT).show()
-                spotsProgressDialog!!.dismiss()
-                // progressDialog.cancel();
-            }
+           authService.onSignInSuccess(data)
         }
         if (resultCode == Activity.RESULT_OK) {
 
@@ -615,28 +664,24 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
                 }
             } else if (requestCode == TANK_DETAILS_MODIFICATION) {
                 val tanksDetails = data!!.getParcelableExtra<TanksDetails>("TankItemsObject")
-                val position = data.getIntExtra("Position",-1)
+                val position = data.getIntExtra("Position", -1)
                 a1ViewModel.getTankDetailsArrayList()!![position] = tanksDetails!!
                 a1ViewModel.calcCumExpense(position)
                 Handler().post { tanksSectionsPagerAdapter!!.notifyDataSetChanged() }
             } else if (requestCode == LIGHT_ACTIVITY_REQUEST_CODE) {
-                val position = data!!.getIntExtra("Position",-1)
+                val position = data!!.getIntExtra("Position", -1)
                 a1ViewModel.updateTankGallons(position)
                 Handler().post { tanksSectionsPagerAdapter!!.notifyDataSetChanged() }
-            }
-            else if (requestCode == MICRO_ACTIVITY_REQUEST_CODE) {
+            } else if (requestCode == MICRO_ACTIVITY_REQUEST_CODE) {
                 a1ViewModel.updateMicroDetails(viewPager2!!.currentItem)
                 Handler().post { tanksSectionsPagerAdapter!!.notifyDataSetChanged() }
-            }
-            else if (requestCode == MACRO_ACTIVITY_REQUEST_CODE) {
+            } else if (requestCode == MACRO_ACTIVITY_REQUEST_CODE) {
                 a1ViewModel.updateMacroDetails(viewPager2!!.currentItem)
                 Handler().post { tanksSectionsPagerAdapter!!.notifyDataSetChanged() }
+            } else if (requestCode == SETTINGS_REQUEST_CODE) {
+                a1ViewModel.setDefaultCurrency()
+                Handler().post { tanksSectionsPagerAdapter!!.notifyDataSetChanged() }
             }
-            else if(requestCode == SETTINGS_REQUEST_CODE)
-                {
-                    a1ViewModel.setDefaultCurrency()
-                    Handler().post { tanksSectionsPagerAdapter!!.notifyDataSetChanged() }
-                }
 
         }
     }
@@ -645,7 +690,8 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         val calendar = Calendar.getInstance()
         calendar[calendar[Calendar.YEAR], calendar[Calendar.MONTH], 1, 9, 0] = 0
         val calendar_everday = Calendar.getInstance()
-        calendar_everday[calendar_everday[Calendar.YEAR], calendar_everday[Calendar.MONTH], calendar_everday[Calendar.DAY_OF_MONTH], 10, 0] = 0
+        calendar_everday[calendar_everday[Calendar.YEAR], calendar_everday[Calendar.MONTH], calendar_everday[Calendar.DAY_OF_MONTH], 10, 0] =
+            0
         if (calendar.timeInMillis < System.currentTimeMillis()) {
             calendar.add(Calendar.MONTH, 1)
         }
@@ -657,8 +703,7 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
     }
 
     private fun defaultAlarms(calendar: Calendar, reqCode: Int, alarmType: String) {
-        val alarmInMillis: Long
-        alarmInMillis = calendar.timeInMillis
+        val alarmInMillis: Long = calendar.timeInMillis
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this.applicationContext, RamizAlarm::class.java)
         intent.putExtra("AT", alarmType)
@@ -668,19 +713,16 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         if (pi != null) {
             //System.out.println("not null");
             //System.out.println("Ramiz: Pending intent exists ");
-            pi = PendingIntent.getBroadcast(this, reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-            assert(alarmManager != null)
+            pi =
+                PendingIntent.getBroadcast(this, reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT)
             alarmManager.cancel(pi)
         }
         pi = PendingIntent.getBroadcast(this.applicationContext, reqCode, intent, 0)
         if (Build.VERSION.SDK_INT >= 23) {
-            assert(alarmManager != null)
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmInMillis, pi)
         } else if (Build.VERSION.SDK_INT >= 19) {
-            assert(alarmManager != null)
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmInMillis, pi)
         } else {
-            assert(alarmManager != null)
             alarmManager[AlarmManager.RTC_WAKEUP, alarmInMillis] = pi
         }
     }
@@ -691,16 +733,19 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         if (timerTask == null) {
             val galleryItemRef = FirebaseDatabase.getInstance().getReference("GI")
             val galleryItemRefQuery = galleryItemRef.orderByChild("rating")
-            val showcaseAdapter = ShowcaseRecyclerAdapter<GalleryInfo>(R.layout.showcase_recycler_view_item, object : ShowcaseRecyclerAdapter.OnItemClickListener {
-                override fun onItemClick(view: View?, pos: Int) {
-                    val iUsersGallery = Intent(this@A1Activity, UsersGalleryActivity::class.java)
-                    iUsersGallery.putExtra("UserID", mAuth!!.currentUser!!.uid)
-                    iUsersGallery.putExtra("Position", pos)
-                    startActivity(iUsersGallery)
-                }
+            val showcaseAdapter = ShowcaseRecyclerAdapter<GalleryInfo>(
+                R.layout.showcase_recycler_view_item,
+                object : ShowcaseRecyclerAdapter.OnItemClickListener {
+                    override fun onItemClick(view: View?, pos: Int) {
+                        val iUsersGallery =
+                            Intent(this@A1Activity, UsersGalleryActivity::class.java)
+                        iUsersGallery.putExtra("UserID",authService.user!!.uid)
+                        iUsersGallery.putExtra("Position", pos)
+                        startActivity(iUsersGallery)
+                    }
 
-                override fun onItemLongClick(view: View?, pos: Int) {}
-            })
+                    override fun onItemLongClick(view: View?, pos: Int) {}
+                })
             showcaseAdapter.submitList(galleryInfoArrayList)
             userTankImagesRecyclerView!!.adapter = showcaseAdapter
             galleryItemRefQuery.addChildEventListener(object : ChildEventListener {
@@ -722,7 +767,11 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
                 override fun onChildRemoved(dataSnapshot: DataSnapshot) {}
                 override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {}
                 override fun onCancelled(databaseError: DatabaseError) {
-                    Toast.makeText(this@A1Activity, "Database Error Occurred. Please check your Internet Connection", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@A1Activity,
+                        "Database Error Occurred. Please check your Internet Connection",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             })
         }
@@ -745,8 +794,8 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
             override fun onLoggingImpression(ad: Ad) {}
         }
         val loadAdConfig = adView!!.buildLoadAdConfig()
-                .withAdListener(adListener)
-                .build()
+            .withAdListener(adListener)
+            .build()
         adView!!.loadAd(loadAdConfig)
     }
 
@@ -784,7 +833,7 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         }
         timer = Timer()
         timer.scheduleAtFixedRate(
-                timerTask, 1000L, 4000L
+            timerTask, 1000L, 4000L
         )
     }
 
@@ -813,12 +862,18 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
             while (c.moveToNext()) {
                 val calendar = Calendar.getInstance()
                 storedTimeInMillis = c.getString(2)
-                calendar[calendar[Calendar.YEAR], calendar[Calendar.MONTH], calendar[Calendar.DAY_OF_MONTH], c.getInt(5), c.getInt(6)] = 0
+                calendar[calendar[Calendar.YEAR], calendar[Calendar.MONTH], calendar[Calendar.DAY_OF_MONTH], c.getInt(
+                    5
+                ), c.getInt(6)] = 0
                 calendar[Calendar.DAY_OF_WEEK] = c.getInt(4)
                 if (calendar.timeInMillis < System.currentTimeMillis()) {
                     calendar.add(Calendar.DAY_OF_YEAR, 7)
                 }
-                alarmdbhelper1.updateTimeInMillis(db2, java.lang.Long.toString(calendar.timeInMillis), storedTimeInMillis)
+                alarmdbhelper1.updateTimeInMillis(
+                    db2,
+                    java.lang.Long.toString(calendar.timeInMillis),
+                    storedTimeInMillis
+                )
                 val inn = Intent(this, RamizAlarm::class.java)
                 inn.putExtra("AT", c.getString(1))
                 inn.putExtra("AlarmName", c.getString(0))
@@ -827,9 +882,18 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
                 inn.putExtra("KEY_TRIGGER_TIME", calendar.timeInMillis)
                 inn.putExtra("KEY_INTENT_ID", c.getInt(3))
                 inn.putExtra("AquariumName", AquariumName)
-                pi = PendingIntent.getBroadcast(this, c.getInt(3), inn, PendingIntent.FLAG_UPDATE_CURRENT)
+                pi = PendingIntent.getBroadcast(
+                    this,
+                    c.getInt(3),
+                    inn,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+                )
                 if (Build.VERSION.SDK_INT >= 23) {
-                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pi)
+                    alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.timeInMillis,
+                        pi
+                    )
                 } else if (Build.VERSION.SDK_INT >= 19) {
                     alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pi)
                 } else {
@@ -847,7 +911,8 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
     private var viewPager2: ViewPager2? = null
     private fun loadViewPagerTankDetails() {
         viewPager2 = findViewById(R.id.TanksViewPager)
-        tanksSectionsPagerAdapter = a1ViewModel.getTankSectionPagerAdapter(supportFragmentManager,lifecycle)
+        tanksSectionsPagerAdapter =
+            a1ViewModel.getTankSectionPagerAdapter(supportFragmentManager, lifecycle)
         viewPager2!!.adapter = tanksSectionsPagerAdapter
     }
 
@@ -855,16 +920,65 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
     fun onTankDashBoardItemsClicked(view: View) {
         when (view.id) {
             R.id.deleteTank -> removeTankFromPager(view.tag.toString())
-            R.id.imageNutrientOption -> navigateToSelectedOption(Intent(this, DosingGraphsActivity::class.java), viewPager2!!.currentItem, "")
-            R.id.imageFloraOption -> navigateToSelectedOption(Intent(this, TankItemsActivity::class.java), viewPager2!!.currentItem, "Fl")
-            R.id.imageFaunaOption -> navigateToSelectedOption(Intent(this, TankItemsActivity::class.java), viewPager2!!.currentItem, "Fr")
-            R.id.imageTanksEquipmentOption -> navigateToSelectedOption(Intent(this, TankItemsActivity::class.java), viewPager2!!.currentItem, "E")
-            R.id.imageLogOptions -> navigateToSelectedOption(Intent(this, LogsActivity::class.java), viewPager2!!.currentItem, "")
-            R.id.imageTaskOptions -> navigateToSelectedOption(Intent(this, TasksActivity::class.java), viewPager2!!.currentItem, "")
-            R.id.imageLightOption -> navigateToSelectedOption(Intent(this, LightCalcActivity::class.java), viewPager2!!.currentItem, "Light")
-            R.id.imageMacroOption, R.id.SetMacroValue -> navigateToSelectedOption(Intent(this, MacroNutrientTableActivity::class.java), viewPager2!!.currentItem, "Macro")
-            R.id.imageMicroOption, R.id.SetMicroValue -> navigateToSelectedOption(Intent(this, MicroNutrientTableActivity::class.java), viewPager2!!.currentItem, "Micro")
-            R.id.imageTPAOptions -> navigateToSelectedOption(Intent(this, TankProgressActivity::class.java), viewPager2!!.currentItem, "")
+            R.id.imageNutrientOption -> navigateToSelectedOption(
+                Intent(
+                    this,
+                    DosingGraphsActivity::class.java
+                ), viewPager2!!.currentItem, ""
+            )
+            R.id.imageFloraOption -> navigateToSelectedOption(
+                Intent(
+                    this,
+                    TankItemsActivity::class.java
+                ), viewPager2!!.currentItem, "Fl"
+            )
+            R.id.imageFaunaOption -> navigateToSelectedOption(
+                Intent(
+                    this,
+                    TankItemsActivity::class.java
+                ), viewPager2!!.currentItem, "Fr"
+            )
+            R.id.imageTanksEquipmentOption -> navigateToSelectedOption(
+                Intent(
+                    this,
+                    TankItemsActivity::class.java
+                ), viewPager2!!.currentItem, "E"
+            )
+            R.id.imageLogOptions -> navigateToSelectedOption(
+                Intent(this, LogsActivity::class.java),
+                viewPager2!!.currentItem,
+                ""
+            )
+            R.id.imageTaskOptions -> navigateToSelectedOption(
+                Intent(
+                    this,
+                    TasksActivity::class.java
+                ), viewPager2!!.currentItem, ""
+            )
+            R.id.imageLightOption -> navigateToSelectedOption(
+                Intent(
+                    this,
+                    LightCalcActivity::class.java
+                ), viewPager2!!.currentItem, "Light"
+            )
+            R.id.imageMacroOption, R.id.SetMacroValue -> navigateToSelectedOption(
+                Intent(
+                    this,
+                    MacroNutrientTableActivity::class.java
+                ), viewPager2!!.currentItem, "Macro"
+            )
+            R.id.imageMicroOption, R.id.SetMicroValue -> navigateToSelectedOption(
+                Intent(
+                    this,
+                    MicroNutrientTableActivity::class.java
+                ), viewPager2!!.currentItem, "Micro"
+            )
+            R.id.imageTPAOptions -> navigateToSelectedOption(
+                Intent(
+                    this,
+                    TankProgressActivity::class.java
+                ), viewPager2!!.currentItem, ""
+            )
             else -> editTankDetails()
         }
     }
@@ -879,20 +993,20 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
     private fun removeTankFromPager(aquariumID: String) {
         val alertDialogBuilder = android.app.AlertDialog.Builder(this)
         alertDialogBuilder.setTitle("Delete Tank " + a1ViewModel.getTankDetailsArrayList()!![viewPager2!!.currentItem].tankName)
-                .setMessage("This action will delete your tank and all relevant data. Do you wish to continue?")
-                .setNegativeButton(resources.getString(R.string.Cancel)) { dialog, which -> dialog.dismiss() }
-                .setPositiveButton(resources.getString(R.string.ok)) { dialog, which ->
-                    // Log.i("AQUARIUMID",aquariumID);
-                   a1ViewModel.deleteTankDataFromDatabase(aquariumID)
+            .setMessage("This action will delete your tank and all relevant data. Do you wish to continue?")
+            .setNegativeButton(resources.getString(R.string.Cancel)) { dialog, which -> dialog.dismiss() }
+            .setPositiveButton(resources.getString(R.string.ok)) { dialog, which ->
+                // Log.i("AQUARIUMID",aquariumID);
+                a1ViewModel.deleteTankDataFromDatabase(aquariumID)
 
 
-                    // Log.i("POSITION",Integer.toString(viewPager2.getCurrentItem()));
-                    a1ViewModel.getTankDetailsArrayList()!!.removeAt(viewPager2!!.currentItem)
-                    tanksSectionsPagerAdapter!!.notifyDataSetChanged()
-                    // Log.i("SIZE",Integer.toString(a1ViewModel.getTankDetailsArrayList().size()));
-                }
-                .create()
-                .show()
+                // Log.i("POSITION",Integer.toString(viewPager2.getCurrentItem()));
+                a1ViewModel.getTankDetailsArrayList()!!.removeAt(viewPager2!!.currentItem)
+                tanksSectionsPagerAdapter!!.notifyDataSetChanged()
+                // Log.i("SIZE",Integer.toString(a1ViewModel.getTankDetailsArrayList().size()));
+            }
+            .create()
+            .show()
     }
 
     private val LIGHT_ACTIVITY_REQUEST_CODE = 81
@@ -903,8 +1017,8 @@ class A1Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         intent.putExtra("AquariumName", a1ViewModel.getTankDetailsArrayList()!![position].tankName)
         intent.putExtra("ItemCategory", itemCategory)
         intent.putExtra("Position", position)
-        val rq = when(itemCategory){
-            "Light" ->  LIGHT_ACTIVITY_REQUEST_CODE
+        val rq = when (itemCategory) {
+            "Light" -> LIGHT_ACTIVITY_REQUEST_CODE
             "Micro" -> MICRO_ACTIVITY_REQUEST_CODE
             "Macro" -> MACRO_ACTIVITY_REQUEST_CODE
             else -> 0

@@ -23,7 +23,8 @@ import com.newage.plantedaqua.models.TankItems
 
 import com.newage.plantedaqua.viewmodels.TankItemListViewModel
 import kotlinx.android.synthetic.main.activity_tank_items.*
-import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.android.viewmodel.ext.android.getViewModel
+
 
 import org.koin.core.parameter.parametersOf
 

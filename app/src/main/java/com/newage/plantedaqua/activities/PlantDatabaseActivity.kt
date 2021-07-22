@@ -9,7 +9,7 @@ import com.newage.plantedaqua.R
 import com.newage.plantedaqua.models.Plants
 import com.newage.plantedaqua.viewmodels.PlantDatabaseActivityViewModel
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class PlantDatabaseActivity : AppCompatActivity() {
 

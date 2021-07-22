@@ -1,6 +1,7 @@
 package com.newage.plantedaqua.activities
 
 import android.Manifest
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -14,6 +15,7 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -32,6 +34,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 import com.newage.plantedaqua.BuildConfig
 import com.newage.plantedaqua.R
@@ -39,8 +42,12 @@ import com.newage.plantedaqua.adapters.RecyclerAdapterSellerItems
 import com.newage.plantedaqua.helpers.CloudNotificationHelper
 import com.newage.plantedaqua.helpers.TinyDB
 import com.newage.plantedaqua.models.SellerItemsDescription
+import com.newage.plantedaqua.services.filewebservices.IFileWebService
+import com.newage.plantedaqua.services.permissionservices.IActivityCompatPermissionService
 import org.json.JSONArray
 import org.json.JSONObject
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 import java.io.*
 import java.nio.channels.FileChannel
 import java.text.SimpleDateFormat
@@ -53,6 +60,21 @@ class SellerActivity : AppCompatActivity() {
     private var mode: String? = null
     private var mAuth: FirebaseAuth? = null
     private var settingsDB: TinyDB? = null
+    private lateinit var JSONStorageRef: StorageReference
+    private lateinit var JSONFileUri: Uri
+    private lateinit var permissions: Array<String>
+    private lateinit var activity: Activity
+    private var permissionRequestCode: Int = 145
+    private val activityCompatPermissionService: IActivityCompatPermissionService by inject {
+        parametersOf(permissions, activity, permissionRequestCode)
+    }
+    private val fileWebService: IFileWebService by inject {
+        parametersOf(
+            JSONStorageRef,
+            JSONFileUri
+        )
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         settingsDB = TinyDB(this.applicationContext)
         User_ID = intent.getStringExtra("User")
@@ -116,8 +138,8 @@ class SellerActivity : AppCompatActivity() {
         sellerItemQuan = view.findViewById(R.id.SellerItemQuan)
         sellerItemPrice = view.findViewById(R.id.SellerItemPrice)
         sellerItemAvail = view.findViewById(R.id.SellerItemAvail)
-        itemImage.setImageDrawable(resources.getDrawable(R.drawable.noimage))
-        itemImage.setOnClickListener(View.OnClickListener { selectImage() })
+        itemImage?.setImageDrawable(resources.getDrawable(R.drawable.noimage))
+        itemImage?.setOnClickListener(View.OnClickListener { selectImage() })
         builder.setView(view)
             .setTitle(resources.getString(R.string.AddItems))
             .setPositiveButton(resources.getString(R.string.OK)) { dialog, which -> allData }
@@ -202,7 +224,10 @@ class SellerActivity : AppCompatActivity() {
         sellerPhoto = findViewById(R.id.SellerImage)
         SellerSpeciality = findViewById(R.id.SellerSpeciality)
         SellerContact = findViewById(R.id.SellerContact)
-        SellerSpeciality.setText(resources.getString(R.string.NoInfo))
+        SellerSpeciality?.setText(resources.getString(R.string.NoInfo))
+        val StorageRef = FirebaseStorage.getInstance().getReference("Seller")
+        JSONStorageRef = StorageRef.child("$User_ID/JSON1.JSON")
+        JSONFileUri = Uri.EMPTY
     }
 
     var JSONtext: String? =
@@ -275,7 +300,7 @@ class SellerActivity : AppCompatActivity() {
                                     )
                                     //Log.i("InsertPosition",Integer.toString(i));
                                 }
-                                adapter.notifyDataSetChanged()
+                                adapter?.notifyDataSetChanged()
                                 SellerRef!!.child("IC")
                                     .setValue(if (sellerItemsDescriptionArrayList!!.isEmpty()) "0" else "1")
                                 if (sellerItemsDescriptionArrayList!!.isEmpty()) {
@@ -413,7 +438,25 @@ class SellerActivity : AppCompatActivity() {
                 startActivity(i);*/
     }
 
+    private fun onSuccess() {
+        Log.i("SellerActivity", "Sucesss")
+    }
+
+    private fun onFailure() {
+        Log.i("SellerActivity", "Failure")
+    }
+
+    private fun onError() {
+        Log.i("SellerActivity", "Error")
+    }
+
+    private fun uploadSellerJSONFile1(){
+
+
+    }
     private fun uploadSellerJSONFile() {
+        //  fileWebService.fileUpload({ onSuccess() }, { onFailure() }) { onError()}
+        Log.i("SellerActivity", "Inside Upload")
         sellerItemsDescriptionArrayList!!.add(sellerItemsDescription)
         adapter!!.notifyItemInserted(sellerItemsDescriptionArrayList!!.size - 1)
         val gson = Gson()
@@ -431,22 +474,21 @@ class SellerActivity : AppCompatActivity() {
         val tempJSON: File
         try {
             tempJSON = File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                getExternalFilesDir(null),
                 "temp.JSON"
             )
             tempJSON.createNewFile()
             val output: Writer = BufferedWriter(FileWriter(tempJSON))
             output.write(SellerItemsJSON)
             output.close()
-            val StorageRef = FirebaseStorage.getInstance().getReference("Seller")
-            val JSONStorageRef = StorageRef.child("$User_ID/JSON1.JSON")
-            val uri: Uri
-            uri = if (Build.VERSION.SDK_INT >= 24) {
+
+
+            JSONFileUri = if (Build.VERSION.SDK_INT >= 24) {
                 FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", tempJSON)
             } else Uri.fromFile(tempJSON)
             //Log.i("URI",uri.toString());
             progressDialog!!.show()
-            JSONStorageRef.putFile(uri)
+            JSONStorageRef.putFile(JSONFileUri)
                 .addOnSuccessListener {
                     tempJSON.delete()
                     progressDialog!!.dismiss()
@@ -454,6 +496,7 @@ class SellerActivity : AppCompatActivity() {
                     // adapter.notifyItemInserted((sellerItemsDescriptionArrayList.size()-1));
                     //adapter.notifyDataSetChanged();
                     //Log.i("InsertPosition",Integer.toString(sellerItemsDescriptionArrayList.size()-1));
+                    Log.i("SellerActivity", "Upload success")
                 }
                 .addOnFailureListener {
                     Toast.makeText(this@SellerActivity, "UPLOAD ERROR!!", Toast.LENGTH_SHORT).show()
@@ -463,11 +506,14 @@ class SellerActivity : AppCompatActivity() {
                     deleteUploadedItems(tempImageID)
                     sellerItemsDescriptionArrayList!!.removeAt(sellerItemsDescriptionArrayList!!.size - 1)
                     adapter!!.notifyItemRemoved(sellerItemsDescriptionArrayList!!.size - 1)
+                    Log.i("SellerActivity", "Upload fail")
                 }
         } catch (e: Exception) {
             Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+            Log.i("SellerActivity", e.message!!)
             //Log.i("TEMP FILE ERROR",e.getMessage());
         }
+
     }
 
     private fun deleteUploadedItems(fileID: String) {
@@ -518,7 +564,7 @@ class SellerActivity : AppCompatActivity() {
         )
     }
 
-    fun verifyPermissions() {
+    private fun verifyPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val permissions = arrayOf(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -567,10 +613,8 @@ class SellerActivity : AppCompatActivity() {
         if (!sourceFile.exists()) {
             return
         }
-        val source: FileChannel?
-        val destination: FileChannel?
-        source = FileInputStream(sourceFile).channel
-        destination = FileOutputStream(destFile).channel
+        val source: FileChannel? = FileInputStream(sourceFile).channel
+        val destination: FileChannel? = FileOutputStream(destFile).channel
         if (destination != null && source != null) {
             destination.transferFrom(source, 0, source.size())
         }

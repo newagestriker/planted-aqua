@@ -8,6 +8,7 @@ import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.content.ContentResolver
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
@@ -37,8 +38,14 @@ import com.newage.plantedaqua.dbhelpers.ExpenseDBHelper
 import com.newage.plantedaqua.dbhelpers.TankDBHelper
 import com.newage.plantedaqua.helpers.TinyDB
 import com.newage.plantedaqua.models.TanksDetails
+import com.newage.plantedaqua.services.localfileservices.ILocalFileCGService
+import com.newage.plantedaqua.services.localfileservices.LocalImageFileCGService
+import com.newage.plantedaqua.services.localfileservices.LocalImageFileCreationStrategy
+import com.newage.plantedaqua.services.localfileservices.LocalImageFileCreationUriCopyStrategy
 import dmax.dialog.SpotsDialog
 import kotlinx.coroutines.*
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
@@ -74,13 +81,26 @@ class CreateTankActivity : AppCompatActivity() {
     private var linearLayout: LinearLayout? = null
     var newImageCreated = false
     private var settingsDB: TinyDB? = null
-    private var lightZone : String? = null
+    private var lightZone: String? = null
     private var requestPermissionCard: CardView? = null
     private var spotsProgressDialog: AlertDialog? = null
     private var removeStartDate: ImageView? = null
     private var removeEndDate: ImageView? = null
     private val REQ_CODE_TO_SELECT_IMAGE = 1
     private val REQ_CODE_FOR_BUTTON_VISIBILITY = 2
+    private lateinit var sourceUri: Uri
+    private lateinit var destUri: Uri
+    private val localImageFileCreationUriCopyStrategy: LocalImageFileCreationStrategy by inject {
+        parametersOf(
+            sourceUri,
+            destUri
+        )
+    }
+
+    private val localImageFileCGService: ILocalFileCGService by inject {
+        parametersOf(localImageFileCreationUriCopyStrategy)
+    }
+
     fun removeDate(view: View) {
         if (view.tag.toString() == "start") {
             StartupDate!!.setText("")
@@ -131,18 +151,100 @@ class CreateTankActivity : AppCompatActivity() {
                 tanksDetails.tankPicUri = s
                 if (mode == "creation") {
                     val rowid = DatabaseUtils.queryNumEntries(DB, "TankDetails")
-                    tankDBHelper.addData(DB, rowid, ID, aquaname, s, aquatype, price, currency, volume, volumemetric, currentstatus, startupdate, dismantledate, co2, lighttype, wattage, lumensperwatt, "")
-                    expenseDBHelper.addDataExpense(expenseDBHelper.writableDatabase, ID, aquaname, aquaname, dy, mnth, yr, startupdate, 0L, 1, numericPrice, numericPrice, "", ID)
+                    tankDBHelper.addData(
+                        DB,
+                        rowid,
+                        ID,
+                        aquaname,
+                        s,
+                        aquatype,
+                        price,
+                        currency,
+                        volume,
+                        volumemetric,
+                        currentstatus,
+                        startupdate,
+                        dismantledate,
+                        co2,
+                        lighttype,
+                        wattage,
+                        lumensperwatt,
+                        ""
+                    )
+                    expenseDBHelper.addDataExpense(
+                        expenseDBHelper.writableDatabase,
+                        ID,
+                        aquaname,
+                        aquaname,
+                        dy,
+                        mnth,
+                        yr,
+                        startupdate,
+                        0L,
+                        1,
+                        numericPrice,
+                        numericPrice,
+                        "",
+                        ID
+                    )
                 }
                 if (mode == "modification") {
                     dy = startupdate.split("-".toRegex()).toTypedArray()[2].toInt()
                     mnth = startupdate.split("-".toRegex()).toTypedArray()[1].toInt()
                     yr = startupdate.split("-".toRegex()).toTypedArray()[0].toInt()
-                    tankDBHelper.updateItem(DB, ID, aquaname, s, aquatype, price, currency, volume, volumemetric, currentstatus, startupdate, dismantledate, co2, lighttype, wattage, lumensperwatt, "")
+                    tankDBHelper.updateItem(
+                        DB,
+                        ID,
+                        aquaname,
+                        s,
+                        aquatype,
+                        price,
+                        currency,
+                        volume,
+                        volumemetric,
+                        currentstatus,
+                        startupdate,
+                        dismantledate,
+                        co2,
+                        lighttype,
+                        wattage,
+                        lumensperwatt,
+                        ""
+                    )
                     if (expenseDBHelper.checkExists(ID)) {
-                        expenseDBHelper.updateDataExpense(expenseDBHelper.writableDatabase, ID, aquaname, aquaname, dy, mnth, yr, startupdate, 0L, 1, numericPrice, numericPrice, "", ID)
+                        expenseDBHelper.updateDataExpense(
+                            expenseDBHelper.writableDatabase,
+                            ID,
+                            aquaname,
+                            aquaname,
+                            dy,
+                            mnth,
+                            yr,
+                            startupdate,
+                            0L,
+                            1,
+                            numericPrice,
+                            numericPrice,
+                            "",
+                            ID
+                        )
                     } else {
-                        expenseDBHelper.addDataExpense(expenseDBHelper.writableDatabase, ID, aquaname, aquaname, dy, mnth, yr, startupdate, 0L, 1, numericPrice, numericPrice, "", ID)
+                        expenseDBHelper.addDataExpense(
+                            expenseDBHelper.writableDatabase,
+                            ID,
+                            aquaname,
+                            aquaname,
+                            dy,
+                            mnth,
+                            yr,
+                            startupdate,
+                            0L,
+                            1,
+                            numericPrice,
+                            numericPrice,
+                            "",
+                            ID
+                        )
                     }
                     expenseDBHelper.updateExpenseItem("AquariumID", ID, "TankName", aquaname)
                 }
@@ -185,12 +287,17 @@ class CreateTankActivity : AppCompatActivity() {
                 requestPermissionCard!!.visibility = View.VISIBLE
             }
         })
-        requestPermissionButton.setOnClickListener { v: View? -> requestPermissions(REQ_CODE_FOR_BUTTON_VISIBILITY) }
+        requestPermissionButton.setOnClickListener { v: View? ->
+            requestPermissions(
+                REQ_CODE_FOR_BUTTON_VISIBILITY
+            )
+        }
         settingsDB = TinyDB(applicationContext)
         val intent = intent
         val mode = intent.getStringExtra("mode")
         if (mode == "creation") {
-            val timeStamp = SimpleDateFormat("yyyyMMdd_HH_mm_ss", Locale.getDefault()).format(Date())
+            val timeStamp =
+                SimpleDateFormat("yyyyMMdd_HH_mm_ss", Locale.getDefault()).format(Date())
             val rnd = Random().nextInt(10000)
             ID = timeStamp + "_" + rnd
         }
@@ -206,9 +313,9 @@ class CreateTankActivity : AppCompatActivity() {
             c.close()
         }
         spotsProgressDialog = SpotsDialog.Builder()
-                .setContext(this)
-                .setTheme(R.style.ProgressDotsStyle)
-                .build()
+            .setContext(this)
+            .setTheme(R.style.ProgressDotsStyle)
+            .build()
         var calendarIcon = findViewById<ImageView>(R.id.startupCalendar)
         calendarIcon.setOnClickListener { selectDate(R.id.StartupDateInput) }
         calendarIcon = findViewById(R.id.dismantleCalendar)
@@ -241,10 +348,12 @@ class CreateTankActivity : AppCompatActivity() {
             val AquaName = findViewById<EditText>(R.id.AquariumNameInput)
             return if (!AquaName.text.toString().isEmpty()) {
                 aquaname = AquaName.text.toString()
-                startupdate = if (TextUtils.isEmpty(StartupDate!!.text.toString())) "0000-00-00" else StartupDate!!.text.toString()
+                startupdate =
+                    if (TextUtils.isEmpty(StartupDate!!.text.toString())) "0000-00-00" else StartupDate!!.text.toString()
                 dismantledate = DismantleDate!!.text.toString()
                 val Price = findViewById<EditText>(R.id.AquariumPriceInput)
-                price = if (TextUtils.isEmpty(Price.text.toString())) "0.0" else Price.text.toString()
+                price =
+                    if (TextUtils.isEmpty(Price.text.toString())) "0.0" else Price.text.toString()
                 val LightType = findViewById<EditText>(R.id.AquariumLightInput)
                 lighttype = LightType.text.toString()
                 val Wattage = findViewById<EditText>(R.id.AquariumWattageInput)
@@ -254,9 +363,11 @@ class CreateTankActivity : AppCompatActivity() {
                 val Currency = findViewById<TextView>(R.id.AquariumCurrencyInput)
                 currency = Currency.text.toString()
                 val Volume = findViewById<EditText>(R.id.AquariumVolumeInput)
-                volume = if (TextUtils.isEmpty(Volume.text.toString())) "0" else Volume.text.toString()
+                volume =
+                    if (TextUtils.isEmpty(Volume.text.toString())) "0" else Volume.text.toString()
                 val AquariumType = findViewById<RadioGroup>(R.id.AquariumTypeGroup)
-                var selectedradiobutton = findViewById<RadioButton>(AquariumType.checkedRadioButtonId)
+                var selectedradiobutton =
+                    findViewById<RadioButton>(AquariumType.checkedRadioButtonId)
                 aquatype = selectedradiobutton.text.toString()
                 val CurrentStatus = findViewById<RadioGroup>(R.id.AquariumUseGroup)
                 selectedradiobutton = findViewById(CurrentStatus.checkedRadioButtonId)
@@ -268,7 +379,11 @@ class CreateTankActivity : AppCompatActivity() {
                 volumemetric = VolumeMetric.selectedItem.toString()
                 true
             } else {
-                Snackbar.make(linearLayout!!, resources.getString(R.string.TankNameMust), Snackbar.LENGTH_LONG).show()
+                Snackbar.make(
+                    linearLayout!!,
+                    resources.getString(R.string.TankNameMust),
+                    Snackbar.LENGTH_LONG
+                ).show()
                 false
             }
         }
@@ -343,12 +458,14 @@ class CreateTankActivity : AppCompatActivity() {
     private fun loadImageIntoImageView() {
         tankpicUri = Uri.parse(s)
         Glide.with(this)
-                .load(tankpicUri)
-                .apply(RequestOptions()
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .error(R.drawable.aquarium2))
-                .into(tankImage!!)
+            .load(tankpicUri)
+            .apply(
+                RequestOptions()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .error(R.drawable.aquarium2)
+            )
+            .into(tankImage!!)
         tankImage!!.isFocusable = true
         tankImage!!.isClickable = true
     }
@@ -358,19 +475,28 @@ class CreateTankActivity : AppCompatActivity() {
     var yr = 0
     private fun selectDate(idName: Int) {
         val newCalendar = Calendar.getInstance()
-        val datePickerDialog = DatePickerDialog(this@CreateTankActivity, OnDateSetListener { view, year, month, dayOfMonth ->
-            dt = convertToString(year) + "-" + convertToString(month + 1) + "-" + convertToString(dayOfMonth)
-            val dateText1 = findViewById<EditText>(idName)
-            dateText1.setText(dt)
-            if (idName == R.id.StartupDateInput) {
-                dy = dayOfMonth
-                mnth = month + 1
-                yr = year
-                removeStartDate!!.visibility = View.VISIBLE
-            } else {
-                removeEndDate!!.visibility = View.VISIBLE
-            }
-        }, newCalendar[Calendar.YEAR], newCalendar[Calendar.MONTH], newCalendar[Calendar.DAY_OF_MONTH])
+        val datePickerDialog = DatePickerDialog(
+            this@CreateTankActivity,
+            OnDateSetListener { view, year, month, dayOfMonth ->
+                dt =
+                    convertToString(year) + "-" + convertToString(month + 1) + "-" + convertToString(
+                        dayOfMonth
+                    )
+                val dateText1 = findViewById<EditText>(idName)
+                dateText1.setText(dt)
+                if (idName == R.id.StartupDateInput) {
+                    dy = dayOfMonth
+                    mnth = month + 1
+                    yr = year
+                    removeStartDate!!.visibility = View.VISIBLE
+                } else {
+                    removeEndDate!!.visibility = View.VISIBLE
+                }
+            },
+            newCalendar[Calendar.YEAR],
+            newCalendar[Calendar.MONTH],
+            newCalendar[Calendar.DAY_OF_MONTH]
+        )
         datePickerDialog.show()
     }
 
@@ -385,17 +511,19 @@ class CreateTankActivity : AppCompatActivity() {
         val rnd = Random().nextInt(10000)
         val tempID = timeStamp + "_" + rnd
         val imageFileName = "TankNo_" + tempID + "_Pic.jpg"
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.Q) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val resolver: ContentResolver = contentResolver
             val contentValues = ContentValues()
             contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, imageFileName)
             contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
             contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
-            tankpicUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)!!
-        }
-
-        else {
-            val imagesFolder = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "JPT_images")
+            tankpicUri =
+                resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)!!
+        } else {
+            val imagesFolder = File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                "JPT_images"
+            )
             if (!imagesFolder.exists()) {
                 val dirCreated = imagesFolder.mkdirs()
             }
@@ -403,9 +531,11 @@ class CreateTankActivity : AppCompatActivity() {
 
                 image = File(imagesFolder, imageFileName)
                 tankpicUri = if (Build.VERSION.SDK_INT >= 24) {
-                    FileProvider.getUriForFile(this@CreateTankActivity,
-                            BuildConfig.APPLICATION_ID + ".provider",
-                            image!!)
+                    FileProvider.getUriForFile(
+                        this@CreateTankActivity,
+                        BuildConfig.APPLICATION_ID + ".provider",
+                        image!!
+                    )
                 } else {
                     Uri.fromFile(image)
                 }
@@ -438,44 +568,85 @@ class CreateTankActivity : AppCompatActivity() {
             newImageCreated = true
             if (requestCode == REQUEST_CAMERA) {
                 Glide.with(this)
-                        .load(tankpicUri)
-                        .apply(RequestOptions()
-                                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                .skipMemoryCache(true)
-                                .error(R.drawable.aquarium2))
-                        .into(tankImage!!)
+                    .load(tankpicUri)
+                    .apply(
+                        RequestOptions()
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
+                            .error(R.drawable.aquarium2)
+                    )
+                    .into(tankImage!!)
             }
             if (requestCode == SELECT_FILE) {
                 try {
-                    fileCreated = image!!.createNewFile()
-                    if (fileCreated) {
-                        try {
-                            image!!.createNewFile()
-                            copyFileWithUri(data!!.data!!,tankpicUri!!)
-                        } catch (e: Exception) {
-                            val msg = if (TextUtils.isEmpty(e.message)) getString(R.string.cloud_storage_error) else e.message!!
+                    //fileCreated = image!!.createNewFile()
+                    // if (fileCreated) {
+                    try {
+                        //  image!!.createNewFile()
+
+                        sourceUri = data!!.data!!
+                        destUri = tankpicUri!!
+
+                        // copyFileWithUri(data!!.data!!, tankpicUri!!)
+                        localImageFileCGService.createFile(this@CreateTankActivity, {
+                            Glide.with(this@CreateTankActivity)
+                                .load(tankpicUri)
+                                .apply(
+                                    RequestOptions()
+                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                        .skipMemoryCache(true)
+                                        .error(R.drawable.aquarium2)
+                                )
+                                .into(tankImage!!)
+                        }, { e ->
+                            val msg =
+                                if (TextUtils.isEmpty(e.message)) getString(R.string.cloud_storage_error) else e.message!!
                             Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
-                        }
+                            Timber.d(msg)
+                        })
+                    } catch (e: Exception) {
+                        val msg =
+                            if (TextUtils.isEmpty(e.message)) getString(R.string.cloud_storage_error) else e.message!!
+                        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+                        Timber.d(msg)
                     }
+                    // }
                 } catch (e: Exception) {
-                    val msg = if (TextUtils.isEmpty(e.message)) resources.getString(R.string.unknown_error) else e.message!!
+                    val msg =
+                        if (TextUtils.isEmpty(e.message)) resources.getString(R.string.unknown_error) else e.message!!
                     Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
                 }
 
             }
-            if(Build.VERSION.SDK_INT<Build.VERSION_CODES.Q) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
                 val scanFileIntent = Intent(
-                        Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, tankpicUri)
+                    Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, tankpicUri
+                )
                 sendBroadcast(scanFileIntent)
             }
         }
 
     }
 
-    var permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+    var permissions = arrayOf(
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.CAMERA
+    )
+
     private fun checkPermissions(permissionGranted: PermissionGranted) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this.applicationContext, permissions[0]) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this.applicationContext, permissions[1]) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this.applicationContext, permissions[2]) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    this.applicationContext,
+                    permissions[0]
+                ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                    this.applicationContext,
+                    permissions[1]
+                ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                    this.applicationContext,
+                    permissions[2]
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
                 permissionGranted.onPermissionsAvailable()
             } else {
                 permissionGranted.onPermissionsNotAvailable()
@@ -487,7 +658,11 @@ class CreateTankActivity : AppCompatActivity() {
         ActivityCompat.requestPermissions(this@CreateTankActivity, permissions, req_code)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
             if (requestCode == REQ_CODE_TO_SELECT_IMAGE) {
                 selectImage()
@@ -495,7 +670,8 @@ class CreateTankActivity : AppCompatActivity() {
             loadImageIntoImageView()
             requestPermissionCard!!.visibility = View.GONE
         } else {
-            Toast.makeText(this, resources.getString(R.string.PermRationale), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, resources.getString(R.string.PermRationale), Toast.LENGTH_LONG)
+                .show()
             requestPermissionCard!!.visibility = View.VISIBLE
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -543,16 +719,20 @@ class CreateTankActivity : AppCompatActivity() {
             if (!TextUtils.isEmpty(lightZone)) {
                 if (lightZone != "Insufficient Data") {
                     if ((lightZone == "Dark" || lightZone == "Low") && co2 != "Air") {
-                        recoString = "Your tank is receiving LOW light. There is probably no need for additional CO2 supplementation"
+                        recoString =
+                            "Your tank is receiving LOW light. There is probably no need for additional CO2 supplementation"
                         title = "INFO"
                     } else if (lightZone == "Medium" && co2 == "Air") {
-                        recoString = "Your tank is receiving MEDIUM light. As such CO2 supplementation though not entirely necessary can prove beneficial. Opt for Liquid CO2 or at least DIY if not Pressurized "
+                        recoString =
+                            "Your tank is receiving MEDIUM light. As such CO2 supplementation though not entirely necessary can prove beneficial. Opt for Liquid CO2 or at least DIY if not Pressurized "
                         title = "INFO"
                     } else if (lightZone == "Medium High" && (co2 == "Air" || co2 == "Liquid")) {
-                        recoString = "Your tank is receiving MEDIUM to HIGH light. As such gaseous CO2 injection is an absolute necessity else it will led to algae growth. At least DIY if not pressurized is recommended "
+                        recoString =
+                            "Your tank is receiving MEDIUM to HIGH light. As such gaseous CO2 injection is an absolute necessity else it will led to algae growth. At least DIY if not pressurized is recommended "
                         title = "ALERT"
                     } else if ((lightZone == "High" || lightZone == "Very High") && co2 != "Pressurized") {
-                        recoString = "Your tank is receiving HIGH light. As such pressurized CO2 injection is an absolute necessity else it will led to algae growth"
+                        recoString =
+                            "Your tank is receiving HIGH light. As such pressurized CO2 injection is an absolute necessity else it will led to algae growth"
                         title = "ALERT"
                     } else {
                         visibility = "0"
@@ -563,9 +743,27 @@ class CreateTankActivity : AppCompatActivity() {
                 val cr = tankDBHelper.getDataRecoCondition(tankDBHelper.writableDatabase, ID)
                 if (cr != null) {
                     if (cr.moveToFirst()) {
-                        tankDBHelper.updateDataReco(1, ID, day, timeStamp, title, recoString, visibility, aquaname)
+                        tankDBHelper.updateDataReco(
+                            1,
+                            ID,
+                            day,
+                            timeStamp,
+                            title,
+                            recoString,
+                            visibility,
+                            aquaname
+                        )
                     } else {
-                        tankDBHelper.addDataReco(1, ID, day, timeStamp, title, recoString, visibility, aquaname)
+                        tankDBHelper.addDataReco(
+                            1,
+                            ID,
+                            day,
+                            timeStamp,
+                            title,
+                            recoString,
+                            visibility,
+                            aquaname
+                        )
                     }
                     cr.close()
                 }
@@ -573,28 +771,11 @@ class CreateTankActivity : AppCompatActivity() {
         }
     }
 
-    private fun copyFileWithUri(sourceUri: Uri, destUri: Uri) {
-
-        val imageFileCopyJob = SupervisorJob()
-        CoroutineScope(Dispatchers.IO + imageFileCopyJob).launch {
-            applicationContext.contentResolver.openOutputStream(destUri).use { oStream -> applicationContext.contentResolver.openInputStream(sourceUri)?.use { iStream -> oStream!!.write(iStream.readBytes()) } }
-            withContext(Dispatchers.Main){
-            Glide.with(this@CreateTankActivity)
-                    .load(tankpicUri)
-                    .apply(RequestOptions()
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .skipMemoryCache(true)
-                            .error(R.drawable.aquarium2))
-                    .into(tankImage!!)
-                    }
-
-        }
-    }
 
     override fun onBackPressed() {
         super.onBackPressed()
         if (newImageCreated) {
-            image!!.delete()
+            image?.delete()
         }
     }
 

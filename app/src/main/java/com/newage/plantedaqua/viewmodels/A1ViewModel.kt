@@ -4,12 +4,9 @@ import android.app.Application
 import android.database.Cursor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
-import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.newage.plantedaqua.dbhelpers.ExpenseDBHelper
 import com.newage.plantedaqua.dbhelpers.NutrientDbHelper
@@ -31,6 +28,7 @@ class A1ViewModel(application: Application) : AndroidViewModel(application) {
     private var tankDBHelper = TankDBHelper.newInstance(application)
     private var tankDetailArrayListLiveData = MutableLiveData<ArrayList<TanksDetails>>()
     var defaultCurrency : String = tinyDB.getString("DefaultCurrencySymbol")
+
 
     init {
         tanksDetailsArrayList = ArrayList()
@@ -76,7 +74,8 @@ class A1ViewModel(application: Application) : AndroidViewModel(application) {
             }
             cursor.close()
         }
-        tankDetailArrayListLiveData.value = tanksDetailsArrayList
+        tankDetailArrayListLiveData.value = tanksDetailsArrayList!!
+
     }
 
     fun getTankSectionPagerAdapter(fm: FragmentManager,lifecycle: Lifecycle) = TanksSectionsPagerAdapter(fm,lifecycle)
@@ -91,6 +90,7 @@ class A1ViewModel(application: Application) : AndroidViewModel(application) {
             }
             it.close()
         }
+
 
     }
 
