@@ -1,0 +1,3 @@
+package com.newage.plantedaqua.services.localfileservices
+
+class LocalImageFileCreationUriCopyStrategy 
