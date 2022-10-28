@@ -8,8 +8,25 @@
     <color name="lightGrey">#cacaca</color>
     <color name="customDarkBackground">#042000</color>
     <color name="whiteGreen">#6AF16F</color>
-    <color name="customWhite">#8BC34A</color>
+    <color name="customWhite">#D6E4F0</color>
     <color name="customOrange">#F17600</color>
+    <color name="my_app_primary_inverse">#142850</color>
+    <color name="my_app_primary_container">#142850</color>
+    <color name="my_app_on_primary_container">#142850</color>
+    <color name="my_app_secondary_container">#27496D</color>
+    <color name="my_app_on_secondary_container">#27496D</color>
+    <color name="my_app_tertiary">#0C7B93</color>
+    <color name="my_app_on_tertiary">#0C7B93</color>
+    <color name="my_app_tertiary_container">#0C7B93</color>
+    <color name="my_app_on_tertiary_container">#0C7B93</color>
+    <color name="my_app_surface_variant">#07689F</color>
+    <color name="my_app_on_surface_variant">#07689F</color>
+    <color name="my_app_inverse_surface">#07689F</color>
+    <color name="my_app_inverse_on_surface">#07689F</color>
+    <color name="my_app_outline">#142850</color>
+    <color name="my_app_error_container">#F44336</color>
+    <color name="my_app_on_error_container">#F44336</color>
+
 
 
 </resources>

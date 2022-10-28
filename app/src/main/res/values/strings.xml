@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Planted Aqua</string>
+    <string name="app_name">Aquapets</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -300,6 +300,8 @@
     <string name="cancel_edit_mode">cancel edit mode</string>
     <string name="fish_food_hint">Bloodworms, Pellets,etc</string>
     <string name="notify_me">NOTIFY ME</string>
+    <string name="title_activity_entry">EntryActivity</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
 
 
 </resources>

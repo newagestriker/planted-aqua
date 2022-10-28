@@ -1,11 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/drawable-anydpi/help.xml" value="0.132" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/drawable-v21/accent_border.xml" value="0.179" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/drawable-v21/add_2_24dp.xml" value="0.179" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/drawable-v24/accent_border.xml" value="0.179" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/drawable-v24/add_2_24dp.xml" value="0.179" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/drawable/accent_border.xml" value="0.179" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/drawable/add_2_24dp.xml" value="0.179" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.132" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/layout/activity_a1.xml" value="0.19635416666666666" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/layout/activity_splash.xml" value="0.14361702127659576" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/layout/app_bar_a1.xml" value="0.19635416666666666" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/layout/content_a1.xml" value="0.27943840579710144" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/layout/each_plant_item.xml" value="0.203125" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/layout/each_tank_detail_layout.xml" value="0.1703125" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/layout/fragment_create_tank_items.xml" value="0.203125" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/layout/nav_header_a1.xml" value="0.1793478260869565" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/layout/reuse_top_label_input.xml" value="0.14311043566362716" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/layout/tank_details.xml" value="0.264" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/menu/a1.xml" value="0.32083333333333336" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/menu/activity_a1_drawer.xml" value="0.32083333333333336" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/menu/edit_tank_details.xml" value="0.2907692307692308" />
+        <entry key="..\:/Users/skram/StudioProjects/aquapets/app/src/main/res/menu/menu_algae.xml" value="0.1703125" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="android.support.annotation.Nullable" />
     <option name="myDefaultNotNull" value="androidx.annotation.NonNull" />
     <option name="myNullables">
       <value>
-        <list size="12">
+        <list size="13">
           <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.Nullable" />
           <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nullable" />
           <item index="2" class="java.lang.String" itemvalue="javax.annotation.CheckForNull" />
@@ -18,12 +47,13 @@
           <item index="9" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NullableType" />
           <item index="10" class="java.lang.String" itemvalue="android.annotation.Nullable" />
           <item index="11" class="java.lang.String" itemvalue="com.android.annotations.Nullable" />
+          <item index="12" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.Nullable" />
         </list>
       </value>
     </option>
     <option name="myNotNulls">
       <value>
-        <list size="11">
+        <list size="12">
           <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.NotNull" />
           <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nonnull" />
           <item index="2" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.NonNull" />
@@ -35,9 +65,10 @@
           <item index="8" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NonNullType" />
           <item index="9" class="java.lang.String" itemvalue="android.annotation.NonNull" />
           <item index="10" class="java.lang.String" itemvalue="com.android.annotations.NonNull" />
+          <item index="11" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.NonNull" />
         </list>
       </value>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

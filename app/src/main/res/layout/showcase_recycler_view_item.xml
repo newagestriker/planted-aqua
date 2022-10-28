@@ -6,7 +6,7 @@
     <data>
         <variable
             name="galleryInfo"
-            type="com.newage.plantedaqua.models.GalleryInfo" />
+            type="com.newage.aquapets.models.GalleryInfo" />
 
     </data>
 

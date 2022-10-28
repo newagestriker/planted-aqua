@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/plantDetails"
-        android:name="com.newage.plantedaqua.fragments.plantdb.PlantDetails"
+        android:name="com.newage.aquapets.fragments.plantdb.PlantDetails"
         android:label="fragment_plant_details"
         tools:layout="@layout/fragment_plant_details" >
         <action
@@ -21,11 +21,11 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="receivedPlant"
-            app:argType="com.newage.plantedaqua.models.Plants" />
+            app:argType="com.newage.aquapets.models.Plants" />
     </fragment>
     <fragment
         android:id="@+id/plantList"
-        android:name="com.newage.plantedaqua.fragments.plantdb.PlantList"
+        android:name="com.newage.aquapets.fragments.plantdb.PlantList"
         android:label="fragment_plant_list"
         tools:layout="@layout/fragment_plant_list" >
         <action

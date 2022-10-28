@@ -6,7 +6,7 @@
     app:startDestination="@id/tankItemListFragment">
     <fragment
         android:id="@+id/tankItemListFragment"
-        android:name="com.newage.plantedaqua.fragments.tankitems.TankItemListFragment"
+        android:name="com.newage.aquapets.fragments.tankitems.TankItemListFragment"
         android:label="fragment_tank_item_list"
         tools:layout="@layout/fragment_tank_item_list" >
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/createTankItemsFragment"
-        android:name="com.newage.plantedaqua.fragments.tankitems.CreateTankItemsFragment"
+        android:name="com.newage.aquapets.fragments.tankitems.CreateTankItemsFragment"
         android:label="fragment_create_tank_items"
         tools:layout="@layout/fragment_create_tank_items" >
         <action

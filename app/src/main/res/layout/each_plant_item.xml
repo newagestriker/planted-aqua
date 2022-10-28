@@ -5,7 +5,7 @@
     <data>
         <variable
             name="boundPlants"
-            type="com.newage.plantedaqua.models.Plants" />
+            type="com.newage.aquapets.models.Plants" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
 

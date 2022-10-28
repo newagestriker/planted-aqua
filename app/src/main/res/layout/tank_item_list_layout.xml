@@ -8,7 +8,7 @@
     <data>
         <variable
             name="boundTankItems"
-            type="com.newage.plantedaqua.models.TankItems" />
+            type="com.newage.aquapets.models.TankItems" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
 

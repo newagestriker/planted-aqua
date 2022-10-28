@@ -9,7 +9,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar" >
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -36,13 +37,41 @@
     </style>
 
 
-        <style name="ProgressDotsStyle" parent="android:Theme.DeviceDefault.Dialog">
-            <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>
-            <item name="DialogTitleText">Please Wait…</item>
-            <item name="DialogSpotColor">@color/colorPrimary</item>
-            <item name="DialogSpotCount">4</item>
-        </style>
+    <style name="ProgressDotsStyle" parent="android:Theme.DeviceDefault.Dialog">
+        <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="DialogTitleText">Please Wait…</item>
+        <item name="DialogSpotColor">@color/colorPrimary</item>
+        <item name="DialogSpotCount">4</item>
+    </style>
 
+    <style name="Theme.AquaPets" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimaryInverse">@color/my_app_primary_inverse</item>
+        <item name="colorPrimaryContainer">@color/my_app_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/my_app_on_primary_container</item>
+        <item name="colorSecondaryContainer">@color/my_app_secondary_container</item>
+        <item name="colorOnSecondaryContainer">@color/my_app_on_secondary_container</item>
+        <item name="colorTertiary">@color/my_app_tertiary</item>
+        <item name="colorOnTertiary">@color/my_app_on_tertiary</item>
+        <item name="colorTertiaryContainer">@color/my_app_tertiary_container</item>
+        <item name="colorOnTertiaryContainer">@color/my_app_on_tertiary_container</item>
+        <item name="colorSurfaceVariant">@color/my_app_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/my_app_on_surface_variant</item>
+        <item name="colorSurfaceInverse">@color/my_app_inverse_surface</item>
+        <item name="colorOnSurfaceInverse">@color/my_app_inverse_on_surface</item>
+        <item name="colorOutline">@color/my_app_outline</item>
+        <item name="colorErrorContainer">@color/my_app_error_container</item>
+        <item name="colorOnErrorContainer">@color/my_app_on_error_container</item>
+        <item name="textAppearanceDisplayLarge">@style/TextAppearance.Material3.DisplayLarge</item>
+        <item name="textAppearanceDisplayMedium">@style/TextAppearance.Material3.DisplayMedium
+        </item>
+        <item name="textAppearanceDisplaySmall">@style/TextAppearance.Material3.DisplaySmall</item>
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.Material3.HeadlineLarge
+        </item>
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.Material3.HeadlineMedium
+        </item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.Material3.HeadlineSmall
+        </item>
+    </style>
 
 
 </resources>

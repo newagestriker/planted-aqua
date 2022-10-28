@@ -6,10 +6,10 @@
     <data>
         <variable
             name="boundTankDetails"
-            type="com.newage.plantedaqua.models.TanksDetails" />
+            type="com.newage.aquapets.models.TankDetails" />
         <variable
             name="a1ViewModel"
-            type="com.newage.plantedaqua.viewmodels.A1ViewModel" />
+            type="com.newage.aquapets.viewmodels.A1ViewModel" />
 
     </data>
 
@@ -60,7 +60,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_marginEnd="60dp"
-                    android:layout_marginRight="60dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:onClick="onTankDashBoardItemsClicked"

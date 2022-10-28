@@ -7,7 +7,7 @@
     <data>
         <variable
             name="boundDetailedTankItem"
-            type="com.newage.plantedaqua.viewmodels.TankItemListViewModel" />
+            type="com.newage.aquapets.viewmodels.TankItemListViewModel" />
     </data>
 
     <LinearLayout
